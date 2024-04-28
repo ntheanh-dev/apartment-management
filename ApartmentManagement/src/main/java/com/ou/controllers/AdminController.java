@@ -5,18 +5,16 @@
 package com.ou.controllers;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
- *
  * @author Admin
  */
 @Controller
-public class IndexController {
-    
-    @RequestMapping("/")
+public class AdminController {
+    @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index() {
-        return "index";
+        return "redirect:/room/index";
     }
 }

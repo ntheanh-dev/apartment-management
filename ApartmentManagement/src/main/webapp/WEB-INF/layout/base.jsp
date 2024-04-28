@@ -40,7 +40,9 @@
         <%--  Sidebar     --%>
         <tiles:insertAttribute name="sidebar" />
         <main id="main" class="main">
-            <tiles:insertAttribute name="content" />
+            <div class="h-full bg-white" style="height:calc(100vh - 100px);">
+                <tiles:insertAttribute name="content" />
+            </div>
         </main>
 
         <script src="<c:url value="/js/index.js"/>"></script>
