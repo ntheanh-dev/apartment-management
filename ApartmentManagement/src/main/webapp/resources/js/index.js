@@ -97,4 +97,6 @@ $(document).ready(function () {
         window.addEventListener('load', headerScrolled)
         onscroll(document, headerScrolled)
     }
+
+    $('[data-toggle="tooltip"]').tooltip('show')
 })

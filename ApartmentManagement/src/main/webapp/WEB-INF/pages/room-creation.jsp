@@ -6,8 +6,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<div class="h-full bg-white" style="height:calc(100vh - 100px);">
-    <h1>Trang tạo phòng</h1>
-</div>
+<h1>Trang tạo phòng</h1>
 
 
