@@ -1017,3 +1017,10 @@ h6 {
 .stats-choice label {
     margin-right: 10px;
 }
+/*----------------Tabs contents------------*/
+.hide-tab-content {
+    display: none !important;
+}
+.active {
+    display: block;
+}

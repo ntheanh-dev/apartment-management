@@ -6,7 +6,7 @@
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div>
     <!-- End Logo -->
-    <a class="mt-2 mr-2" href="<c:url value="/"/>">Quản Lý Chung Cư</a>
+    <a class="mt-2 mr-2" href="<c:url value="/room/"/>">Quản Lý Chung Cư</a>
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
             <li class="nav-item dropdown pe-3">

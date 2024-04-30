@@ -39,7 +39,7 @@
         <tiles:insertAttribute name="header" />
         <%--  Sidebar     --%>
         <tiles:insertAttribute name="sidebar" />
-        <main id="main" class="main">
+        <main id="main" class="main p-0 sm:p-5">
             <div class="bg-white sm:p-4" style="min-height:calc(100vh - 100px);">
                 <tiles:insertAttribute name="content" />
             </div>
