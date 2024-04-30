@@ -40,7 +40,7 @@
         <%--  Sidebar     --%>
         <tiles:insertAttribute name="sidebar" />
         <main id="main" class="main">
-            <div class="bg-white p-4" style="min-height:calc(100vh - 100px);">
+            <div class="bg-white sm:p-4" style="min-height:calc(100vh - 100px);">
                 <tiles:insertAttribute name="content" />
             </div>
         </main>

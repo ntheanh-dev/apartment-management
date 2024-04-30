@@ -98,5 +98,5 @@ $(document).ready(function () {
         onscroll(document, headerScrolled)
     }
 
-    $('[data-toggle="tooltip"]').tooltip('show')
+    $('[data-toggle="tooltip"]').tooltip()
 })

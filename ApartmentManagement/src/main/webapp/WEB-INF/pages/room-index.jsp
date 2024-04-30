@@ -8,7 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%--Head--%>
 <div>
-    <h1 class="text-lg text-gray-600">Danh Sách Phòng</h1>
+    <h1 class="text-xl font-medium text-gray-600">Danh Sách Phòng</h1>
     <div class="grid grid-cols-1 sm:grid-cols-4 gap-1">
         <div class="sm:col-span-3 grid grid-cols-1 sm:grid-cols-4 gap-2">
             <select
@@ -42,7 +42,9 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 py-2 border-b-2 gap-1 mb-4">
                 <div>Còn trống 1 | Đã cho thuê 0 | Chưa thu phí 0</div>
                 <div class="flex justify-end">
-                    <button class="col-6 col-md-2 btn btn-success w-full sm:w-40"><i class="bi bi-plus-circle mr-1"></i>Thêm Phòng</button>
+                    <a class="btn btn-success w-full sm:w-40" href="<c:url value="/room/create" />">
+                        <button ><i class="bi bi-plus-circle mr-1"></i>Thêm Phòng</button>
+                    </a>
                 </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
