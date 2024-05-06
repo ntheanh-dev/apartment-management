@@ -46,6 +46,7 @@
         </div>
 
         <div class="w-full mb-3 rounded-sm border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center mt-2 px-2 sm:px-4">
+            <%--   Thong tin khách thuê         --%>
             <div id="tab1" class="tab-content w-full pt-3">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
@@ -176,8 +177,116 @@
                     </div>
                 </div>
             </div>
-            <div id="tab2" class="tab-content">content 2</div>
-            <div id="tab3" class="tab-content">content 3</div>
+            <%--   Dịch vụ         --%>
+            <div id="tab2" class="tab-content">
+
+            </div>
+            <%--   Thành viên     --%>
+            <div id="tab3" class="tab-content w-full overflow-auto">
+                <table class="border w-full" id="add-tenant-table">
+                    <thead>
+                        <tr class="bg-gray-50 border-b">
+                            <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                                <div class="flex items-center justify-center">
+                                    Họ Tên
+                                </div>
+                            </th>
+                            <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                                <div class="flex items-center justify-center">
+                                    Ngày sinh
+                                </div>
+                            </th>
+                            <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                                <div class="flex items-center justify-center">
+                                    Giới tính
+                                </div>
+                            </th>
+                            <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                                <div class="flex items-center justify-center">
+                                    CCCD/CMND
+                                </div>
+                            </th>
+                            <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                                <div class="flex items-center justify-center">
+                                    Địa chỉ
+                                </div>
+                            </th>
+                            <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                                <div class="flex items-center justify-center">
+                                    Điện thoại
+                                </div>
+                            </th>
+                            <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                                <div class="flex items-center justify-center">
+                                    Số xe
+                                </div>
+                            </th>
+                            <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                                <div class="flex items-center justify-center">
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                    <tbody>
+                        <tr class="bg-gray-50 text-center">
+                            <td class="p-2 border-r">
+                                <input type="text" class="border p-1">
+                            </td>
+                            <td class="p-2 border-r">
+                                <input type="date" class="border p-1">
+                            </td>
+                            <td class="p-2 border-r">
+                                <div>
+                                    <label class="inline-flex items-center">
+                                        <input name="season" type="radio" class=" text-indigo-600 border-gray-300 rounded-full
+                                              shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0
+                                              focus:ring-indigo-200 focus:ring-opacity-50 "
+                                               checked
+                                        />
+                                        <span class="ml-2">Nam</span>
+                                    </label>
+                                    <label class="inline-flex items-center">
+                                        <input name="season" type="radio" class=" text-indigo-600 border-gray-300 rounded-full
+                                              shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0
+                                              focus:ring-indigo-200 focus:ring-opacity-50 "
+                                        />
+                                        <span class="ml-2">Nữ</span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td class="p-2 border-r">
+                                <input type="text" class="border p-1">
+                            </td>
+                            <td class="p-2 border-r">
+                                <input type="text" class="border p-1">
+                            </td>
+                            <td class="p-2 border-r">
+                                <input type="text" class="border p-1">
+                            </td>
+                            <td class="p-2 border-r">
+                                <input type="text" class="border p-1">
+                            </td>
+                            <td class="p-2">
+                                <button class="btn btn-danger px-3"  onclick="removeRow(this)"><span class="font-medium text-xl">-</span></button>
+                            </td>
+                        </tr>
+                        <tr class="bg-gray-100 text-center border-b text-sm text-gray-600">
+                            <td class="p-2 border-r"></td>
+                            <td class="p-2 border-r"></td>
+                            <td class="p-2 border-r"></td>
+                            <td class="p-2 border-r"></td>
+                            <td class="p-2 border-r"></td>
+                            <td class="p-2 border-r"></td>
+                            <td class="p-2 border-r"></td>
+                            <td>
+                                <button class="btn btn-success" id="add-row">
+                                    <i class="bi bi-plus-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
