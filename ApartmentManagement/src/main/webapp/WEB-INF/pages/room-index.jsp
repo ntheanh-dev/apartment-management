@@ -64,9 +64,9 @@
                     </div>
                 </div>
                 <div class="p-6">
-                    <button class="btn btn-info">
+                    <a class="btn btn-info" href="<c:url value="/room/4/edit"/>">
                         <i class="bi bi-pencil-square"></i> Chỉnh sửa
-                    </button>
+                    </a>
                     <button class="btn btn-danger">
                         <i class="bi bi-trash"></i> Xoá
                     </button>
