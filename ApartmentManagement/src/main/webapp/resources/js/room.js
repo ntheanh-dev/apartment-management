@@ -12,7 +12,7 @@ $(document).ready(function () {
     });
 
     // Mặc định ẩn tab2 và tab3
-    $('#tab2, #tab3').hide();
+    $('#tab2, #tab3, #tab4').hide();
 
     //-----------Lay danh sach tinh thanh-------------
     const host = 'https://vapi.vnappmob.com/api/province/'
@@ -106,7 +106,7 @@ $(document).ready(function () {
                         </tr>
         `)
     })
-    
+
 
     //------------------------Tab chọn dịch vụ-----------------------------
     // Bắt sự kiện khi checkbox thay đổi để doi màu nền của dòng đó
@@ -122,4 +122,22 @@ $(document).ready(function () {
 //-----------Xoá một hàng thêm thành viên trong table---------------
 function removeRow(button) {
     $(button).closest("tr").remove();
+}
+
+//-----------Xoá một khách đã thuê phòng trong table---------------
+function removeTenant(button) {
+    Swal.fire({
+        title: 'Bạn có xoá người này?',
+        text: 'Khi xoá các tiền chưa thanh toán trong tháng này sẽ không được tính.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Xác nhận',
+        cancelButtonText: 'Huỷ bỏ'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $(button).closest("tr").remove();
+        }
+    })
 }

@@ -15,20 +15,24 @@
         <put-attribute name="content" value="/WEB-INF/pages/room-index.jsp"/>
     </definition>
     <definition name="roomAddTenant" extends="baseLayout">
-        <put-attribute name="title" value="Phòng"/>
+        <put-attribute name="title" value="Thêm Khách"/>
         <put-attribute name="content" value="/WEB-INF/pages/room-addtenant.jsp"/>
     </definition>
     <definition name="roomCreation" extends="baseLayout">
-        <put-attribute name="title" value="Phòng"/>
+        <put-attribute name="title" value="Tạo Phòng Mới"/>
         <put-attribute name="content" value="/WEB-INF/pages/room-creation.jsp"/>
     </definition>
     <definition name="roomList" extends="baseLayout">
-        <put-attribute name="title" value="Phòng"/>
+        <put-attribute name="title" value="Danh Sách Phòng"/>
         <put-attribute name="content" value="/WEB-INF/pages/room-list.jsp"/>
     </definition>
     <definition name="roomDetail" extends="baseLayout">
         <put-attribute name="title" value="Phòng"/>
         <put-attribute name="content" value="/WEB-INF/pages/room-detail.jsp"/>
     </definition>
-
+    <!-- Liệt kê người thuê phòng   -->
+    <definition name="listTenant" extends="baseLayout">
+        <put-attribute name="title" value="Phòng"/>
+        <put-attribute name="content" value="/WEB-INF/pages/list-tenant.jsp"/>
+    </definition>
 </tiles-definitions>

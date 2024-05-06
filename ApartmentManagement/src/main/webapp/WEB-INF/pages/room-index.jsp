@@ -31,7 +31,9 @@
         <button class="btn btn-primary sm:w-32"><i class="bi bi-search"></i>  Tìm kiếm</button>
     </div>
     <div class="sm:col-span-1 flex items-center justify-end">
-        <button class="col-6 col-md-2 btn btn-info w-full sm:w-36"> <i class="bi bi-people-fill"></i>Khách Thuê</button>
+        <a class="btn btn-info w-full sm:w-40" href="<c:url value="/room/tenants" />">
+            <i class="bi bi-people-fill"></i>Khách Thuê
+        </a>
     </div>
 </div>
 

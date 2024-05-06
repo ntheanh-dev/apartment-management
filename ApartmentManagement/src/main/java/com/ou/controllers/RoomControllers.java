@@ -34,4 +34,9 @@ public class RoomControllers {
     public String roomDetail() {
         return "roomDetail";
     }
+
+    @GetMapping("/tenants")
+    public String listTenant() {
+        return "listTenant";
+    }
 }

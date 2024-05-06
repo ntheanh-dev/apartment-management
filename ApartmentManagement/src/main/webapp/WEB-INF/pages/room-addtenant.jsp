@@ -11,7 +11,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 py-2 border-b-2 gap-1 mb-4 px-2 sm:px-0">
             <p class="text-3xl font-bold">Thêm Khách Thuê Phòng</p>
             <div class="flex justify-end">
-                <a class="btn btn-warning w-full sm:w-32 mr-3"  href="<c:url value="/room/" />"><i class="bi bi-arrow-return-left" ></i>Quay Về
+                <a class="btn btn-warning w-full sm:w-32 mr-3 text-white"  href="<c:url value="/room/" />"><i class="bi bi-arrow-return-left" ></i>Quay Về
                 </a>
                 <button class="btn btn-success w-full sm:w-32"><i class="bi bi-check2"></i>Lưu</button>
             </div>
@@ -178,7 +178,14 @@
                 </div>
             </div>
             <%--   Dịch vụ         --%>
-            <div id="tab2" class="tab-content w-full overflow-auto">
+            <div id="tab2" class="tab-content w-full pt-3 overflow-auto">
+                <span class="text-lg font-medium text-gray-700">Lưu ý:</span>
+                <br>
+                <span class="text-xs text-black mb-4">
+                    Vui lòng chọn dịch vụ cho khách thuê. Nếu khách có chọn dịch vụ thì khi tính tiền phòng phần mềm sẽ tự tính các khoản phí vào hóa đơn; ngược lại nếu không chọn phần mềm sẽ bỏ qua.
+                    Đối với dịch vụ là loại điện/ nước thì sẽ tính theo chỉ số điện/ nước
+                    Đối với các dịch vụ khác sẽ tính theo số lượng (ví dụ phòng có 2 xe đạp nhập số lượng là 2)
+                </span>
                 <table class="border w-full" id="add-service-table">
                     <thead>
                         <tr class="bg-gray-50 border-b">
@@ -237,7 +244,7 @@
                 </table>
             </div>
             <%--   Thành viên     --%>
-            <div id="tab3" class="tab-content w-full overflow-auto">
+            <div id="tab3" class="tab-content w-full pt-3 overflow-auto">
                 <table class="border w-full" id="add-tenant-table">
                     <thead>
                         <tr class="bg-gray-50 border-b">
@@ -341,6 +348,32 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <%--   Hợp đồng     --%>
+            <div id="tab4" class="tab-content w-full pt-3">
+                <span class="text-xs text-black pl-2">
+                    Các thông tin nhập ở đây sẽ được sử dụng cho việc xuất/ in hợp đồng thuê phòng.
+                </span>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
+                    <div>
+                        <label class="block mb-3">
+                            <span class="text-gray-700">Ngày bắt đầu hợp đồng *</span>
+                            <input type="date" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
+                                focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
+                                value="2024-06-01"
+                            />
+                        </label>
+                    </div>
+                    <div>
+                        <label class="block mb-3">
+                            <span class="text-gray-700">Ngày bắt đầu hợp đồng *</span>
+                            <input type="date" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
+                                focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
+                                   value="2024-12-01"
+                            />
+                        </label>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
