@@ -17,10 +17,16 @@ public class RoomControllers {
         return "roomIndex";
     }
 
-
     @GetMapping("/{roomId}/add-tenant")
     public String roomAddTenant(@PathVariable String roomId) {
         return "roomAddTenant";
+    }
+
+    @GetMapping("/{roomId}/edit-tenant")
+    public String roomEditTenant(@PathVariable String roomId) {
+        // Lấy thông tin khách thuê phòng, dịch vụ, hợp đồng by roomId
+        
+        return "roomEditTenant";
     }
 
     @GetMapping("/create")

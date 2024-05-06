@@ -16,7 +16,11 @@
     </definition>
     <definition name="roomAddTenant" extends="baseLayout">
         <put-attribute name="title" value="Thêm Khách"/>
-        <put-attribute name="content" value="/WEB-INF/pages/room-addtenant.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/pages/room-add-tenant.jsp"/>
+    </definition>
+    <definition name="roomEditTenant" extends="baseLayout">
+        <put-attribute name="title" value="Sửa Thông Tin Thuê Phòng"/>
+        <put-attribute name="content" value="/WEB-INF/pages/room-edit-tenant.jsp"/>
     </definition>
     <definition name="roomCreation" extends="baseLayout">
         <put-attribute name="title" value="Tạo Phòng Mới"/>
