@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    //----Thay đổi màu sắc của tab--------------
     $('.tab-link').click(function(){
         var currentTab = $(this).attr('data-tab');
         $('.tab-link').removeClass('bg-blue-400');
@@ -52,9 +53,11 @@ $(document).ready(function () {
     $("#city").change(() => {
         callApiDistrict(host + "district/" + $("#city").find(':selected').data('id'));
     });
+
+
     //------------------------Tab thêm thành viên-----------------------------
-    let rowCount = 0;
     //-----------Thêm một hàng thêm thành viên trong table---------------
+    let rowCount = 0;
     $("#add-row").click(function () {
         rowCount++;
         const nameRadio = 'made' + rowCount;
@@ -102,6 +105,18 @@ $(document).ready(function () {
                             </td>
                         </tr>
         `)
+    })
+    
+
+    //------------------------Tab chọn dịch vụ-----------------------------
+    // Bắt sự kiện khi checkbox thay đổi để doi màu nền của dòng đó
+    $(".rowCheckbox").change(function () {
+        var isChecked = $(this).prop("checked");
+        if(isChecked){
+            $(this).closest("tr").addClass("bg-sky-600"); // Thêm class "highlight" vào dòng chứa checkbox được chọn
+        } else {
+            $(this).closest("tr").removeClass("bg-sky-600"); // Loại bỏ class "highlight" khỏi dòng chứa checkbox không được chọn
+        }
     })
 })
 //-----------Xoá một hàng thêm thành viên trong table---------------

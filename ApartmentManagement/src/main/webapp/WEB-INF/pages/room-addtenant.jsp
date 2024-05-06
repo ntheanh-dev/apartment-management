@@ -178,8 +178,63 @@
                 </div>
             </div>
             <%--   Dịch vụ         --%>
-            <div id="tab2" class="tab-content">
-
+            <div id="tab2" class="tab-content w-full overflow-auto">
+                <table class="border w-full" id="add-service-table">
+                    <thead>
+                        <tr class="bg-gray-50 border-b">
+                            <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                                <div class="flex items-center justify-center">
+                                    Chọn
+                                </div>
+                            </th>
+                            <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                                <div class="flex items-center justify-center">
+                                    Dịch vụ sử dụng
+                                </div>
+                            </th>
+                            <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                                <div class="flex items-center justify-center">
+                                    Đơn Giá
+                                </div>
+                            </th>
+                            <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                                <div class="flex items-center justify-center">
+                                    Số Lượng
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-gray-50 text-center">
+                            <td class="p-2 border-r">
+                                <input type="checkbox" value="" class="rowCheckbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            </td>
+                            <td class="p-2 border-r">
+                                Điện
+                            </td>
+                            <td class="p-2 border-r">
+                                <input type="number" class="border p-1" value="3000">
+                            </td>
+                            <td class="p-2 border-r">
+                                <input type="number" class="border p-1" value="1">
+                            </td>
+                        </tr>
+                        <tr class="bg-gray-50 text-center">
+                            <td class="p-2 border-r">
+                                <input type="checkbox" value="" class="rowCheckbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            </td>
+                            <td class="p-2 border-r">
+                                Điện
+                            </td>
+                            <td class="p-2 border-r">
+                                <input type="number" class="border p-1" value="3000">
+                            </td>
+                            <td class="p-2 border-r">
+                                <input type="number" class="border p-1" value="1">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
             <%--   Thành viên     --%>
             <div id="tab3" class="tab-content w-full overflow-auto">
