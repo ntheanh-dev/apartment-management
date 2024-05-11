@@ -12,35 +12,49 @@
     <!-- Phòng   -->
     <definition name="roomIndex" extends="baseLayout">
         <put-attribute name="title" value="Phòng"/>
-        <put-attribute name="content" value="/WEB-INF/pages/room-index.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/pages/room/room-index.jsp"/>
     </definition>
     <definition name="roomAddTenant" extends="baseLayout">
         <put-attribute name="title" value="Thêm Khách"/>
-        <put-attribute name="content" value="/WEB-INF/pages/room-add-tenant.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/pages/room/room-add-tenant.jsp"/>
     </definition>
     <definition name="roomEditTenant" extends="baseLayout">
         <put-attribute name="title" value="Sửa Thông Tin Thuê Phòng"/>
-        <put-attribute name="content" value="/WEB-INF/pages/room-edit-tenant.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/pages/room/room-edit-tenant.jsp"/>
     </definition>
     <definition name="roomCreation" extends="baseLayout">
         <put-attribute name="title" value="Tạo Phòng Mới"/>
-        <put-attribute name="content" value="/WEB-INF/pages/room-creation.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/pages/room/room-creation.jsp"/>
     </definition>
     <definition name="roomEdit" extends="baseLayout">
         <put-attribute name="title" value="Sửa Phòng"/>
-        <put-attribute name="content" value="/WEB-INF/pages/room-edit.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/pages/room/room-edit.jsp"/>
     </definition>
     <definition name="roomList" extends="baseLayout">
         <put-attribute name="title" value="Danh Sách Phòng"/>
-        <put-attribute name="content" value="/WEB-INF/pages/room-list.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/pages/room/room-list.jsp"/>
     </definition>
     <definition name="roomDetail" extends="baseLayout">
         <put-attribute name="title" value="Phòng"/>
-        <put-attribute name="content" value="/WEB-INF/pages/room-detail.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/pages/room/room-detail.jsp"/>
     </definition>
     <!-- Liệt kê người thuê phòng   -->
     <definition name="listTenant" extends="baseLayout">
         <put-attribute name="title" value="Phòng"/>
-        <put-attribute name="content" value="/WEB-INF/pages/list-tenant.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/pages/room/list-tenant.jsp"/>
+    </definition>
+
+    <!-- Dịch vụ    -->
+    <definition name="serviceIndex" extends="baseLayout">
+        <put-attribute name="title" value="Dịch vụ"/>
+        <put-attribute name="content" value="/WEB-INF/pages/service/service-index.jsp"/>
+    </definition>
+    <definition name="serviceCreation" extends="baseLayout">
+        <put-attribute name="title" value="Thêm Dịch Vụ"/>
+        <put-attribute name="content" value="/WEB-INF/pages/service/service-creation.jsp"/>
+    </definition>
+    <definition name="serviceEdit" extends="baseLayout">
+        <put-attribute name="title" value="Sửa Dịch Vụ"/>
+        <put-attribute name="content" value="/WEB-INF/pages/service/service-edit.jsp"/>
     </definition>
 </tiles-definitions>

@@ -12,7 +12,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 py-2 border-b-2 gap-1 mb-4 px-2 sm:px-0">
             <p class="text-3xl font-bold">Danh Sách Dịch Vụ</p>
             <div class="flex justify-end">
-                <a class="btn btn-success w-full sm:w-40 mr-3 text-white"  href="<c:url value="/room/" />">
+                <a class="btn btn-success w-full sm:w-40 mr-3 text-white"  href="<c:url value="/service/create" />">
                     <div class="flex space-x-1 justify-center items-center">
                         <i class="bi bi-plus pb-1"></i>
                         <span>Thêm dịch vụ</span>
@@ -64,9 +64,9 @@
                 </td>
                 <td class="p-2 border-r">
                     <div class="flex justify-center items-center space-x-2">
-                        <button class="btn btn-success">
+                        <a class="btn btn-success"  href="<c:url value="/service/4/edit" />">
                             <i class="bi bi-pencil-square"></i>
-                        </button>
+                        </a>
                         <button class="btn btn-danger"  onclick="removeRow(this)">X</button>
                     </div>
                 </td>
@@ -83,9 +83,9 @@
                 </td>
                 <td class="p-2 border-r">
                     <div class="flex justify-center items-center space-x-2">
-                        <button class="btn btn-success">
+                        <a class="btn btn-success"  href="<c:url value="/service/4/edit" />">
                             <i class="bi bi-pencil-square"></i>
-                        </button>
+                        </a>
                         <button class="btn btn-danger"  onclick="removeRow(this)">X</button>
                     </div>
                 </td>
@@ -102,9 +102,9 @@
                 </td>
                 <td class="p-2 border-r">
                     <div class="flex justify-center items-center space-x-2">
-                        <button class="btn btn-success">
+                        <a class="btn btn-success"  href="<c:url value="/service/4/edit" />">
                             <i class="bi bi-pencil-square"></i>
-                        </button>
+                        </a>
                         <button class="btn btn-danger"  onclick="removeRow(this)">X</button>
                     </div>
                 </td>
@@ -121,9 +121,9 @@
                 </td>
                 <td class="p-2 border-r">
                     <div class="flex justify-center items-center space-x-2">
-                        <button class="btn btn-success">
+                        <a class="btn btn-success"  href="<c:url value="/service/4/edit" />">
                             <i class="bi bi-pencil-square"></i>
-                        </button>
+                        </a>
                         <button class="btn btn-danger"  onclick="removeRow(this)">X</button>
                     </div>
                 </td>
@@ -140,9 +140,9 @@
                 </td>
                 <td class="p-2 border-r">
                     <div class="flex justify-center items-center space-x-2">
-                        <button class="btn btn-success">
+                        <a class="btn btn-success"  href="<c:url value="/service/4/edit" />">
                             <i class="bi bi-pencil-square"></i>
-                        </button>
+                        </a>
                         <button class="btn btn-danger"  onclick="removeRow(this)">X</button>
                     </div>
                 </td>
