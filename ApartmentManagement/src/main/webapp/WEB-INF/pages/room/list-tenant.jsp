@@ -11,9 +11,18 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 py-2 border-b-2 gap-1 mb-4 px-2 sm:px-0">
             <p class="text-3xl font-bold">Khách Thuê</p>
             <div class="flex justify-end">
-                <a class="btn btn-warning w-full sm:w-32 mr-3 text-white"  href="<c:url value="/room/" />"><i class="bi bi-arrow-return-left" ></i>Quay Về
+                <a class="btn btn-warning w-full sm:w-32 mr-3 text-white"  href="<c:url value="/room/" />">
+                    <div class="flex space-x-1 justify-center items-center">
+                        <i class="bi bi-arrow-return-left"></i>
+                        <span>Quay Về</span>
+                    </div>
                 </a>
-                <button class="btn btn-success w-full sm:w-32"><i class="bi bi-check2"></i>Lưu</button>
+                <button class="btn btn-success w-full sm:w-20">
+                    <div class="flex space-x-1 justify-center items-center">
+                        <i class="bi bi-check2 pb-1"></i>
+                        <span>Lưu</span>
+                    </div>
+                </button>
             </div>
         </div>
         <div class="w-full mb-3 overflow-auto rounded-sm border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center mt-2 px-2 sm:px-4">

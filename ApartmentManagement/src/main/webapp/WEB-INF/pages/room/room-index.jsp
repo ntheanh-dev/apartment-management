@@ -28,22 +28,33 @@
                 class="col-6 col-md-2 w-auto block px-3 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 input-bordered input "
                 placeholder="Phòng"
         />
-        <button class="btn btn-primary sm:w-32"><i class="bi bi-search"></i>  Tìm kiếm</button>
+        <button class="btn btn-primary sm:w-32">
+            <div class="flex space-x-1 justify-center items-center">
+                <i class="bi bi-search pb-1"></i>
+                <span>Tìm kiếm</span>
+            </div>
+        </button>
     </div>
     <div class="sm:col-span-1 flex items-center justify-end">
         <a class="btn btn-info w-full sm:w-40" href="<c:url value="/room/tenants" />">
-            <i class="bi bi-people-fill"></i>Khách Thuê
+            <div class="flex space-x-1 justify-center items-center">
+                <i class="bi bi-people-fill pb-1"></i>
+                <span>Khách Thuê</span>
+            </div>
         </a>
     </div>
 </div>
 
-<div class="rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center mt-2 px-2 sm:px-4">
+<div class="rounded-sm border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center mt-2 px-2 sm:px-4">
     <div class="h-full w-full pb-4 bt-2">
         <div class="grid grid-cols-1 sm:grid-cols-2 py-2 border-b-2 gap-1 mb-4">
             <div>Còn trống 1 | Đã cho thuê 0 | Chưa thu phí 0</div>
             <div class="flex justify-end">
                 <a class="btn btn-success w-full sm:w-40" href="<c:url value="/room/create" />">
-                    <button ><i class="bi bi-plus-circle mr-1"></i>Thêm Phòng</button>
+                    <div class="flex space-x-1 justify-center items-center">
+                        <i class="bi bi-plus-circle pb-1"></i>
+                        <span>Thêm Phòng</span>
+                    </div>
                 </a>
             </div>
         </div>
@@ -65,10 +76,16 @@
                 </div>
                 <div class="p-6">
                     <a class="btn btn-info" href="<c:url value="/room/4/edit"/>">
-                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-pencil-square pb-1"></i>
+                            <span>Chỉnh sửa</span>
+                        </div>
                     </a>
                     <button class="btn btn-danger">
-                        <i class="bi bi-trash"></i> Xoá
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-trash pb-1"></i>
+                            <span>Xoá</span>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -90,10 +107,16 @@
                 </div>
                 <div class="p-6">
                     <a class="btn btn-info" href="<c:url value="/room/5/edit"/>">
-                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-pencil-square pb-1"></i>
+                            <span>Chỉnh sửa</span>
+                        </div>
                     </a>
                     <button class="btn btn-danger">
-                        <i class="bi bi-trash"></i> Xoá
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-trash pb-1"></i>
+                            <span>Xoá</span>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -115,10 +138,16 @@
                 </div>
                 <div class="p-6">
                     <a class="btn btn-info" href="<c:url value="/room/7/edit"/>">
-                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-pencil-square pb-1"></i>
+                            <span>Chỉnh sửa</span>
+                        </div>
                     </a>
                     <button class="btn btn-danger">
-                        <i class="bi bi-trash"></i> Xoá
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-trash pb-1"></i>
+                            <span>Xoá</span>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -140,10 +169,16 @@
                 </div>
                 <div class="p-6">
                     <a class="btn btn-info" href="<c:url value="/room/8/edit"/>">
-                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-pencil-square pb-1"></i>
+                            <span>Chỉnh sửa</span>
+                        </div>
                     </a>
                     <button class="btn btn-danger">
-                        <i class="bi bi-trash"></i> Xoá
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-trash pb-1"></i>
+                            <span>Xoá</span>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -174,10 +209,16 @@
                 </div>
                 <div class="p-6">
                     <button class="btn btn-info">
-                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-pencil-square pb-1"></i>
+                            <span>Chỉnh sửa</span>
+                        </div>
                     </button>
                     <button class="btn btn-danger">
-                        <i class="bi bi-trash"></i> Xoá
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-trash pb-1"></i>
+                            <span>Xoá</span>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -208,10 +249,16 @@
                 </div>
                 <div class="p-6">
                     <button class="btn btn-info">
-                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-pencil-square pb-1"></i>
+                            <span>Chỉnh sửa</span>
+                        </div>
                     </button>
                     <button class="btn btn-danger">
-                        <i class="bi bi-trash"></i> Xoá
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-trash pb-1"></i>
+                            <span>Xoá</span>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -242,10 +289,16 @@
                 </div>
                 <div class="p-6">
                     <button class="btn btn-info">
-                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-pencil-square pb-1"></i>
+                            <span>Chỉnh sửa</span>
+                        </div>
                     </button>
                     <button class="btn btn-danger">
-                        <i class="bi bi-trash"></i> Xoá
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-trash pb-1"></i>
+                            <span>Xoá</span>
+                        </div>
                     </button>
                 </div>
             </div>
@@ -276,10 +329,16 @@
                 </div>
                 <div class="p-6">
                     <button class="btn btn-info">
-                        <i class="bi bi-pencil-square"></i> Chỉnh sửa
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-pencil-square pb-1"></i>
+                            <span>Chỉnh sửa</span>
+                        </div>
                     </button>
                     <button class="btn btn-danger">
-                        <i class="bi bi-trash"></i> Xoá
+                        <div class="flex space-x-1 justify-center items-center">
+                            <i class="bi bi-trash pb-1"></i>
+                            <span>Xoá</span>
+                        </div>
                     </button>
                 </div>
             </div>
