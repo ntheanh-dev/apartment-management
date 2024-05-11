@@ -188,14 +188,14 @@
             </div>
             <%--   Dịch vụ         --%>
             <div id="tab2" class="tab-content w-full pt-3 overflow-auto">
-                <span class="text-lg font-medium text-gray-700">Lưu ý:</span>
+                <span class="text-lg font-medium text-indigo-900">Lưu ý:</span>
                 <br>
-                <span class="text-xs text-black mb-4">
+                <span class="text-xs text-indigo-900 mb-4">
                     Vui lòng chọn dịch vụ cho khách thuê. Nếu khách có chọn dịch vụ thì khi tính tiền phòng phần mềm sẽ tự tính các khoản phí vào hóa đơn; ngược lại nếu không chọn phần mềm sẽ bỏ qua.
                     Đối với dịch vụ là loại điện/ nước thì sẽ tính theo chỉ số điện/ nước
                     Đối với các dịch vụ khác sẽ tính theo số lượng (ví dụ phòng có 2 xe đạp nhập số lượng là 2)
                 </span>
-                <table class="border w-full" id="add-service-table">
+                <table class="border w-full mb-2" id="add-service-table">
                     <thead>
                         <tr class="bg-gray-50 border-b">
                             <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
@@ -254,7 +254,7 @@
             </div>
             <%--   Thành viên     --%>
             <div id="tab3" class="tab-content w-full pt-3 overflow-auto">
-                <table class="border w-full" id="add-tenant-table">
+                <table class="border w-full mb-2" id="add-tenant-table">
                     <thead>
                         <tr class="bg-gray-50 border-b">
                             <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
