@@ -1,4 +1,4 @@
-package com.ou.repositories.impl;
+package com.ou.repositories;
 
 public class RoomRepositoryImpl {
 }

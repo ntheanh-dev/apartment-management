@@ -1,4 +1,4 @@
-package com.ou.services.impl;
+package com.ou.services;
 
 public class RoomServicesImpl {
 }
