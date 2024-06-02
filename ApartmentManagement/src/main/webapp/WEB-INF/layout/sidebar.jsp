@@ -4,19 +4,25 @@
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item ">
-            <a class="nav-link" href="<c:url value="/"/>"">
+            <a class="nav-link" href="<c:url value="/"/>">
                 <i class="bi bi-box"></i>
                 <span>Trang chủ</span>
             </a>
         </li>
         <li class="nav-item ">
-            <a class="nav-link collapsed" href="<c:url value="/room/"/>"">
+            <a class="nav-link" href="<c:url value="/chat/"/>">
+                <i class="bi bi-chat-dots"></i>
+                <span>Tin nhắn</span>
+            </a>
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link collapsed" href="<c:url value="/room/"/>">
                 <i class="bi bi-house-fill"></i>
                 <span>Phòng</span>
             </a>
         </li>
         <li class="nav-item ">
-            <a class="nav-link collapsed" href="<c:url value="/service/"/>"">
+            <a class="nav-link collapsed" href="<c:url value="/service/"/>">
                 <i class="bi bi-list-check"></i>
                 <span>Dich vụ</span>
             </a>

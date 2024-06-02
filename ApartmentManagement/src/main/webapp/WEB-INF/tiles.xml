@@ -57,4 +57,9 @@
         <put-attribute name="title" value="Sửa Dịch Vụ"/>
         <put-attribute name="content" value="/WEB-INF/pages/service/service-edit.jsp"/>
     </definition>
+    <!-- Chat   -->
+    <definition name="chatIndex" extends="baseLayout">
+        <put-attribute name="title" value="Tin nhắn nhóm"/>
+        <put-attribute name="content" value="/WEB-INF/pages/chat/chat.jsp"/>
+    </definition>
 </tiles-definitions>
