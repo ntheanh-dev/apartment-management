@@ -1,7 +1,13 @@
 package com.ou.pojo;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
+
 import javax.persistence.*;
 
+@Getter
+@Setter
 @Entity
 public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)

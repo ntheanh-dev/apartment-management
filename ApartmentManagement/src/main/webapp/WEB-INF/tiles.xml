@@ -62,4 +62,7 @@
         <put-attribute name="title" value="Tin nhắn nhóm"/>
         <put-attribute name="content" value="/WEB-INF/pages/chat/chat.jsp"/>
     </definition>
+    <!-- Auth    -->
+    <definition name="login" template="/WEB-INF/pages/auth/login.jsp">
+    </definition>
 </tiles-definitions>
