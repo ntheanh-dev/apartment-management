@@ -24,11 +24,7 @@
     </definition>
     <definition name="roomCreation" extends="baseLayout">
         <put-attribute name="title" value="Tạo Phòng Mới"/>
-        <put-attribute name="content" value="/WEB-INF/pages/room/room-creation.jsp"/>
-    </definition>
-    <definition name="roomEdit" extends="baseLayout">
-        <put-attribute name="title" value="Sửa Phòng"/>
-        <put-attribute name="content" value="/WEB-INF/pages/room/room-edit.jsp"/>
+        <put-attribute name="content" value="/WEB-INF/pages/room/room-creation-edit.jsp"/>
     </definition>
     <definition name="roomList" extends="baseLayout">
         <put-attribute name="title" value="Danh Sách Phòng"/>

@@ -6,7 +6,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<div class="rounded-sm border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center mt-2 sm:px-4">
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<form:form  modelAttribute="resident"  class="rounded-sm border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center mt-2 sm:px-4">
     <div class="h-full w-full">
         <div class="grid grid-cols-1 sm:grid-cols-2 py-2 border-b-2 gap-1 mb-4 px-2 sm:px-0">
             <p class="text-3xl font-bold">Thêm Khách Thuê Phòng</p>
@@ -29,6 +30,7 @@
             <button
                 class="tab-link flex justify-center font-medium rounded-l px-2 py-2 border bg-blue-400 text-gray-800 border-gray-200 rounded-sm"
                 data-tab="#tab1"
+                onclick="event.preventDefault();"
             >
                 Thông tin khách thuê
             </button>
@@ -36,6 +38,7 @@
             <button
                 class="tab-link flex justify-center font-medium rounded-l px-2 py-2 border bg-white text-gray-800 border-gray-200 rounded-sm"
                 data-tab="#tab2"
+                onclick="event.preventDefault();"
             >
                 Dịch vụ
             </button>
@@ -43,12 +46,14 @@
             <button
                 class="tab-link flex justify-center font-medium rounded-l px-2 py-2 border bg-white text-gray-800 border-gray-200 rounded-sm"
                 data-tab="#tab3"
+                onclick="event.preventDefault();"
             >
                 Thành viên
             </button>
             <button
                     class="tab-link flex justify-center font-medium rounded-l px-2 py-2 border bg-white text-gray-800 border-gray-200 rounded-sm"
                     data-tab="#tab4"
+                    onclick="event.preventDefault();"
             >
                 Hợp đồng
             </button>
@@ -61,33 +66,33 @@
                     <div>
                         <label class="block mb-3">
                             <span class="text-gray-700">Họ tên *</span>
-                            <input type="text" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
+                            <form:input path="fullName" type="text" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                             />
                         </label>
                         <label class="block mb-3">
                             <span class="text-gray-700">Ngày sinh</span>
-                            <input type="date" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
+                            <form:input path="dateOfBirth" type="date" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                             />
                         </label>
                         <div class="block mb-3">
                             <span class="text-gray-700" >Thành Phố</span>
-                            <select name="city" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
+                            <form:select path="city" name="city" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                     focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                     id="city"
                             >
                                 <option disable value="">Chọn</option>
-                            </select>
+                            </form:select>
                         </div>
                         <div class="block">
                             <span class="text-gray-700" >Quận/Huyện</span>
-                            <select class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
+                            <form:select path="ward" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                     focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                     id="district" name="district"
                             >
                                 <option disable value="">Chọn</option>
-                            </select>
+                            </form:select>
                         </div>
                     </div>
                     <div>
@@ -95,15 +100,14 @@
                             <span class="text-gray-700">Giới tính:</span>
                             <div>
                                 <label class="inline-flex items-center">
-                                    <input name="season" type="radio" class=" text-indigo-600 border-gray-300 rounded-full
+                                    <form:radiobutton path="gender" name="season" class=" text-indigo-600 border-gray-300 rounded-full
                                           shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0
-                                          focus:ring-indigo-200 focus:ring-opacity-50 "
-                                           checked
+                                          focus:ring-indigo-200 focus:ring-opacity-50" checked="checked"
                                     />
                                     <span class="ml-2">Nam</span>
                                 </label>
                                 <label class="inline-flex items-center">
-                                    <input name="season" type="radio" class=" text-indigo-600 border-gray-300 rounded-full
+                                    <form:radiobutton path="gender" name="season" class=" text-indigo-600 border-gray-300 rounded-full
                                           shadow-sm focus:border-indigo-300 focus:ring focus:ring-offset-0
                                           focus:ring-indigo-200 focus:ring-opacity-50 "
                                     />
@@ -113,19 +117,19 @@
                         </div>
                         <label class="block mb-3">
                             <span class="text-gray-700">CMND/ CCCD</span>
-                            <input type="text" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
+                            <form:input path="identity" type="text" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                             />
                         </label>
                         <label class="block mb-3">
                             <span class="text-gray-700">Điện thoại</span>
-                            <input type="text" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
+                            <form:input path="phone" type="phone" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                             />
                         </label>
                         <label class="block">
                             <span class="text-gray-700">Email</span>
-                            <input type="text" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
+                            <form:input path="email" type="email" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                             />
                         </label>
@@ -133,7 +137,7 @@
                     <div class="sm:col-span-2">
                         <label class="block mb-3">
                             <span class="text-gray-700">Địa chỉ thường trú</span>
-                            <input type="text" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
+                            <form:input path="address" type="text" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                             />
                         </label>
@@ -142,7 +146,7 @@
                         <div class="block mb-3">
                             <span class="text-gray-700">Số xe</span>
                             <div class="flex">
-                                <input type="number" class="p-2 block w-full border-1 border-gray-600 rounded-l-md shadow-sm
+                                <form:input path="numberPlate" type="number" class="p-2 block w-full border-1 border-gray-600 rounded-l-md shadow-sm
                                         focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                 />
                                 <div class="inline-flex items-center p-2 text-sm text-gray-900 border rounded-r-md bg-gray-400 shadow-sm">
@@ -386,6 +390,6 @@
             </div>
         </div>
     </div>
-</div>
+</form:form>
 <script src="<c:url value="/js/room.js"/>"></script>
 

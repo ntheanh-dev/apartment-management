@@ -5,36 +5,44 @@
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@page contentType="text/html" pageEncoding="UTF-8" %>
+
+<c:set var="roomStatus" value="Bảo trì"/>
 <%--Head--%>
 <p class="text-3xl font-bold mb-2">Danh Sách Phòng</p>
 <div class="grid grid-cols-1 sm:grid-cols-4 gap-1 px-2 sm:px-0">
-    <div class="sm:col-span-3 grid grid-cols-1 sm:grid-cols-4 gap-2 my-1">
+    <form class="sm:col-span-3 grid grid-cols-1 sm:grid-cols-4 gap-2 my-1">
         <select
+                type="search"
+                name="status"
                 class="col-6 col-md-2 form-select appearance-none block px-3 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none"
         >
-            <option value="all" selected>-Trạng thái phòng</option>
-            <option value="available">Còn trống</option>
-            <option value="occupied">Đã cho thuê</option>
+            <option value="all" selected>Tất cả</option>
+            <option value="Còn trống">Còn trống</option>
+            <option value="đã thuê">Đã cho thuê</option>
         </select>
         <select
                 class="col-6 col-md-2 form-select appearance-none block px-3 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none"
         >
-            <option value="" selected>-Trạng thái phí-</option>
+            <option value="" selected>Trạng thái phí</option>
+            <option value="paid">Đã thu phí</option>
             <option value="unpaid">Chưa Thu Phí</option>
         </select>
         <input
-                type="text"
+                type="search"
+                name="kw"
                 class="col-6 col-md-2 w-auto block px-3 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 input-bordered input "
                 placeholder="Phòng"
         />
-        <button class="btn btn-primary sm:w-32">
+        <button type="submit" class="btn btn-primary sm:w-40">
             <div class="flex space-x-1 justify-center items-center">
-                <i class="bi bi-search pb-1"></i>
-                <span>Tìm kiếm</span>
+                <i class="bi bi-search pb-1 flex-1"></i>
+                <%--                <span><a class="nav-link text-white flex-3" href="${myUrl}">Tìm kiếm </a></span>--%>
+                <span class="nav-link text-white flex-3">Tìm kiếm</span>
             </div>
         </button>
-    </div>
+    </form>
     <div class="sm:col-span-1 flex items-center justify-end">
         <a class="btn btn-info w-full sm:w-40" href="<c:url value="/room/tenants" />">
             <div class="flex space-x-1 justify-center items-center">
@@ -48,9 +56,9 @@
 <div class="rounded-sm border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center mt-2 px-2 sm:px-4">
     <div class="h-full w-full pb-4 bt-2">
         <div class="grid grid-cols-1 sm:grid-cols-2 py-2 border-b-2 gap-1 mb-4">
-            <div>Còn trống 1 | Đã cho thuê 0 | Chưa thu phí 0</div>
+            <div class="justify-center items-center">Tổng số phòng: ${rooms.size()}</div>
             <div class="flex justify-end">
-                <a class="btn btn-success w-full sm:w-40" href="<c:url value="/room/create" />">
+                <a class="btn btn-success w-full sm:w-40" href="<c:url value="/room/create/" />">
                     <div class="flex space-x-1 justify-center items-center">
                         <i class="bi bi-plus-circle pb-1"></i>
                         <span>Thêm Phòng</span>
@@ -59,289 +67,90 @@
             </div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-            <div class="relative flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl ">
-                <div class="p-6">
-                    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                        <i class="bi bi-house"></i> P01
-                    </h5>
-                    <a href="<c:url value="/room/4/add-tenant" />" class="btn relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-indigo-100 rounded hover:bg-white group py-1.5 px-2.5">
-                        <span class="w-56 h-48 rounded bg-indigo-600 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                        <span class="relative w-full text-left text-indigo-600 transition-colors duration-300 ease-in-out group-hover:text-white">Thêm khách</span>
-                    </a>
+            <c:forEach items="${rooms}" var="r">
+                <div class="relative flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl ">
+                    <div class="p-6">
+                        <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                            <i class="bi bi-house"></i> ${r.number}
+                        </h5>
 
-                    <div class="flex items-center my-1 space-x-2">
-                        <i class="bi bi-cash "></i>
-                        <span class="">3,000,000</span>
+                        <c:choose>
+                            <c:when test="${r.status != roomStatus}">
+                                <a href="<c:url value="/room/4/add-tenant" />"
+                                   class="btn relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-indigo-100 rounded hover:bg-white group py-1.5 px-2.5">
+                                    <span class="w-56 h-48 rounded bg-indigo-600 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                                    <span class="relative w-full text-left text-indigo-600 transition-colors duration-300 ease-in-out group-hover:text-white">Thêm khách</span>
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <span class="btn cursor-not-allowed relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-indigo-100 rounded">
+                                    <span class="relative w-full text-left text-indigo-600 transition-colors">Bảo trì</span>
+                                </span>
+                            </c:otherwise>
+                        </c:choose>
+
+                        <div class="flex items-center my-1 space-x-2">
+                            <i class="bi bi-cash"></i>
+                            <span class="">${String.format("%,d", r.price)} VNĐ</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <a class="btn btn-info" href="<c:url value="/room/${r.id}/edit"/>">
+                            <div class="flex space-x-1 justify-center items-center">
+                                <i class="bi bi-pencil-square pb-1"></i>
+                                <span>Chỉnh sửa</span>
+                            </div>
+                        </a>
+                        <a class="btn btn-danger" href="<c:url value="/room/${r.id}/delete"/>">
+                            <div class="flex space-x-1 justify-center items-center">
+                                <i class="bi bi-trash pb-1"></i>
+                                <span>Xoá</span>
+                            </div>
+                        </a>
                     </div>
                 </div>
-                <div class="p-6">
-                    <a class="btn btn-info" href="<c:url value="/room/4/edit"/>">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-pencil-square pb-1"></i>
-                            <span>Chỉnh sửa</span>
-                        </div>
-                    </a>
-                    <button class="btn btn-danger">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-trash pb-1"></i>
-                            <span>Xoá</span>
-                        </div>
-                    </button>
-                </div>
-            </div>
-            <div class="relative flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl ">
-                <div class="p-6">
-                    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                        <i class="bi bi-house"></i> P02
-                    </h5>
-                    <a href="<c:url value="/room/5/add-tenant" />" class="btn relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-indigo-100 rounded hover:bg-white group py-1.5 px-2.5">
-                        <span class="w-56 h-48 rounded bg-indigo-600 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                        <span class="relative w-full text-left text-indigo-600 transition-colors duration-300 ease-in-out group-hover:text-white">Thêm khách</span>
-                    </a>
+            </c:forEach>
+            <%--            <div class="relative flex flex-col mt-6 text-gray-700 shadow-md bg-clip-border rounded-xl bg-teal-400 ">--%>
+            <%--                <div class="p-6">--%>
+            <%--                    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">--%>
+            <%--                        <i class="bi bi-house"></i> P08--%>
+            <%--                    </h5>--%>
 
-                    <div class="flex items-center my-1 space-x-2">
-                        <i class="bi bi-cash "></i>
-                        <span class="">3,000,000</span>
+            <%--                    <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Trả">--%>
+            <%--                        <i class="bi bi-arrow-repeat"></i>--%>
+            <%--                    </button>--%>
 
-                    </div>
-                </div>
-                <div class="p-6">
-                    <a class="btn btn-info" href="<c:url value="/room/5/edit"/>">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-pencil-square pb-1"></i>
-                            <span>Chỉnh sửa</span>
-                        </div>
-                    </a>
-                    <button class="btn btn-danger">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-trash pb-1"></i>
-                            <span>Xoá</span>
-                        </div>
-                    </button>
-                </div>
-            </div>
-            <div class="relative flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl ">
-                <div class="p-6">
-                    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                        <i class="bi bi-house"></i> P03
-                    </h5>
-                    <a href="<c:url value="/room/7/add-tenant" />" class="btn relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-indigo-100 rounded hover:bg-white group py-1.5 px-2.5">
-                        <span class="w-56 h-48 rounded bg-indigo-600 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                        <span class="relative w-full text-left text-indigo-600 transition-colors duration-300 ease-in-out group-hover:text-white">Thêm khách</span>
-                    </a>
+            <%--                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Xem">--%>
+            <%--                        <i class="bi bi-eye-fill"></i>--%>
+            <%--                    </button>--%>
 
-                    <div class="flex items-center my-1 space-x-2">
-                        <i class="bi bi-cash "></i>
-                        <span class="">3,000,000</span>
+            <%--                    <a class="btn btn-warning" href="<c:url value="/room/7/edit-tenant"/>">--%>
+            <%--                        <button type="button" data-toggle="tooltip" data-placement="top" title="Sửa">--%>
+            <%--                            <i class="bi bi-pencil-square"></i>--%>
+            <%--                        </button>--%>
+            <%--                    </a>--%>
 
-                    </div>
-                </div>
-                <div class="p-6">
-                    <a class="btn btn-info" href="<c:url value="/room/7/edit"/>">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-pencil-square pb-1"></i>
-                            <span>Chỉnh sửa</span>
-                        </div>
-                    </a>
-                    <button class="btn btn-danger">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-trash pb-1"></i>
-                            <span>Xoá</span>
-                        </div>
-                    </button>
-                </div>
-            </div>
-            <div class="relative flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl ">
-                <div class="p-6">
-                    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                        <i class="bi bi-house"></i> P04
-                    </h5>
-                    <a href="<c:url value="/room/9/add-tenant" />" class="btn relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-indigo-100 rounded hover:bg-white group py-1.5 px-2.5">
-                        <span class="w-56 h-48 rounded bg-indigo-600 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                        <span class="relative w-full text-left text-indigo-600 transition-colors duration-300 ease-in-out group-hover:text-white">Thêm khách</span>
-                    </a>
+            <%--                    <div class="flex items-center my-1 space-x-2">--%>
+            <%--                        <i class="bi bi-cash "></i>--%>
+            <%--                        <span class="">3,000,000</span>--%>
+            <%--                    </div>--%>
+            <%--                </div>--%>
+            <%--                <div class="p-6">--%>
+            <%--                    <button class="btn btn-info">--%>
+            <%--                        <div class="flex space-x-1 justify-center items-center">--%>
+            <%--                            <i class="bi bi-pencil-square pb-1"></i>--%>
+            <%--                            <span>Chỉnh sửa</span>--%>
+            <%--                        </div>--%>
+            <%--                    </button>--%>
+            <%--                    <button class="btn btn-danger">--%>
+            <%--                        <div class="flex space-x-1 justify-center items-center">--%>
+            <%--                            <i class="bi bi-trash pb-1"></i>--%>
+            <%--                            <span>Xoá</span>--%>
+            <%--                        </div>--%>
+            <%--                    </button>--%>
+            <%--                </div>--%>
+            <%--            </div>--%>
 
-                    <div class="flex items-center my-1 space-x-2">
-                        <i class="bi bi-cash "></i>
-                        <span class="">3,000,000</span>
-
-                    </div>
-                </div>
-                <div class="p-6">
-                    <a class="btn btn-info" href="<c:url value="/room/8/edit"/>">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-pencil-square pb-1"></i>
-                            <span>Chỉnh sửa</span>
-                        </div>
-                    </a>
-                    <button class="btn btn-danger">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-trash pb-1"></i>
-                            <span>Xoá</span>
-                        </div>
-                    </button>
-                </div>
-            </div>
-            <div class="relative flex flex-col mt-6 text-gray-700 shadow-md bg-clip-border rounded-xl bg-teal-400 ">
-                <div class="p-6">
-                    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                        <i class="bi bi-house"></i> P05
-                    </h5>
-
-                    <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Trả">
-                        <i class="bi bi-arrow-repeat"></i>
-                    </button>
-
-                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Xem">
-                        <i class="bi bi-eye-fill"></i>
-                    </button>
-
-                    <a class="btn btn-warning" href="<c:url value="/room/4/edit-tenant"/>">
-                        <button type="button" data-toggle="tooltip" data-placement="top" title="Sửa">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-                    </a>
-
-                    <div class="flex items-center my-1 space-x-2">
-                        <i class="bi bi-cash "></i>
-                        <span class="">3,000,000</span>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <button class="btn btn-info">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-pencil-square pb-1"></i>
-                            <span>Chỉnh sửa</span>
-                        </div>
-                    </button>
-                    <button class="btn btn-danger">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-trash pb-1"></i>
-                            <span>Xoá</span>
-                        </div>
-                    </button>
-                </div>
-            </div>
-            <div class="relative flex flex-col mt-6 text-gray-700 shadow-md bg-clip-border rounded-xl bg-teal-400 ">
-                <div class="p-6">
-                    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                        <i class="bi bi-house"></i> P06
-                    </h5>
-
-                    <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Trả">
-                        <i class="bi bi-arrow-repeat"></i>
-                    </button>
-
-                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Xem">
-                        <i class="bi bi-eye-fill"></i>
-                    </button>
-
-                    <a class="btn btn-warning" href="<c:url value="/room/6/edit-tenant"/>">
-                        <button type="button" data-toggle="tooltip" data-placement="top" title="Sửa">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-                    </a>
-
-                    <div class="flex items-center my-1 space-x-2">
-                        <i class="bi bi-cash "></i>
-                        <span class="">3,000,000</span>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <button class="btn btn-info">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-pencil-square pb-1"></i>
-                            <span>Chỉnh sửa</span>
-                        </div>
-                    </button>
-                    <button class="btn btn-danger">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-trash pb-1"></i>
-                            <span>Xoá</span>
-                        </div>
-                    </button>
-                </div>
-            </div>
-            <div class="relative flex flex-col mt-6 text-gray-700 shadow-md bg-clip-border rounded-xl bg-teal-400 ">
-                <div class="p-6">
-                    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                        <i class="bi bi-house"></i> P08
-                    </h5>
-
-                    <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Trả">
-                        <i class="bi bi-arrow-repeat"></i>
-                    </button>
-
-                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Xem">
-                        <i class="bi bi-eye-fill"></i>
-                    </button>
-
-                    <a class="btn btn-warning" href="<c:url value="/room/7/edit-tenant"/>">
-                        <button type="button" data-toggle="tooltip" data-placement="top" title="Sửa">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-                    </a>
-
-                    <div class="flex items-center my-1 space-x-2">
-                        <i class="bi bi-cash "></i>
-                        <span class="">3,000,000</span>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <button class="btn btn-info">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-pencil-square pb-1"></i>
-                            <span>Chỉnh sửa</span>
-                        </div>
-                    </button>
-                    <button class="btn btn-danger">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-trash pb-1"></i>
-                            <span>Xoá</span>
-                        </div>
-                    </button>
-                </div>
-            </div>
-            <div class="relative flex flex-col mt-6 text-gray-700 shadow-md bg-clip-border rounded-xl bg-teal-400 ">
-                <div class="p-6">
-                    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                        <i class="bi bi-house"></i> P09
-                    </h5>
-
-                    <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Trả">
-                        <i class="bi bi-arrow-repeat"></i>
-                    </button>
-
-                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Xem">
-                        <i class="bi bi-eye-fill"></i>
-                    </button>
-
-                    <a class="btn btn-warning" href="<c:url value="/room/9/edit-tenant"/>">
-                        <button type="button" data-toggle="tooltip" data-placement="top" title="Sửa">
-                            <i class="bi bi-pencil-square"></i>
-                        </button>
-                    </a>
-
-                    <div class="flex items-center my-1 space-x-2">
-                        <i class="bi bi-cash "></i>
-                        <span class="">3,000,000</span>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <button class="btn btn-info">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-pencil-square pb-1"></i>
-                            <span>Chỉnh sửa</span>
-                        </div>
-                    </button>
-                    <button class="btn btn-danger">
-                        <div class="flex space-x-1 justify-center items-center">
-                            <i class="bi bi-trash pb-1"></i>
-                            <span>Xoá</span>
-                        </div>
-                    </button>
-                </div>
-            </div>
         </div>
     </div>
 </div>

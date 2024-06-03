@@ -1,46 +1,56 @@
 package com.ou.controllers;
 
-import com.ou.dto.Room;
+import com.ou.dto.RoomRegisterDto;
+import com.ou.pojo.Resident;
+import com.ou.pojo.Room;
+import com.ou.services.RoomServices;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
 
 @Controller
 @RequestMapping(path = "/room")
 public class RoomControllers {
 
+    @Autowired
+    private RoomServices roomServices;
     @GetMapping("/")
-    public String index() {
+    public String index(Model model,@RequestParam Map<String, String> params) {
+        model.addAttribute("rooms", roomServices.getAllRooms(params));
         return "roomIndex";
     }
 
     @GetMapping("/{roomId}/add-tenant")
-    public String roomAddTenant(@PathVariable String roomId) {
+    public String roomAddTenant(Model model,@PathVariable String roomId) {
+        model.addAttribute("resident",new Resident());
         return "roomAddTenant";
     }
 
     @GetMapping("/{roomId}/edit-tenant")
     public String roomEditTenant(@PathVariable String roomId) {
         // Lấy thông tin khách thuê phòng, dịch vụ, hợp đồng by roomId
-        
         return "roomEditTenant";
     }
 
     @GetMapping("/create")
-    public String roomCreation() {
+    public String roomCreation(Model model) {
+        model.addAttribute("room", new Room());
         return "roomCreation";
     }
 
     @GetMapping("/{roomId}/edit")
-    public String roomEdit(Model model, @PathVariable String roomId) {
+    public String roomEdit(Model model, @PathVariable Integer roomId) {
         // Lấy thông tin phòng bằng id rồi hiển thị ra giao diện
-        Room room = Room.builder().roomName("P01").capacity(2).male("1").price(3000000).width(5)
-                        .length(10).description("Đây là phòng vip").location("Tầng 1").build();
-        model.addAttribute("room", room);
-        return "roomEdit";
+        model.addAttribute("status", new ArrayList<>(Arrays.asList("còn trống", "Bảo trì")));
+        model.addAttribute("room", this.roomServices.getRoomById(roomId));
+        return "roomCreation";
     }
 
     @GetMapping("/list")
@@ -56,5 +66,25 @@ public class RoomControllers {
     @GetMapping("/tenants")
     public String listTenant() {
         return "listTenant";
+    }
+
+    @PostMapping(value ="/create")
+    public String roomCreate(Model model, @ModelAttribute(value = "room") @Valid Room r,
+                             BindingResult rs) {
+        if (!rs.hasErrors()) {
+            try {
+                this.roomServices.addOrUpdateRoom(r);
+                return "redirect:/";
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                model.addAttribute("errMsg", ex.toString());
+            }
+        }
+        return "roomIndex";
+    }
+    @GetMapping(value = "/{roomId}/delete")
+    public String roomDelete(@PathVariable Integer roomId) {
+        this.roomServices.deleteRoomById(roomId);
+        return "roomIndex";
     }
 }

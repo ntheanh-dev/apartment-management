@@ -4,17 +4,31 @@
  */
 package com.ou.controllers;
 
+import com.ou.services.FloorServices;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * @author Admin
  */
 @Controller
+@ControllerAdvice
 public class AdminController {
+    @Autowired
+    private FloorServices floorServices;
+
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index() {
         return "redirect:/room/";
+    }
+
+    @ModelAttribute
+    public void commonAttr(Model model) {
+        model.addAttribute("floors", this.floorServices.getFloor());
     }
 }

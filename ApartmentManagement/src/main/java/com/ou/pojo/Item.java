@@ -4,12 +4,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "family_member")
-public class FamilyMember {
+@Table(name = "items")
+public class Item {
     @Id
     @Column(name = "id", nullable = false)
     private Integer id;
@@ -17,11 +18,14 @@ public class FamilyMember {
     @Column(name = "name", nullable = false, length = 45)
     private String name;
 
-    @Column(name = "active", nullable = false, length = 1)
-    private String active;
+    @Column(name = "description", nullable = false, length = 45)
+    private String description;
+
+    @Column(name = "delivery_date")
+    private LocalDate deliveryDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Resident_User_id", nullable = false)
-    private Resident residentUser;
+    @JoinColumn(name = "cabinet_id", nullable = false)
+    private Cabinet cabinet;
 
 }
