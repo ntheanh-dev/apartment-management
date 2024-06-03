@@ -10,86 +10,42 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user")
 public class User {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "username", nullable = false, length = 45)
     private String username;
 
-    @Column(name = "password", nullable = false, length = 45)
     private String password;
 
-    @Lob
-    @Column(name = "role", nullable = false)
     private String role;
-    @Basic
-    @Column(name = "active", nullable = true)
-    private Byte active;
 
-    public int getId() {
+    private Boolean active;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    @Column(name = "username", nullable = false, length = 45)
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
+    @Column(name = "password", nullable = false, length = 45)
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    @Lob
+    @Column(name = "role", nullable = false)
     public String getRole() {
         return role;
     }
 
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     @Column(name = "active")
-    private Boolean active;
-
-    public void setActive(Byte active) {
-        this.active = active;
+    public Boolean getActive() {
+        return active;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (id != user.id) return false;
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (role != null ? !role.equals(user.role) : user.role != null) return false;
-        if (active != null ? !active.equals(user.active) : user.active != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id;
-        result = 31 * result + (username != null ? username.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (role != null ? role.hashCode() : 0);
-        result = 31 * result + (active != null ? active.hashCode() : 0);
-        return result;
-    }
 }
