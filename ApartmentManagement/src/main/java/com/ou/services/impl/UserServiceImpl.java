@@ -1,6 +1,7 @@
 package com.ou.services.impl;
 
 import com.ou.dto.request.UserCreationRequest;
+import com.ou.dto.response.UserResponse;
 import com.ou.exception.AppException;
 import com.ou.exception.ErrorCode;
 import com.ou.mapper.UserMapper;
@@ -13,6 +14,7 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -55,10 +57,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(UserCreationRequest user) {
-        if(userExistsByUsername(user.getUsername())) {
+        if(userRepository.userExistsByUsername(user.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
         User u = userMapper.toUser(user);
+        u.setRole("ROLE_USER");
         u.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.addUser(u);
     }
@@ -68,8 +71,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.authUser(username, password);
     }
 
+
     @Override
-    public boolean userExistsByUsername(String username) {
-        return userRepository.userExistsByUsername(username);
+    public UserResponse getMyInfo() {
+        var context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+        User user = userRepository.getUserByUsername(username);
+        return userMapper.toUserResponse(user);
     }
 }

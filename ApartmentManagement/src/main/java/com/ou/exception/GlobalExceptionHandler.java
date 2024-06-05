@@ -2,6 +2,7 @@ package com.ou.exception;
 
 import com.ou.dto.response.ApiResponse;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 

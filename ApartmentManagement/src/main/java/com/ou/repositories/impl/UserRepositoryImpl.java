@@ -1,11 +1,11 @@
 package com.ou.repositories.impl;
 
+import com.ou.exception.AppException;
+import com.ou.exception.ErrorCode;
 import com.ou.pojo.User;
 import com.ou.repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -29,7 +29,9 @@ public class UserRepositoryImpl implements UserRepository {
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createQuery("FROM User WHERE username = :username");
         q.setParameter("username", username);
-
+        if (q.getResultList().isEmpty()) {
+            throw new AppException(ErrorCode.USER_NOT_EXISTED);
+        }
         return (User) q.getSingleResult();
     }
 
@@ -48,10 +50,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean userExistsByUsername(String username) {
-        Session s = this.factory.getObject().getCurrentSession();
-        Query q = s.createQuery("FROM User WHERE username = :username");
-        q.setParameter("username", username);
-
-        return Objects.nonNull(q.getSingleResult());
+        try {
+            this.getUserByUsername(username);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

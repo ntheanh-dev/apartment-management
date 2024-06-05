@@ -81,7 +81,7 @@ public class JwtService {
                 claims = signedJWT.getJWTClaimsSet();
             }
         } catch (JOSEException | ParseException e) {
-            System.err.println(e.getMessage());
+            throw new AppException(ErrorCode.INVALID_TOKEN);
         }
         return claims;
     }
@@ -91,14 +91,12 @@ public class JwtService {
     }
 
     public String getUsernameFromToken(String token) {
-        String username = null;
         try {
             JWTClaimsSet claims = getClaimsFromToken(token);
-            username = claims.getStringClaim("username");
-        } catch (ParseException e) {
-            System.err.println(e.getMessage());
+            return claims.getStringClaim("username");
+        } catch (ParseException | NullPointerException e) {
+            throw new AppException(ErrorCode.UNAUTHORIZED);
         }
-        return username;
     }
 
     private Boolean isTokenExpired(String token) {
