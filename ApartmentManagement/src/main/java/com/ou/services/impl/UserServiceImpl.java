@@ -1,14 +1,21 @@
 package com.ou.services.impl;
 
+import com.ou.dto.request.UserCreationRequest;
+import com.ou.exception.AppException;
+import com.ou.exception.ErrorCode;
+import com.ou.mapper.UserMapper;
 import com.ou.pojo.User;
 import com.ou.repositories.UserRepository;
 import com.ou.services.UserService;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -19,6 +26,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -41,12 +54,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(User user) {
-        userRepository.addUser(user);
+    public void addUser(UserCreationRequest user) {
+        if(userExistsByUsername(user.getUsername())) {
+            throw new AppException(ErrorCode.USER_EXISTED);
+        }
+        User u = userMapper.toUser(user);
+        u.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepository.addUser(u);
     }
 
     @Override
     public boolean authUser(String username, String password) {
         return userRepository.authUser(username, password);
+    }
+
+    @Override
+    public boolean userExistsByUsername(String username) {
+        return userRepository.userExistsByUsername(username);
     }
 }

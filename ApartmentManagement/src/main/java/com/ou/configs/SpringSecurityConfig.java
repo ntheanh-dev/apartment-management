@@ -16,8 +16,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableWebSecurity
 @ComponentScan(basePackages = {
         "com.ou.controllers",
+        "com.ou.mapper",
         "com.ou.repositories",
-        "com.ou.services"
+        "com.ou.services",
 })
 @EnableTransactionManagement
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {

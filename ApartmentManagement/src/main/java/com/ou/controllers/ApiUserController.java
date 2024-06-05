@@ -1,6 +1,6 @@
 package com.ou.controllers;
 
-import com.ou.dto.request.CreateUserRequest;
+import com.ou.dto.request.UserCreationRequest;
 import com.ou.services.JwtService;
 import com.ou.dto.request.AuthenticationRequest;
 import com.ou.dto.response.ApiResponse;
@@ -13,6 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @RestController
@@ -40,13 +42,7 @@ public class ApiUserController {
             MediaType.APPLICATION_JSON_VALUE,
     })
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody CreateUserRequest createUserRequest) {
-        User u = new User();
-        u.setUsername(createUserRequest.getUsername());
-        u.setPassword(this.passwordEncoder.encode(createUserRequest.getPassword()));
-        u.setRole("ROLE_USER");
-        u.setActive(true);
-
-        this.userService.addUser(u);
+    public void create(@RequestBody UserCreationRequest userCreationRequest) {
+        userService.addUser(userCreationRequest);
     }
 }

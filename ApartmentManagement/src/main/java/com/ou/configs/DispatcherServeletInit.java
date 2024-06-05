@@ -4,6 +4,7 @@
  */
 package com.ou.configs;
 
+import com.ou.filters.FilterConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**

@@ -28,8 +28,10 @@ import java.nio.charset.Charset;
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
         "com.ou.controllers",
+        "com.ou.mapper",
         "com.ou.services",
-        "com.ou.repositories"
+        "com.ou.repositories",
+        "com.ou.exception"
 })
 public class WebAppContextConfig implements WebMvcConfigurer {
     @Override
