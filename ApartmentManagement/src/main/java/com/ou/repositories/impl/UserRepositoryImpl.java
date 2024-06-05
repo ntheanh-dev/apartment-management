@@ -4,6 +4,8 @@ import com.ou.pojo.User;
 import com.ou.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -13,11 +15,13 @@ import javax.transaction.Transactional;
 
 @Repository
 @Transactional
-@RequiredArgsConstructor
 public class UserRepositoryImpl implements UserRepository {
 
-    private final LocalSessionFactoryBean factory;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private LocalSessionFactoryBean factory;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     public User getUserByUsername(String username) {
