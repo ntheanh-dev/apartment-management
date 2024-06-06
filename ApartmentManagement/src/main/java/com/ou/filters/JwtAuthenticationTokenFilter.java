@@ -39,9 +39,6 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
             throws IOException, ServletException {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String authToken = httpRequest.getHeader(TOKEN_HEADER);
-        if (authToken != null) {
-            throw new AppException(ErrorCode.INVALID_TOKEN);
-        }
         if (jwtService.validateTokenLogin(authToken)) {
             String username = jwtService.getUsernameFromToken(authToken);
             User user = userService.getUserByUsername(username);

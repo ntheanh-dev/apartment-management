@@ -8,9 +8,6 @@ import com.ou.mapper.UserMapper;
 import com.ou.pojo.User;
 import com.ou.repositories.UserRepository;
 import com.ou.services.UserService;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -56,14 +53,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUser(UserCreationRequest user) {
+    public UserResponse addUser(UserCreationRequest user) {
         if(userRepository.userExistsByUsername(user.getUsername())) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
         User u = userMapper.toUser(user);
         u.setRole("ROLE_USER");
         u.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.addUser(u);
+        User newUser =  userRepository.addUser(u);
+        return userMapper.toUserResponse(newUser);
     }
 
     @Override
