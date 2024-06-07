@@ -16,14 +16,14 @@
         <select
                 type="search"
                 name="status"
-                class="col-6 col-md-2 form-select appearance-none block px-3 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none"
+                class="col-6 col-md-2 form-select appearance-none block px-3 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none cursor-pointer"
         >
             <option value="all" selected>Tất cả</option>
             <option value="Còn trống">Còn trống</option>
             <option value="đã thuê">Đã cho thuê</option>
         </select>
         <select
-                class="col-6 col-md-2 form-select appearance-none block px-3 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none"
+                class="col-6 col-md-2 form-select appearance-none block px-3 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none cursor-pointer"
         >
             <option value="" selected>Trạng thái phí</option>
             <option value="paid">Đã thu phí</option>

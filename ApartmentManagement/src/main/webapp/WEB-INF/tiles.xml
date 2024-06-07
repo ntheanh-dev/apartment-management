@@ -61,4 +61,13 @@
     <!-- Auth    -->
     <definition name="login" template="/WEB-INF/pages/auth/login.jsp">
     </definition>
+    <!-- Tủ đồ   -->
+    <definition name="cabinetIndex" extends="baseLayout">
+        <put-attribute name="title" value="Tủ đồ"/>
+        <put-attribute name="content" value="/WEB-INF/pages/cabinet/cabinet-index.jsp"/>
+    </definition>
+    <definition name="cabinetDetail" extends="baseLayout">
+        <put-attribute name="title" value="Chi Tiết Tủ Đồ"/>
+        <put-attribute name="content" value="/WEB-INF/pages/cabinet/cabinet-detail.jsp"/>
+    </definition>
 </tiles-definitions>
