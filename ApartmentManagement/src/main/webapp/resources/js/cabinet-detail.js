@@ -26,4 +26,31 @@ $(document).ready(function () {
             $(".dropzone-file-description").fadeIn();
         }
     });
+
+    //---------- Loc item trong tu do theo trang thai--------------
+    $('.item-filter-btn').on('click', function() {
+        // Remove bg-blue-400 class from all buttons and add bg-white
+        $('.item-filter-btn').removeClass('bg-blue-400').addClass('bg-white');
+
+        // Add bg-blue-400 class to the clicked button and remove bg-white
+        $(this).removeClass('bg-white').addClass('bg-blue-400');
+
+        // Get the data attribute value of the clicked button
+        var status = $(this).attr('data');
+
+        // Reload the page with the new query parameter
+        window.location.href = window.location.pathname + '?status=' + status;
+    });
+
+    // ----------------------Giữ màu nen cua button khi tai lai trang--------------
+    var urlParams = new URLSearchParams(window.location.search);
+    var status = urlParams.get('status');
+
+    if (status) {
+        // Remove bg-blue-400 class from all buttons and add bg-white
+        $('.item-filter-btn').removeClass('bg-blue-400').addClass('bg-white');
+
+        // Find the button with the matching data attribute and add bg-blue-400 class
+        $('.item-filter-btn[data="' + status + '"]').removeClass('bg-white').addClass('bg-blue-400');
+    }
 })

@@ -12,10 +12,11 @@
 <form class="sm:col-span-3 grid grid-cols-1 sm:grid-cols-4 gap-2 my-1 px-2 sm:px-0 ">
     <select
             class="col-6 col-md-2 form-select appearance-none block px-3 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none cursor-pointer"
+            name="active"
     >
         <option value="" selected>Trạng thái tủ đồ</option>
-        <option value="paid">Hoạt Động</option>
-        <option value="unpaid">Đã khoá</option>
+        <option value="true">Hoạt Động</option>
+        <option value="false">Đã khoá</option>
     </select>
     <button type="submit" class="btn btn-primary sm:w-40">
         <div class="flex space-x-1 justify-center items-center">
@@ -29,63 +30,25 @@
 <div class="rounded-sm border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center mt-2 px-2 sm:px-4">
     <div class="h-full w-full pb-4 bt-2">
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-            <div class="relative flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl ">
-                <div class="px-6 pt-4">
-                    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                        <i class="bi bi-box-seam"></i> Tủ đồ phòng: 1.1
-                    </h5>
-                    <a href="<c:url value="/cabinet/4/detail" />"
-                       class="btn relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-indigo-100 rounded hover:bg-white group py-1.5 px-2.5">
-                        <span class="w-56 h-48 rounded bg-indigo-600 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-                        <span class="relative w-full text-left text-indigo-600 transition-colors duration-300 ease-in-out group-hover:text-white">Chi Tiết</span>
-                    </a>
+
+            <c:forEach items="${cabinets}" var="c">
+                <div class="relative flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl ">
+                    <div class="px-6 pt-4">
+                        <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                            <i class="bi bi-box-seam"></i> Tủ đồ phòng: 1.1
+                        </h5>
+                        <a href="<c:url value="/cabinet/${c.id}/detail" />"
+                           class="btn relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-indigo-100 rounded hover:bg-white group py-1.5 px-2.5">
+                            <span class="w-56 h-48 rounded bg-indigo-600 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
+                            <span class="relative w-full text-left text-indigo-600 transition-colors duration-300 ease-in-out group-hover:text-white">Chi Tiết</span>
+                        </a>
+                    </div>
+                    <div class="flex items-center my-1 space-x-2 px-6 pt-2 pb-4">
+                        <span class="text-lg text-medium">Số đơn hàng chưa lấy:</span>
+                        <span class="text-red-600">69</span>
+                    </div>
                 </div>
-                <div class="flex items-center my-1 space-x-2 px-6 pt-2 pb-4">
-                    <span class="text-lg text-medium">Số đơn hàng chưa lấy:</span>
-                    <span class="text-red-600">69</span>
-                </div>
-            </div>
-            <%--            <div class="relative flex flex-col mt-6 text-gray-700 shadow-md bg-clip-border rounded-xl bg-teal-400 ">--%>
-            <%--                <div class="p-6">--%>
-            <%--                    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">--%>
-            <%--                        <i class="bi bi-house"></i> P08--%>
-            <%--                    </h5>--%>
-
-            <%--                    <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Trả">--%>
-            <%--                        <i class="bi bi-arrow-repeat"></i>--%>
-            <%--                    </button>--%>
-
-            <%--                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Xem">--%>
-            <%--                        <i class="bi bi-eye-fill"></i>--%>
-            <%--                    </button>--%>
-
-            <%--                    <a class="btn btn-warning" href="<c:url value="/room/7/edit-tenant"/>">--%>
-            <%--                        <button type="button" data-toggle="tooltip" data-placement="top" title="Sửa">--%>
-            <%--                            <i class="bi bi-pencil-square"></i>--%>
-            <%--                        </button>--%>
-            <%--                    </a>--%>
-
-            <%--                    <div class="flex items-center my-1 space-x-2">--%>
-            <%--                        <i class="bi bi-cash "></i>--%>
-            <%--                        <span class="">3,000,000</span>--%>
-            <%--                    </div>--%>
-            <%--                </div>--%>
-            <%--                <div class="p-6">--%>
-            <%--                    <button class="btn btn-info">--%>
-            <%--                        <div class="flex space-x-1 justify-center items-center">--%>
-            <%--                            <i class="bi bi-pencil-square pb-1"></i>--%>
-            <%--                            <span>Chỉnh sửa</span>--%>
-            <%--                        </div>--%>
-            <%--                    </button>--%>
-            <%--                    <button class="btn btn-danger">--%>
-            <%--                        <div class="flex space-x-1 justify-center items-center">--%>
-            <%--                            <i class="bi bi-trash pb-1"></i>--%>
-            <%--                            <span>Xoá</span>--%>
-            <%--                        </div>--%>
-            <%--                    </button>--%>
-            <%--                </div>--%>
-            <%--            </div>--%>
-
+            </c:forEach>
         </div>
     </div>
 </div>
