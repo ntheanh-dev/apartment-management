@@ -5,11 +5,13 @@
   Time: 8:25 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 
 <div class="card rounded-sm border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center mt-2 sm:px-4">
-    <div class=" w-full card-body max-h-screen border-b-2">
+    <div class=" w-full card-body h-full overflow-y-auto border-b-2">
         <h5 class="card-title text-2xl font-bold border-b-2">Tủ đồ phòng 2.2</h5>
 
         <div class="flex justify-between items-center">
@@ -153,7 +155,7 @@
 </div>
 <%-------------Form them item---------------%>
 <div class="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-50 flex justify-center items-center overlay-add-item z-100 hidden ">
-    <div class="fixed top-96 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-md w-full sm:w-6/12 hidden max-h-400  overflow-y-auto add-item-form">
+    <div class="absolute top-96 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg shadow-md w-full sm:w-6/12 hidden overflow-y-auto max-h-400 add-item-form">
         <div class="flex justify-between">
             <h2 class="text-xl font-bold text-center w-full">Thêm đơn hàng</h2>
             <button
@@ -162,8 +164,14 @@
                     aria-label="Close"
             ></button>
         </div>
+        <c:url value="/cabinet/${cabinetId}/create" var="action"/>
 
-        <form class="w-full mt-4 add_guest_form">
+        <form:form
+                action="${action}"
+                method="post"
+                modelAttribute="items"
+                class="w-full mt-4 add_guest_form"
+        >
             <div class="flex flex-wrap -mx-3 mb-4">
                 <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                     <label
@@ -172,12 +180,13 @@
                     >
                         Tên
                     </label>
-                    <input
+                    <form:input
                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                             id="name"
                             type="text"
                             placeholder="Tên món hàng"
                             name="name"
+                            path="name"
                     />
                     <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
                 </div>
@@ -188,12 +197,13 @@
                     >
                         Ngày giao tới
                     </label>
-                    <input
+                    <form:input
                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                             id="deliveryDate"
                             type="date"
                             placeholder=""
                             name="deliveryDate"
+                            path="deliveryDate"
                     />
                     <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
                 </div>
@@ -206,22 +216,24 @@
                     >
                         Mô tả
                     </label>
-                    <textarea
+                    <form:textarea
+                            path="description"
                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                    ></textarea>
+                    />
                 </div>
             </div>
 
             <div class="flex items-center justify-center w-full mx-3">
                 <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-52 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-bray-800 ">
                     <div class="flex flex-col items-center justify-center py-3">
-                        <svg class="w-8 h-8 mb-4 text-black-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                        <svg class="h-8 mb-4 text-black-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
                         </svg>
                         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400 dropzone-file-content"><span class="font-semibold">Click để tải ảnh</span></p>
                         <p class="text-xs text-gray-500 dark:text-gray-400  dropzone-file-description">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                     </div>
                     <input id="dropzone-file" type="file" class="hidden" />
+                    <form:input  id="dropzone-file" type="file" class="hidden"  accept=".png,.jpg" path="file"  name="file" />
                 </label>
             </div>
 
@@ -229,9 +241,12 @@
                 <button class="btn btn-secondary close-add-item-form" type="reset">
                     Bỏ qua
                 </button>
-                <div class="btn btn-success save_new_guest_btn">Lưu</div>
+                <button type="submit" class="btn btn-success save_new_guest_btn">
+                    Lưu
+                    <form:hidden path="id"/>
+                </button>
             </div>
-        </form>
+        </form:form>
     </div>
 </div>
 <script src="<c:url value="/js/cabinet-detail.js"/>"></script>
