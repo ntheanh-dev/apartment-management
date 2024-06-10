@@ -36,9 +36,9 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void addUser(User user) {
+    public User addUser(User user) {
         Session s = this.factory.getObject().getCurrentSession();
-        s.save(user);
+        return (User) s.save(user);
     }
 
     @Override

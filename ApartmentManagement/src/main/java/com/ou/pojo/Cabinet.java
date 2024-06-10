@@ -22,4 +22,6 @@ public class Cabinet {
     @JoinColumn(name = "Contract_id", nullable = false)
     private Contract contract;
 
+    @Column(name = "isActive")
+    private Boolean isActive;
 }

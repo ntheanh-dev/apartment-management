@@ -39,7 +39,7 @@ public class ApiUserController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody UserCreationRequest userCreationRequest) {
-        userService.addUser(userCreationRequest);
+        UserResponse u = userService.addUser(userCreationRequest);
     }
 
     @PostMapping("/myInfo")
