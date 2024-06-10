@@ -1,10 +1,14 @@
 package com.ou.configs;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,16 +27,31 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 })
 @Order(2)
 @EnableTransactionManagement
+@PropertySource("classpath:cloudinary.properties")
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private Environment env;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+
+    @Bean
+    public Cloudinary cloudinary() {
+        Cloudinary cloudinary
+                = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", env.getProperty("cloud_name"),
+                "api_key", env.getProperty("api_key"),
+                "api_secret", env.getProperty("api_secret"),
+                "secure", true));
+        return cloudinary;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth)

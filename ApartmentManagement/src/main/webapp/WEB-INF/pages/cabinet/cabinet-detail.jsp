@@ -108,7 +108,7 @@
                                             </td>
                                             <td class="p-2 border-r">
                                                 <div class="w-20 h-20 mx-auto overflow-hidden">
-                                                    <img class="w-full h-full object-cover" src="<c:url value="${ca.image}"/>" alt="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6iUXTyBsGNt8705AjfIKurMe0uOT5ufQQTQ&s">
+                                                    <img class="w-full h-full object-cover" src="<c:url value="${ca.image}"/>" >
                                                 </div>
                                             </td>
                                             <td class="p-2 border-r">
@@ -127,21 +127,7 @@
                                                     </c:otherwise>
                                                 </c:choose>
                                             </td>
-                                            <td class="p-2">
-                                                <c:choose>
-                                                    <c:when test="${ca.recievedDate == '' || ca.recievedDate == null}">
-                                                        <button class="btn btn-success btn-sm">
-                                                            Nhận
-                                                        </button>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <button class="btn btn-danger btn-sm">
-                                                            Xoá
-                                                        </button>
-                                                    </c:otherwise>
-                                                </c:choose>
 
-                                            </td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
@@ -170,6 +156,7 @@
                 action="${action}"
                 method="post"
                 modelAttribute="items"
+                enctype="multipart/form-data"
                 class="w-full mt-4 add_guest_form"
         >
             <div class="flex flex-wrap -mx-3 mb-4">
@@ -178,7 +165,7 @@
                             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             for="name"
                     >
-                        Tên
+                        Tên *
                     </label>
                     <form:input
                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
@@ -187,6 +174,7 @@
                             placeholder="Tên món hàng"
                             name="name"
                             path="name"
+                            value="Quần Áo"
                     />
                     <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
                 </div>
@@ -195,15 +183,15 @@
                             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                             for="deliveryDate"
                     >
-                        Ngày giao tới
+                        Ngày giao tới *
                     </label>
                     <form:input
                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                             id="deliveryDate"
                             type="date"
-                            placeholder=""
                             name="deliveryDate"
                             path="deliveryDate"
+                            value="2024-11-11"
                     />
                     <!-- <p class="text-red-500 text-xs italic">Please fill out this field.</p> -->
                 </div>
@@ -214,26 +202,29 @@
                     <label
                             class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                     >
-                        Mô tả
+                        Mô tả *
                     </label>
                     <form:textarea
+                            text="abc"
                             path="description"
                             class="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                     />
                 </div>
             </div>
 
-            <div class="flex items-center justify-center w-full mx-3">
+            <div class="flex flex-row items-center justify-center w-full mx-3">
+                <label for="dropzone-file"  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                    Hình ảnh
+                </label>
                 <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-52 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer hover:bg-bray-800 ">
                     <div class="flex flex-col items-center justify-center py-3">
                         <svg class="h-8 mb-4 text-black-500 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"></path>
                         </svg>
                         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400 dropzone-file-content"><span class="font-semibold">Click để tải ảnh</span></p>
                         <p class="text-xs text-gray-500 dark:text-gray-400  dropzone-file-description">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                     </div>
-                    <input id="dropzone-file" type="file" class="hidden" />
-                    <form:input  id="dropzone-file" type="file" class="hidden"  accept=".png,.jpg" path="file"  name="file" />
+                    <form:input  id="dropzone-file" class="hidden"  accept=".png,.jpg,.svg" type="file"  path="file"  name="file" />
                 </label>
             </div>
 
@@ -243,7 +234,7 @@
                 </button>
                 <button type="submit" class="btn btn-success save_new_guest_btn">
                     Lưu
-                    <form:hidden path="id"/>
+                    <form:hidden path="cabinet" value="${cabinetId}"/>
                 </button>
             </div>
         </form:form>

@@ -1,8 +1,6 @@
 package com.ou.controllers;
 
-import com.ou.pojo.Cabinet;
-import com.ou.pojo.Item;
-import com.ou.pojo.Room;
+import com.ou.dto.request.ItemCreationRequest;
 import com.ou.services.CabinetService;
 import com.ou.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,22 +35,23 @@ public class CabinetController {
         model.addAttribute("cabinetItems", cabinetItems);
         model.addAttribute("cabinetId", cabinetId);
 
-        model.addAttribute("items", new Item());
+        model.addAttribute("items", new ItemCreationRequest());
 
         return "cabinetDetail";
     }
 
     @PostMapping(value ="/{cabinetId}/create")
-    public String cabinetCreate(Model model, @ModelAttribute(value = "items") @Valid Item i,
+    public String cabinetCreate(Model model, @ModelAttribute(value = "items") @Valid ItemCreationRequest item,
                              BindingResult rs) {
-//        if (!rs.hasErrors()) {
+        rs.getAllErrors().forEach(error -> System.out.println(error.getDefaultMessage()));
+        if (!rs.hasErrors()) {
             try {
-                this.itemService.addOrUpdateItem(i);
+                this.itemService.addItem(item);
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
                 model.addAttribute("errMsg", ex.toString());
             }
-//        }
+        }
         return "redirect:/cabinet/{cabinetId}/detail";
 
     }

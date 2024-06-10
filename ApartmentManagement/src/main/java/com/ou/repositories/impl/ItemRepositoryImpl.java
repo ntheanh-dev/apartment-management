@@ -19,10 +19,24 @@ public class ItemRepositoryImpl implements ItemRepository {
     @Override
     public void addOrUpdateItem(Item item) {
         Session s = this.factory.getObject().getCurrentSession();
+        System.out.println(item.getId());
+        System.out.println(item.getName());
+        System.out.println(item.getDescription());
+        System.out.println(item.getDeliveryDate());
         if(item.getId() != null) {
             s.update(item);
         } else {
             s.save(item);
         }
+    }
+
+    @Override
+    public void addItem(Item item) {
+        Session s = this.factory.getObject().getCurrentSession();
+        System.out.println(item.getId());
+        System.out.println(item.getName());
+        System.out.println(item.getDescription());
+        System.out.println(item.getDeliveryDate());
+        s.save(item);
     }
 }
