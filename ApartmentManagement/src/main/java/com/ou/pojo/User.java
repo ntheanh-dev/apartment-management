@@ -27,6 +27,6 @@ public class User implements Serializable {
     private String role;
 
     @Column(name = "active")
-    private Boolean active;
+    private Boolean active = true;
 
 }

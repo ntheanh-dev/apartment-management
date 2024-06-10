@@ -37,4 +37,9 @@ public class RoomServicesImpl implements RoomServices {
         Room room = this.roomRepository.getRoomById(id);
         this.roomRepository.deleteRoomById(room);
     }
+
+    @Override
+    public void updateRoom(Room room) {
+        this.roomRepository.updateStatus(room);
+    }
 }

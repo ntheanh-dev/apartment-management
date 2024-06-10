@@ -47,7 +47,6 @@ public class RoomRepositoryImpl implements RoomRepository {
             predicates.add(b.like(r.get("number"), String.format("%%%s%%", kw)));
         }
         String status = params.get("status");
-        System.out.println(status);
         if (status != null && !status.equals("all")) {
             predicates.add(b.like(r.get("status"), String.format("%%%s%%", status)));
         }
@@ -68,5 +67,13 @@ public class RoomRepositoryImpl implements RoomRepository {
     public void deleteRoomById(Room room) {
         Session s = this.factory.getObject().getCurrentSession();
         s.delete(room);
+    }
+
+    @Override
+    public void updateStatus(Room room) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Room tmp = this.getRoomById(room.getId());
+        tmp.setStatus("đã thuê");
+        s.update(tmp);
     }
 }

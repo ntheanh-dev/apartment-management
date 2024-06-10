@@ -10,4 +10,5 @@ public interface RoomRepository{
     List<Room> getAllRooms(Map<String, String> params);
     Room getRoomById(int id);
     void deleteRoomById(Room room);
+    void updateStatus(Room room);
 }

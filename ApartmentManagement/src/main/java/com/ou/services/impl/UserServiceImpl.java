@@ -1,12 +1,14 @@
 package com.ou.services.impl;
 
+import com.ou.dto.RoomRegisterDto;
 import com.ou.dto.request.UserCreationRequest;
 import com.ou.dto.response.UserResponse;
 import com.ou.exception.AppException;
 import com.ou.exception.ErrorCode;
 import com.ou.mapper.UserMapper;
-import com.ou.pojo.User;
-import com.ou.repositories.UserRepository;
+import com.ou.pojo.*;
+import com.ou.repositories.*;
+import com.ou.services.RoomServices;
 import com.ou.services.UserService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -20,14 +22,32 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Service("userDetailsService") // chỉ định tên cụ theer
 public class UserServiceImpl implements UserService {
 
     @Autowired
+    private MemberInRoomRepository memberInRoomRepository;
+
+    @Autowired
+    private CabinetRepository cabinetRepository;
+
+    @Autowired
+    private RoomServices roomServices;
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ContractRepository contractRepository;
+
+    @Autowired
+    private ResidentRepository residentRepository;
 
     @Autowired
     private UserMapper userMapper;
@@ -78,5 +98,63 @@ public class UserServiceImpl implements UserService {
         String username = context.getAuthentication().getName();
         User user = userRepository.getUserByUsername(username);
         return userMapper.toUserResponse(user);
+    }
+
+    @Override
+    public void createContract(RoomRegisterDto user,Integer roomId) {
+        User u = new User();
+        if(user.getId() == 0){
+            u.setUsername(user.getIdentity());
+            u.setPassword(passwordEncoder.encode(user.getIdentity()));
+            u.setRole("Resident");
+            userRepository.addUser(u);
+        }else {
+            u = userRepository.getUserByUsername(user.getIdentity());
+        }
+        Resident r = userMapper.toResident(user);
+        r.setUser(u);
+        r.setId(user.getId());
+        residentRepository.addResident(r);
+
+        Contract c = userMapper.toContract(user);
+        if(user.getIdContract() !=0){
+            c.setId(user.getIdContract());
+        }
+        Room room = roomServices.getRoomById(roomId);
+        c.setRoom(room);
+        c.setResidentUser(r);
+        c.setCreatedDate(LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+        c.setEndedDate(LocalDate.parse(c.getStartedDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).plusMonths(user.getTotalMonth()));
+        contractRepository.addContract(c);
+        Cabinet cabinet = new Cabinet();
+        cabinet.setContract(c);
+        cabinet.setCabinetcol("tủ của "+c.getRoom().getNumber());
+        cabinetRepository.createCabinet(cabinet);
+        roomServices.updateRoom(room);
+        if(user.getListMember() != null){
+            for (Resident i : user.getListMember()) {
+                User mem = new User();
+                if(Objects.equals(i.getFullName(), "")){
+                    continue;
+                }
+                if(i.getId() == null){
+                    mem.setUsername(i.getIdentity());
+                    mem.setPassword(passwordEncoder.encode(i.getIdentity()));
+                    mem.setRole("Resident");
+                    userRepository.addUser(mem);
+                }else{
+                    mem = userRepository.getUserByUsername(i.getIdentity());
+                }
+                i.setUser(mem);
+                i.setId(mem.getId());
+                residentRepository.addResident(i);
+                if(memberInRoomRepository.checkExistence(c,i)){
+                    MemberInRoom memberInRoom = new MemberInRoom();
+                    memberInRoom.setContract(c);
+                    memberInRoom.setResidentUser(i);
+                    memberInRoomRepository.addMemberInRoom(memberInRoom);
+                }
+            }
+        }
     }
 }

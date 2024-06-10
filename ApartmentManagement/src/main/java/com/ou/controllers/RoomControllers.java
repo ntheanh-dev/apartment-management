@@ -3,7 +3,8 @@ package com.ou.controllers;
 import com.ou.dto.RoomRegisterDto;
 import com.ou.pojo.Resident;
 import com.ou.pojo.Room;
-import com.ou.services.RoomServices;
+import com.ou.repositories.ContractRepository;
+import com.ou.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +19,16 @@ import java.util.Map;
 @Controller
 @RequestMapping(path = "/room")
 public class RoomControllers {
-
+    @Autowired
+    private MemberInRoomServices memberInRoomServices;
+    @Autowired
+    private ContractSerivces contractSerivces;
+    @Autowired
+    private UserService userService;
     @Autowired
     private RoomServices roomServices;
+    @Autowired
+    private ServiceServices serviceServices;
     @GetMapping("/")
     public String index(Model model,@RequestParam Map<String, String> params) {
         model.addAttribute("rooms", roomServices.getAllRooms(params));
@@ -28,15 +36,22 @@ public class RoomControllers {
     }
 
     @GetMapping("/{roomId}/add-tenant")
-    public String roomAddTenant(Model model,@PathVariable String roomId) {
-        model.addAttribute("resident",new Resident());
+    public String roomAddTenant(Model model,@PathVariable Integer roomId) {
+        Room room = roomServices.getRoomById(roomId);
+        model.addAttribute("resident",new RoomRegisterDto(room.getMaximum()));
+        model.addAttribute("room",room);
+        model.addAttribute("service",serviceServices.getServices());
         return "roomAddTenant";
     }
 
     @GetMapping("/{roomId}/edit-tenant")
-    public String roomEditTenant(@PathVariable String roomId) {
-        // Lấy thông tin khách thuê phòng, dịch vụ, hợp đồng by roomId
-        return "roomEditTenant";
+    public String roomEditTenant(Model model, @PathVariable Integer roomId) {
+        Room room = roomServices.getRoomById(roomId);
+        RoomRegisterDto roomRegisterDto = new RoomRegisterDto(contractSerivces.getContract(room),memberInRoomServices.getMemberInRooms(contractSerivces.getContract(room)),room.getMaximum());
+        model.addAttribute("resident",roomRegisterDto);
+        model.addAttribute("room",room);
+        model.addAttribute("service",serviceServices.getServices());
+        return "roomAddTenant";
     }
 
     @GetMapping("/create")
@@ -82,9 +97,22 @@ public class RoomControllers {
         }
         return "roomIndex";
     }
+    @PostMapping("/{roomId}/add-tenant")
+    public String roomPostAddTenant(Model model, @ModelAttribute(value = "resident") @Valid RoomRegisterDto r, BindingResult rs, @PathVariable Integer roomId) {
+        if (!rs.hasErrors()) {
+            try {
+                this.userService.createContract(r,roomId);
+                return "redirect:../";
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                model.addAttribute("errMsg", ex.toString());
+            }
+        }
+        return "roomIndex";
+    }
     @GetMapping(value = "/{roomId}/delete")
     public String roomDelete(@PathVariable Integer roomId) {
         this.roomServices.deleteRoomById(roomId);
-        return "roomIndex";
+        return "redirect:/";
     }
 }

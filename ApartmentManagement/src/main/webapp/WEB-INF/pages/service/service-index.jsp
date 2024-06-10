@@ -39,7 +39,7 @@
             <tr class="bg-gray-50 border-b">
                 <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
                     <div class="flex items-center justify-center">
-                        <input type="checkbox" value="" class="allRowCheckbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        Thứ tự
                     </div>
                 </th>
                 <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
@@ -55,104 +55,40 @@
                         Đơn Giá
                     </div>
                 </th>
+                <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                    <div class="flex items-center justify-center">
+                        Đơn Vị
+                    </div>
+                </th>
             </tr>
             </thead>
             <tbody>
-            <tr class="bg-gray-50 text-center">
-                <td class="p-2 border-r">
-                    <input type="checkbox" value="" class="rowCheckbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                </td>
-                <td class="p-2 border-r">
-                    <div class="flex justify-center items-center space-x-2">
-                        <a class="btn btn-success"  href="<c:url value="/service/4/edit" />">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                        <button class="btn btn-danger"  onclick="removeRow(this)">X</button>
-                    </div>
-                </td>
-                <td class="p-2 border-r">
-                    Điện
-                </td>
-                <td class="p-2 border-r">
-                    <input type="number" class="border p-1" value="3000">
-                </td>
-            </tr>
-            <tr class="bg-gray-50 text-center">
-                <td class="p-2 border-r">
-                    <input type="checkbox" value="" class="rowCheckbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                </td>
-                <td class="p-2 border-r">
-                    <div class="flex justify-center items-center space-x-2">
-                        <a class="btn btn-success"  href="<c:url value="/service/4/edit" />">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                        <button class="btn btn-danger"  onclick="removeRow(this)">X</button>
-                    </div>
-                </td>
-                <td class="p-2 border-r">
-                    Điện
-                </td>
-                <td class="p-2 border-r">
-                    <input type="number" class="border p-1" value="3000">
-                </td>
-            </tr>
-            <tr class="bg-gray-50 text-center">
-                <td class="p-2 border-r">
-                    <input type="checkbox" value="" class="rowCheckbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                </td>
-                <td class="p-2 border-r">
-                    <div class="flex justify-center items-center space-x-2">
-                        <a class="btn btn-success"  href="<c:url value="/service/4/edit" />">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                        <button class="btn btn-danger"  onclick="removeRow(this)">X</button>
-                    </div>
-                </td>
-                <td class="p-2 border-r">
-                    Điện
-                </td>
-                <td class="p-2 border-r">
-                    <input type="number" class="border p-1" value="3000">
-                </td>
-            </tr>
-            <tr class="bg-gray-50 text-center">
-                <td class="p-2 border-r">
-                    <input type="checkbox" value="" class="rowCheckbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                </td>
-                <td class="p-2 border-r">
-                    <div class="flex justify-center items-center space-x-2">
-                        <a class="btn btn-success"  href="<c:url value="/service/4/edit" />">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                        <button class="btn btn-danger"  onclick="removeRow(this)">X</button>
-                    </div>
-                </td>
-                <td class="p-2 border-r">
-                    Điện
-                </td>
-                <td class="p-2 border-r">
-                    <input type="number" class="border p-1" value="3000">
-                </td>
-            </tr>
-            <tr class="bg-gray-50 text-center">
-                <td class="p-2 border-r">
-                    <input type="checkbox" value="" class="rowCheckbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                </td>
-                <td class="p-2 border-r">
-                    <div class="flex justify-center items-center space-x-2">
-                        <a class="btn btn-success"  href="<c:url value="/service/4/edit" />">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                        <button class="btn btn-danger"  onclick="removeRow(this)">X</button>
-                    </div>
-                </td>
-                <td class="p-2 border-r">
-                    Điện
-                </td>
-                <td class="p-2 border-r">
-                    <input type="number" class="border p-1" value="3000">
-                </td>
-            </tr>
+<%--            <c:forEach var="i" begin="0" end="${room.numberMem}">--%>
+<%--                <tr class="bg-gray-50 text-center">--%>
+<%--                    <td class="p-2 border-r">--%>
+<%--                        ${s.id}--%>
+<%--                    </td>--%>
+<%--                    <td class="p-2 border-r">--%>
+<%--                        <div class="flex justify-center items-center space-x-2">--%>
+<%--                            <a class="btn btn-success"  href="<c:url value="/service/4/edit" />">--%>
+<%--                                <i class="bi bi-pencil-square"></i>--%>
+<%--                            </a>--%>
+<%--                            <button class="btn btn-danger"  onclick="removeRow(this)">X</button>--%>
+<%--                        </div>--%>
+<%--                    </td>--%>
+<%--                    <td class="p-2 border-r">--%>
+<%--                        ${s.name}--%>
+<%--                    </td>--%>
+<%--                    <td class="p-2 border-r">--%>
+<%--                        <input type="number" disabled class="border p-1" value="${s.price}">--%>
+<%--                    </td>--%>
+<%--                    <td class="p-2 border-r">--%>
+<%--                        <input type="text" disabled class="border p-1" value="${s.unit}">--%>
+<%--                    </td>--%>
+<%--                </tr>x--%>
+<%--            </c:forEach>--%>
+
+
             </tbody>
         </table>
     </div>

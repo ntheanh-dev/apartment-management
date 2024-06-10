@@ -36,7 +36,7 @@ $(document).ready(function () {
         let row = ' <option disable value="">Chọn</option>';
         if (type == "city") {
             array.forEach(e => {
-                row += `<option data-id="${e.province_id}" value="${e.province_name}">${e.province_name}</option>`
+                row += `<option id="${e.province_name}" data-id="${e.province_id}" value="${e.province_name}">${e.province_name}</option>`
             });
         } else if (type == "district") {
             array.forEach(e => {

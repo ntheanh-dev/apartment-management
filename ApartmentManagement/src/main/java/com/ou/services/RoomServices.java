@@ -10,4 +10,5 @@ public interface RoomServices {
     List<Room> getAllRooms(Map<String, String> params);
     Room getRoomById(int id);
     void deleteRoomById(int id);
+    void updateRoom(Room room);
 }

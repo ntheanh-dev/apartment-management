@@ -11,6 +11,7 @@
 <c:url value="/room/create" var="action"/>
 <c:set var="roomStatus" value="đã thuê" />
 <form:form action="${action}" modelAttribute="room"
+           method="post"
            class="rounded-sm border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center mt-2 sm:px-4">
     <div class="h-full w-full">
         <div class="grid grid-cols-1 sm:grid-cols-2 py-2 border-b-2 gap-1 mb-4">

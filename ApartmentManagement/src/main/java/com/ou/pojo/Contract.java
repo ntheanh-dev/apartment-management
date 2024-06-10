@@ -11,8 +11,12 @@ import java.time.LocalDate;
 @Setter
 @Entity
 @Table(name = "contract")
+@NamedQueries({
+        @NamedQuery(name = "Contract.findByRoom_IdOrderByCreatedDateDesc", query = "select c from Contract c where c.room.id = :id order by c.createdDate DESC")
+})
 public class Contract {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -20,7 +24,7 @@ public class Contract {
     @JoinColumn(name = "Room_id", nullable = false)
     private Room room;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Resident_User_id", nullable = false)
     private Resident residentUser;
 
@@ -31,10 +35,10 @@ public class Contract {
     private long securityDeposit;
 
     @Column(name = "created_date", nullable = false)
-    private LocalDate createdDate;
+    private String createdDate;
 
     @Column(name = "started_date", nullable = false)
-    private LocalDate startedDate;
+    private String startedDate;
 
     @Column(name = "ended_date")
     private LocalDate endedDate;
