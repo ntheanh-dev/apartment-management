@@ -28,10 +28,13 @@ public class CabinetRepositoryImpl implements CabinetRepository {
     @Override
     public void createCabinet(Cabinet cabinet) {
         Session session = this.factoryBean.getObject().getCurrentSession();
-        if(cabinet.getId() != null){
+        if (cabinet.getId() != null) {
             session.update(cabinet);
-        }else{
+        } else {
             session.save(cabinet);
+        }
+    }
+    @Override
     public List<Cabinet> getAllCabinet(Map<String, String> params) {
         Session s = this.factoryBean.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();

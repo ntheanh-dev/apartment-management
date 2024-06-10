@@ -28,4 +28,10 @@ public class Item {
     @JoinColumn(name = "cabinet_id", nullable = false)
     private Cabinet cabinet;
 
+    private String image;
+
+    @Column(name = "image", nullable = false, length = 45)
+    public String getImage() {
+        return image;
+    }
 }
