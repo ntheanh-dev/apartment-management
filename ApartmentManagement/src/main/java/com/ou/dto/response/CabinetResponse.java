@@ -13,8 +13,7 @@ import java.time.LocalDate;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CabinetResponse {
     Integer id;
-    String cabinetcol;
     Boolean isActive;
-    LocalDate receivedDate;
-    String image;
+    Integer contractId;
+    Integer unreceivedItemCount;
 }

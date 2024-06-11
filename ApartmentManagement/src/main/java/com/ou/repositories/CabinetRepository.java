@@ -10,6 +10,7 @@ import java.util.Map;
 
 public interface CabinetRepository {
     void createCabinet(Cabinet cabinet);
-    List<Cabinet> getAllCabinet(Map<String, String> params);
+    List<Object[]> getAllCabinet(Map<String, String> params);
     List<Item> getItemsByCabinetId(int cabinetId,Map<String, String> params);
+    Boolean isActiveCabinet(int cabinetId);
 }

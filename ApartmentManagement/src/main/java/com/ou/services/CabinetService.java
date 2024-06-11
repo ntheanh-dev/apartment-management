@@ -9,4 +9,5 @@ import java.util.Map;
 public interface CabinetService {
     List<CabinetResponse> getAllCabinet(Map<String, String> params);
     List<ItemResponse> getItemsByCabinetId(int cabinetId, Map<String, String> params);
+    Boolean isActiveCabinet(int cabinetId);
 }

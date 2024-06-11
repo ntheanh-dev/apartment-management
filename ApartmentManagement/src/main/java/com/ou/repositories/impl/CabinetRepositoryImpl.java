@@ -1,6 +1,7 @@
 package com.ou.repositories.impl;
 
 import com.ou.pojo.Cabinet;
+import com.ou.pojo.Contract;
 import com.ou.pojo.Item;
 import com.ou.repositories.CabinetRepository;
 import org.hibernate.Session;
@@ -10,10 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -35,24 +33,52 @@ public class CabinetRepositoryImpl implements CabinetRepository {
         }
     }
     @Override
-    public List<Cabinet> getAllCabinet(Map<String, String> params) {
+    public List<Object[]> getAllCabinet(Map<String, String> params) {
         Session s = this.factoryBean.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
-        CriteriaQuery<Cabinet> cq = b.createQuery(Cabinet.class);
+        CriteriaQuery<Object[]> cq = b.createQuery(Object[].class);
 
+        // Define roots for the entities involved
         Root<Cabinet> cabinet = cq.from(Cabinet.class);
 
+        // Left join with items and inner join with contracts
+        Join<Cabinet, Item> itemJoin = cabinet.join("items", JoinType.LEFT);
+        Root<Contract> contractRoot = cq.from(Contract.class);
+
+        // Build the predicates list based on parameters
+        List<Predicate> predicates = new ArrayList<>();
+
         String active = params.get("active");
-        if(active != null && !active.isEmpty()) {
-            boolean ac = Boolean.parseBoolean(params.get("active"));
-            Predicate activePredicate = b.equal(cabinet.get("isActive"), ac);
-            cq.where(activePredicate);
-        } else {
-            cq.select(cabinet);
+        if (active != null && !active.isEmpty()) {
+            boolean ac = Boolean.parseBoolean(active);
+            predicates.add(b.equal(cabinet.get("isActive"), ac));
         }
 
+        predicates.add(b.equal(contractRoot.get("id"), cabinet.get("contract")));
+
+
+        // Use COUNT with CASE statement to count items with non-null receivedDate
+        Expression<Long> itemCount = b.count(
+                b.selectCase()
+                        .when(b.isNull(itemJoin.get("receivedDate")), 0)
+                        .otherwise(1)
+        );
+
+        // Define the multiselect and group by
+        cq.multiselect(
+                cabinet.get("id"),
+                cabinet.get("isActive"),
+                contractRoot.get("id"),
+                itemCount
+        );
+
+        cq.where(predicates.toArray(Predicate[]::new));
+
+        cq.groupBy(contractRoot.get("id"), cabinet.get("id"));
+
+        // Create and execute the query
         Query query = s.createQuery(cq);
-        return (List<Cabinet>) query.getResultList();
+        return (List<Object[]>) query.getResultList();
     }
 
     @Override
@@ -76,7 +102,21 @@ public class CabinetRepositoryImpl implements CabinetRepository {
         }
 
         cq.where(predicates.toArray(Predicate[]::new));
+
+        Order orderByReceivedDateDesc = builder.desc(item.get("receivedDate"));
+        cq.orderBy(orderByReceivedDateDesc);
+
         Query query = s.createQuery(cq);
         return (List<Item>) query.getResultList();
+    }
+
+    @Override
+    public Boolean isActiveCabinet(int cabinetId) {
+        Session s = this.factoryBean.getObject().getCurrentSession();
+
+        Query q = s.createQuery("SELECT A.isActive FROM Cabinet A WHERE A.id=:cabinetId");
+        q.setParameter("cabinetId", cabinetId);
+
+        return (Boolean) q.getSingleResult();
     }
 }

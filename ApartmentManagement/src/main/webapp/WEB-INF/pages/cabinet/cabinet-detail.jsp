@@ -37,9 +37,14 @@
                     Tất cả
                 </button>
             </div>
-            <button class="btn btn-success btn-add-items" id="add-row">
-                <i class="bi bi-plus-circle"></i>
-            </button>
+            <c:choose>
+                <c:when test="${isActiveCabinet}">
+                    <button class="btn btn-success btn-add-items" id="add-row">
+                        <i class="bi bi-plus-circle"></i>
+                    </button>
+                </c:when>
+            </c:choose>
+
         </div>
 
         <c:choose>
@@ -224,7 +229,7 @@
                         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400 dropzone-file-content"><span class="font-semibold">Click để tải ảnh</span></p>
                         <p class="text-xs text-gray-500 dark:text-gray-400  dropzone-file-description">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                     </div>
-                    <form:input  id="dropzone-file" class="hidden"  accept=".png,.jpg,.svg" type="file"  path="file"  name="file" />
+                    <form:input  id="dropzone-file" class="hidden"  accept=".png,.jpg,.svg,.jfif" type="file"  path="file"  name="file" />
                 </label>
             </div>
 

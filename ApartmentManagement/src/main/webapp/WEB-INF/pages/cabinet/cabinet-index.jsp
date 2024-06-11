@@ -15,6 +15,7 @@
             name="active"
     >
         <option value="" selected>Trạng thái tủ đồ</option>
+        <option value="">Tất Cả</option>
         <option value="true">Hoạt Động</option>
         <option value="false">Đã khoá</option>
     </select>
@@ -35,17 +36,28 @@
                 <div class="relative flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl ">
                     <div class="px-6 pt-4">
                         <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
-                            <i class="bi bi-box-seam"></i> Tủ đồ phòng: 1.1
+                            <i class="bi bi-box-seam"></i> Tủ đồ số: ${c.id}
                         </h5>
+                        <h6 class="block mb-2 font-sans text-lg antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
+                            <i class="bi bi-ethernet"></i> Mã hợp đồng: ${c.contractId}
+                            <c:choose>
+                                <c:when test="${c.isActive}">
+                                </c:when>
+                                <c:otherwise>
+                                    <span>(Hết Hạn)</span>
+                                </c:otherwise>
+                            </c:choose>
+                        </h6>
                         <a href="<c:url value="/cabinet/${c.id}/detail" />"
                            class="btn relative inline-flex items-center justify-start overflow-hidden font-medium transition-all bg-indigo-100 rounded hover:bg-white group py-1.5 px-2.5">
                             <span class="w-56 h-48 rounded bg-indigo-600 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
                             <span class="relative w-full text-left text-indigo-600 transition-colors duration-300 ease-in-out group-hover:text-white">Chi Tiết</span>
                         </a>
+
                     </div>
                     <div class="flex items-center my-1 space-x-2 px-6 pt-2 pb-4">
                         <span class="text-lg text-medium">Số đơn hàng chưa lấy:</span>
-                        <span class="text-red-600">69</span>
+                        <span class="text-red-600">${c.unreceivedItemCount}</span>
                     </div>
                 </div>
             </c:forEach>

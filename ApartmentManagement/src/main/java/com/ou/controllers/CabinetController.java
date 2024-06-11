@@ -34,9 +34,9 @@ public class CabinetController {
         var cabinetItems = cabinetService.getItemsByCabinetId(cabinetId,params);
         model.addAttribute("cabinetItems", cabinetItems);
         model.addAttribute("cabinetId", cabinetId);
+        model.addAttribute("isActiveCabinet", cabinetService.isActiveCabinet(cabinetId));
 
         model.addAttribute("items", new ItemCreationRequest());
-
         return "cabinetDetail";
     }
 

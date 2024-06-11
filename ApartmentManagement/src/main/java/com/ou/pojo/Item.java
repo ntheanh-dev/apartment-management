@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Table(name = "items")
 public class Item {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -31,9 +32,10 @@ public class Item {
     @JoinColumn(name = "cabinet_id", nullable = false)
     private Cabinet cabinet;
 
+    @Column(name = "image")
     private String image;
 
-    @Column(name = "image", nullable = false, length = 45)
+    @Column(name = "image", nullable = false, length = 255)
     public String getImage() {
         return image;
     }

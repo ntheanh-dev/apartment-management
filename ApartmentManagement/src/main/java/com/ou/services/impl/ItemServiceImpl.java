@@ -40,6 +40,7 @@ public class ItemServiceImpl implements ItemService {
                 Map res = this.cloudinary.uploader().upload(itemCreationRequest.getFile().getBytes(), ObjectUtils.asMap("resource_type", "auto"));
                 request.setImage(res.get("secure_url").toString());
             } catch (IOException ex) {
+                request.setImage("");
                 Logger.getLogger(ItemServiceImpl.class.getName()).log(Level.SEVERE, ex.getMessage(), ex);
             }
         }
