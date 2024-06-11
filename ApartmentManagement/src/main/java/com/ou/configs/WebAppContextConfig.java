@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
@@ -39,7 +40,8 @@ import java.util.TimeZone;
         "com.ou.mapper",
         "com.ou.services",
         "com.ou.repositories",
-        "com.ou.exception"
+        "com.ou.exception",
+        "com.ou.components"
 })
 public class WebAppContextConfig implements WebMvcConfigurer {
     @Override

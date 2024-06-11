@@ -10,8 +10,10 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.PostConstruct;
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -38,14 +40,11 @@ public class CabinetRepositoryImpl implements CabinetRepository {
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<Object[]> cq = b.createQuery(Object[].class);
 
-        // Define roots for the entities involved
         Root<Cabinet> cabinet = cq.from(Cabinet.class);
 
-        // Left join with items and inner join with contracts
         Join<Cabinet, Item> itemJoin = cabinet.join("items", JoinType.LEFT);
         Root<Contract> contractRoot = cq.from(Contract.class);
 
-        // Build the predicates list based on parameters
         List<Predicate> predicates = new ArrayList<>();
 
         String active = params.get("active");
@@ -57,14 +56,12 @@ public class CabinetRepositoryImpl implements CabinetRepository {
         predicates.add(b.equal(contractRoot.get("id"), cabinet.get("contract")));
 
 
-        // Use COUNT with CASE statement to count items with non-null receivedDate
         Expression<Long> itemCount = b.count(
                 b.selectCase()
                         .when(b.isNull(itemJoin.get("receivedDate")), 0)
                         .otherwise(1)
         );
 
-        // Define the multiselect and group by
         cq.multiselect(
                 cabinet.get("id"),
                 cabinet.get("isActive"),
@@ -118,5 +115,28 @@ public class CabinetRepositoryImpl implements CabinetRepository {
         q.setParameter("cabinetId", cabinetId);
 
         return (Boolean) q.getSingleResult();
+    }
+
+    @Override
+    public void closeExpiredContractCabinets() {
+        Session s = this.factoryBean.getObject().getCurrentSession();
+        CriteriaBuilder builder = s.getCriteriaBuilder();
+
+        CriteriaQuery<Cabinet> cq = builder.createQuery(Cabinet.class);
+        Root cabinet = cq.from(Cabinet.class);
+        Root contractRoot = cq.from(Contract.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(builder.equal(contractRoot.get("id"), cabinet.get("contract")));
+        predicates.add(builder.lessThanOrEqualTo(contractRoot.get("endedDate"), LocalDate.now()));
+
+        cq.select(cabinet).where(predicates.toArray(Predicate[]::new));
+
+        List<Cabinet> cabinets = s.createQuery(cq).getResultList();
+        for (Cabinet c : cabinets) {
+            c.setIsActive(false);
+            s.update(c);
+        }
     }
 }

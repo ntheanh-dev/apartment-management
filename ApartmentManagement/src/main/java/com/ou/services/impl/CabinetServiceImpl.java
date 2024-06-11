@@ -45,4 +45,10 @@ public class CabinetServiceImpl implements CabinetService {
     public Boolean isActiveCabinet(int cabinetId) {
         return this.cabinetRepository.isActiveCabinet(cabinetId);
     }
+
+    @Override
+    public void closeExpiredContractCabinets() {
+        this.cabinetRepository.closeExpiredContractCabinets();
+    }
+
 }
