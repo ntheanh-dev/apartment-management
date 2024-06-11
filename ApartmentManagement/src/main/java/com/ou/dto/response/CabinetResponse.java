@@ -15,6 +15,6 @@ public class CabinetResponse {
     Integer id;
     String cabinetcol;
     Boolean isActive;
-    LocalDate recievedDate;
+    LocalDate receivedDate;
     String image;
 }

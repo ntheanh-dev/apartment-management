@@ -24,6 +24,9 @@ public class Item {
     @Column(name = "delivery_date")
     private LocalDate deliveryDate;
 
+    @Column(name = "received_date")
+    private LocalDate receivedDate;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "cabinet_id", nullable = false)
     private Cabinet cabinet;

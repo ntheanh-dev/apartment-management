@@ -20,6 +20,6 @@ public class ItemResponse {
     String description;
     LocalDate deliveryDate;
     String image;
-    LocalDate recievedDate;
+    LocalDate receivedDate;
 
 }

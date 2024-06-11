@@ -115,11 +115,11 @@
                                                 <span>${ca.deliveryDate}</span>
                                             </td>
                                             <td class="p-2 border-r">
-                                                <span>${ca.recievedDate}</span>
+                                                <span>${ca.receivedDate}</span>
                                             </td>
                                             <td class="p-2 border-r">
                                                 <c:choose>
-                                                    <c:when test="${ca.recievedDate == '' || ca.recievedDate == null}">
+                                                    <c:when test="${ca.receivedDate == '' || ca.receivedDate == null}">
                                                         <span class="badge bg-warning">Chưa Nhận</span>
                                                     </c:when>
                                                     <c:otherwise>

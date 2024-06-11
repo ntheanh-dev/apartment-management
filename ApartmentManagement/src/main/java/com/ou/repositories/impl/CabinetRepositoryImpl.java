@@ -69,9 +69,9 @@ public class CabinetRepositoryImpl implements CabinetRepository {
         String status = params.get("status");
         if(status != null && !status.isEmpty()) {
             if(status.equalsIgnoreCase("pending")) {
-                predicates.add(builder.isNull(item.get("recievedDate")));
+                predicates.add(builder.isNull(item.get("receivedDate")));
             } else if(status.equalsIgnoreCase("received")) {
-                predicates.add(builder.isNotNull(item.get("recievedDate")));
+                predicates.add(builder.isNotNull(item.get("receivedDate")));
             }
         }
 
