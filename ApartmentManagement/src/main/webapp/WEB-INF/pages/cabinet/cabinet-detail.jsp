@@ -12,7 +12,13 @@
 
 <div class="card rounded-sm border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center mt-2 sm:px-4">
     <div class=" w-full card-body h-full overflow-y-auto border-b-2">
-        <h5 class="card-title text-2xl font-bold border-b-2">Tủ đồ phòng 2.2</h5>
+        <h5 class="card-title text-2xl font-bold border-b-2">Tủ đồ phòng 2.2
+            <c:choose>
+                <c:when test="${isActiveCabinet == false}">
+                    (Đã Khoá)
+                </c:when>
+            </c:choose>
+        </h5>
 
         <div class="flex justify-between items-center">
             <div class="flex w-full sm:w-1/2 my-3 space-x-1 sm:px-0">
