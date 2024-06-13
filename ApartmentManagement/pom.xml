@@ -73,6 +73,13 @@
             <artifactId>jackson-databind</artifactId>
             <version>2.12.2</version>
         </dependency>
+        <!--=============== Fix jackson java 8 data/time error===================-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.16.1</version>
+        </dependency>
+
         <!--=============== JWT ===================-->
         <dependency>
             <groupId>com.nimbusds</groupId>
