@@ -80,6 +80,7 @@ public class UserServiceImpl implements UserService {
         User u = userMapper.toUser(user);
         u.setRole("ROLE_USER");
         u.setPassword(passwordEncoder.encode(user.getPassword()));
+        u.setActive(true);
         User newUser =  userRepository.addUser(u);
         return userMapper.toUserResponse(newUser);
     }
@@ -104,7 +105,7 @@ public class UserServiceImpl implements UserService {
         if(user.getId() == 0){
             u.setUsername(user.getIdentity());
             u.setPassword(passwordEncoder.encode(user.getIdentity()));
-            u.setRole("Resident");
+            u.setRole("ROLE_USER");
             userRepository.addUser(u);
         }else {
             u = userRepository.getUserByUsername(user.getIdentity());
@@ -138,7 +139,7 @@ public class UserServiceImpl implements UserService {
                 if(i.getId() == null){
                     mem.setUsername(i.getIdentity());
                     mem.setPassword(passwordEncoder.encode(i.getIdentity()));
-                    mem.setRole("Resident");
+                    mem.setRole("ROLE_USER");
                     userRepository.addUser(mem);
                 }else{
                     mem = userRepository.getUserByUsername(i.getIdentity());
