@@ -40,7 +40,7 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         String authToken = httpRequest.getHeader(TOKEN_HEADER);
         if (jwtService.validateTokenLogin(authToken)) {
-            String username = jwtService.getUsernameFromToken(authToken);
+            String username = jwtService.getClaimValueFromToken(authToken,"username");
             User user = userService.getUserByUsername(username);
             if (user != null) {
                 boolean enabled = true;
@@ -54,7 +54,7 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
                 UserDetails userDetail = new org.springframework.security.core.userdetails.User(username, user.getPassword(), enabled, accountNonExpired,
                         credentialsNonExpired, accountNonLocked, authorities);
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetail,
-                        null, userDetail.getAuthorities());
+                        user, userDetail.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }

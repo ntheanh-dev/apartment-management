@@ -44,10 +44,10 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public boolean authUser(String username, String password) {
+    public User authUser(String username, String password) {
         User u = this.getUserByUsername(username);
 
-        return this.bCryptPasswordEncoder.matches(password, u.getPassword());
+        return this.bCryptPasswordEncoder.matches(password, u.getPassword()) ? u : null;
     }
 
     @Override

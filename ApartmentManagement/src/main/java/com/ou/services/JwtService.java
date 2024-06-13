@@ -9,6 +9,7 @@ import com.ou.dto.request.AuthenticationRequest;
 import com.ou.dto.response.AuthenticationResponse;
 import com.ou.exception.AppException;
 import com.ou.exception.ErrorCode;
+import com.ou.pojo.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,25 +33,26 @@ public class JwtService {
     private UserService userService;
 
     public AuthenticationResponse authenticated(AuthenticationRequest authenticationRequest) {
-        var isAuthenticated = userService.authUser(
+        var authUser = userService.authUser(
                 authenticationRequest.getUsername(),
                 authenticationRequest.getPassword()
         );
-        if (!isAuthenticated) {
+        if (authUser == null) {
             throw new AppException(ErrorCode.UNAUTHORIZED);
         }
 
-        var token = generateToken(authenticationRequest.getUsername());
+        var token = generateToken(authUser);
         return AuthenticationResponse.builder()
                 .token(token)
                 .build();
     }
 
-    public String generateToken(String username) {
+    public String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS256);
 
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
-                .claim("username",username)
+                .claim("username",user.getUsername())
+                .claim("userId",user.getId())
                 .issuer("AnhTheNguyen")
                 .issueTime(new Date())
                 .expirationTime(new Date(
@@ -90,10 +92,10 @@ public class JwtService {
         return claims.getExpirationTime();
     }
 
-    public String getUsernameFromToken(String token) {
+    public String getClaimValueFromToken(String token, String claimName) {
         try {
             JWTClaimsSet claims = getClaimsFromToken(token);
-            return claims.getStringClaim("username");
+            return claims.getStringClaim(claimName);
         } catch (ParseException | NullPointerException e) {
             throw new AppException(ErrorCode.UNAUTHORIZED);
         }
@@ -108,7 +110,7 @@ public class JwtService {
         if (token == null || token.trim().isEmpty()) {
             return false;
         }
-        String username = getUsernameFromToken(token);
+        String username = getClaimValueFromToken(token,"username");
 
         return !(username == null || username.isEmpty() || isTokenExpired(token));
     }

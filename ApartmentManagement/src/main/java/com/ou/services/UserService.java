@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public interface UserService extends UserDetailsService {
     User getUserByUsername(String username);
     UserResponse addUser(UserCreationRequest user);
-    boolean authUser(String username, String password);
+    User authUser(String username, String password);
     UserResponse getMyInfo();
     void createContract(RoomRegisterDto user,Integer roomId);
 }

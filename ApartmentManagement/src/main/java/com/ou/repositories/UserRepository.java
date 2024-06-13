@@ -5,6 +5,6 @@ import com.ou.pojo.User;
 public interface UserRepository {
     User getUserByUsername(String username);
     User addUser(User user);
-    boolean authUser(String username, String password);
+    User authUser(String username, String password);
     boolean userExistsByUsername(String username);
 }
