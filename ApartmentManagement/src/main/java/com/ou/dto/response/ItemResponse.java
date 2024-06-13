@@ -16,6 +16,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ItemResponse {
+    Integer id;
     String name;
     String description;
     LocalDate deliveryDate;

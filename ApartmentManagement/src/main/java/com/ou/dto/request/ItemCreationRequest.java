@@ -14,9 +14,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ItemCreationRequest {
-    private String name;
-    private String description;
-    private LocalDate deliveryDate;
-    private Cabinet cabinet;
-    private MultipartFile file;
+    String name;
+    String description;
+    LocalDate deliveryDate;
+    Cabinet cabinet;
+    MultipartFile file;
 }

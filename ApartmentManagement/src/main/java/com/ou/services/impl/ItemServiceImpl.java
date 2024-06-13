@@ -3,6 +3,9 @@ package com.ou.services.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.ou.dto.request.ItemCreationRequest;
+import com.ou.dto.request.PaginationRequest;
+import com.ou.dto.response.ItemResponse;
+import com.ou.dto.response.PaginationResponse;
 import com.ou.mapper.ItemMapper;
 import com.ou.pojo.Item;
 import com.ou.repositories.ItemRepository;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,5 +49,10 @@ public class ItemServiceImpl implements ItemService {
             }
         }
         this.itemRepository.addItem(request);
+    }
+
+    @Override
+    public PaginationResponse<ItemResponse> getItemsInMyRoom(PaginationRequest paginationRequest) {
+        return this.itemRepository.getItemsInMyRoom(paginationRequest);
     }
 }

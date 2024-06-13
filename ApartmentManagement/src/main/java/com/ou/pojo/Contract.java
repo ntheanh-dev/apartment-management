@@ -1,11 +1,13 @@
 package com.ou.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -43,4 +45,7 @@ public class Contract {
     @Column(name = "ended_date")
     private LocalDate endedDate;
 
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contract")
+    private Set<MemberInRoom> memberInRoom;
 }
