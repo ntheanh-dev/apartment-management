@@ -6,11 +6,13 @@ import com.ou.dto.response.PaginationResponse;
 import com.ou.pojo.Item;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ItemRepository {
     void addOrUpdateItem(Item item);
     void addItem(Item item);
-    PaginationResponse<ItemResponse> getItemsInMyRoom(PaginationRequest paginationRequest);
+    PaginationResponse<ItemResponse> getItemsInMyRoom(Map<String,String> params);
+
 
 
 }

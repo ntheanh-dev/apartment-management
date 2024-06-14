@@ -5,12 +5,15 @@ import com.cloudinary.utils.ObjectUtils;
 import com.ou.dto.request.ItemCreationRequest;
 import com.ou.dto.request.PaginationRequest;
 import com.ou.dto.response.ItemResponse;
+import com.ou.dto.response.LinkResponse;
 import com.ou.dto.response.PaginationResponse;
 import com.ou.mapper.ItemMapper;
 import com.ou.pojo.Item;
 import com.ou.repositories.ItemRepository;
 import com.ou.services.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -20,8 +23,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
+@PropertySource("classpath:app.properties")
 public class ItemServiceImpl implements ItemService {
-
+    @Autowired
+    private Environment env;
     @Autowired
     private ItemRepository itemRepository;
 
@@ -52,7 +57,63 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public PaginationResponse<ItemResponse> getItemsInMyRoom(PaginationRequest paginationRequest) {
-        return this.itemRepository.getItemsInMyRoom(paginationRequest);
+    public PaginationResponse<ItemResponse> getItemsInMyRoom(Map<String,String> params) {
+        var response = this.itemRepository.getItemsInMyRoom(params);
+        String currentUrl = params.get("currentUrl");
+        System.out.println(currentUrl);
+        if(currentUrl != null && !currentUrl.isEmpty()){
+            String nextLink = "";
+            String prevLink = "";
+
+            Long totalItemsCount = response.getCount();
+
+            //------------ Parse Page------------
+            String pageNumber = params.get("page");
+            pageNumber = (pageNumber == null || pageNumber.isEmpty()) ? "1" : pageNumber;
+            int page = Integer.parseInt(pageNumber);
+            //-------------Parse size------------
+            String size = params.get("size");
+            size = (size == null || size.isEmpty()) ? env.getProperty("app.pageSize") : size;
+            int pageSize = Integer.parseInt(size);
+            //------------------------------------
+            int nextPage = page + 1;
+            Long toalPages = (totalItemsCount + pageSize - 1) / pageSize;
+
+            if(nextPage > toalPages) {
+                nextLink = null;
+            } else {
+                nextLink = String.format("%s?page=%d&size=%d",currentUrl, nextPage,pageSize);
+            }
+
+            if(page == 1 && page <= totalItemsCount) {
+                prevLink = null;
+            } else {
+                int previousPage = page-1;
+                prevLink = String.format("%s?page=%d&size=%d",currentUrl,previousPage,pageSize);
+            }
+            //---------------Parse Sort------------------
+            String sortBy = params.get("sortBy");
+            if (sortBy != null && !sortBy.isEmpty()) {
+                String order = params.get("order");
+                order = (order == null || order.isEmpty()) ? "asc" : order;
+
+                String sortParam = String.format("&sortBy=%s&order=%s",sortBy,order);
+                if(nextLink != null) {
+                    nextLink += sortParam;
+                }
+                if(prevLink != null) {
+                    prevLink += sortParam;
+                }
+
+            }
+            response.setLinks(
+                    LinkResponse.builder()
+                            .next(nextLink)
+                            .prev(prevLink)
+                            .build()
+            );
+        }
+
+        return response;
     }
 }

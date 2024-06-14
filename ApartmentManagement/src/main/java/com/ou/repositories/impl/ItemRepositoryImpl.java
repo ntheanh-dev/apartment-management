@@ -20,6 +20,7 @@ import javax.persistence.criteria.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Transactional
@@ -63,7 +64,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 //    inner join member_in_room memberinro3_ on contract2_.id=memberinro3_.Contract_id
 //    where memberinro3_.Resident_User_id=135
     @Override
-    public PaginationResponse<ItemResponse> getItemsInMyRoom(PaginationRequest paginationRequest) {
+    public PaginationResponse<ItemResponse> getItemsInMyRoom(Map<String,String> params) {
         User u = (User) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder builder = s.getCriteriaBuilder();
@@ -78,33 +79,39 @@ public class ItemRepositoryImpl implements ItemRepository {
         predicates.add(builder.equal(joinMember.get("residentUser"), u.getId()));
         cq.select(itemRoot).where(predicates.toArray(Predicate[]::new));
         //-----------------order----------------
-        if (paginationRequest != null) {
-            if (paginationRequest.getSortBy() != null && !paginationRequest.getSortBy().isEmpty()) {
-                Field[] fields = Item.class.getDeclaredFields();
-                String fieldName = paginationRequest.getSortBy();
-                for (Field field : fields) {
-                    if (fieldName.equals(field.getName())) {
-                        String order = paginationRequest.getOrder();
-                        if (order.equals("desc")) {
-                            cq.orderBy(builder.desc(itemRoot.get(field.getName())));
-                        } else {
-                            cq.orderBy(builder.asc(itemRoot.get(field.getName())));
-                        }
-                        break;
+        String sortBy = params.get("sortBy");
+        if (sortBy != null && !sortBy.isEmpty()) {
+            String order = params.get("order");
+            order = (order == null || order.isEmpty()) ? "asc" : order;
+
+            Field[] fields = Item.class.getDeclaredFields();
+            for (Field field : fields) {
+                if (sortBy.equals(field.getName())) {
+                    if (order.equals("desc")) {
+                        cq.orderBy(builder.desc(itemRoot.get(field.getName())));
+                    } else {
+                        cq.orderBy(builder.asc(itemRoot.get(field.getName())));
                     }
+                    break;
                 }
             }
+
+
         }
         Query query = s.createQuery(cq);
         //--------------pagination-----------------
-        if (paginationRequest != null) {
-            int pageSize = paginationRequest.getSize() == 0 ? Integer.parseInt(env.getProperty("app.pageSize").toString())
-                    : paginationRequest.getSize();
-            int page = paginationRequest.getPage();
-            int start = (page - 1) * pageSize;
-            query.setFirstResult(start);
-            query.setMaxResults(pageSize);
-        }
+        String size = params.get("size");
+        size = (size == null || size.isEmpty()) ? env.getProperty("app.pageSize") : size;
+        int pageSize = Integer.parseInt(size);
+
+        String page = params.get("page");
+        page = (page == null || page.isEmpty()) ? "1" : page;
+        int pageNumber = Integer.parseInt(page);
+
+        int start = (pageNumber - 1) * pageSize;
+        query.setFirstResult(start);
+        query.setMaxResults(pageSize);
+
         List<Item> items = query.getResultList();
         System.out.println(items.size());
         // Count total items

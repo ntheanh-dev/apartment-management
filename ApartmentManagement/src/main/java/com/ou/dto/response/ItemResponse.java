@@ -22,5 +22,4 @@ public class ItemResponse {
     LocalDate deliveryDate;
     String image;
     LocalDate receivedDate;
-
 }
