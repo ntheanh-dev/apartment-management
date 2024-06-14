@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.ou.dto.request.ItemCreationRequest;
 import com.ou.dto.request.PaginationRequest;
+import com.ou.dto.request.SetReceivedDateItem;
 import com.ou.dto.response.ItemResponse;
 import com.ou.dto.response.LinkResponse;
 import com.ou.dto.response.PaginationResponse;
@@ -115,5 +116,10 @@ public class ItemServiceImpl implements ItemService {
         }
 
         return response;
+    }
+
+    @Override
+    public void setReceivedDateItems(SetReceivedDateItem itemIds) {
+        this.itemRepository.setReceivedDateItems(itemIds);
     }
 }

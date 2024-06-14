@@ -1,11 +1,8 @@
 package com.ou.filters;
 
-import com.ou.exception.AppException;
-import com.ou.exception.ErrorCode;
 import com.ou.services.JwtService;
 import com.ou.pojo.User;
 import com.ou.services.UserService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

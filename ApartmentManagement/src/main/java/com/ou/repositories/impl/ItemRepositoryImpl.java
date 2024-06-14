@@ -1,6 +1,7 @@
 package com.ou.repositories.impl;
 
 import com.ou.dto.request.PaginationRequest;
+import com.ou.dto.request.SetReceivedDateItem;
 import com.ou.dto.response.ItemResponse;
 import com.ou.dto.response.PaginationResponse;
 import com.ou.mapper.CabinetMapper;
@@ -18,7 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
 import java.lang.reflect.Field;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -113,7 +117,6 @@ public class ItemRepositoryImpl implements ItemRepository {
         query.setMaxResults(pageSize);
 
         List<Item> items = query.getResultList();
-        System.out.println(items.size());
         // Count total items
         CriteriaQuery<Long> countCq = builder.createQuery(Long.class);
         Root<Item> countItemRoot = countCq.from(Item.class);
@@ -126,10 +129,25 @@ public class ItemRepositoryImpl implements ItemRepository {
         Query countQuery = s.createQuery(countCq);
         Long totalItemsCount = (Long) countQuery.getSingleResult();
 
-
         return PaginationResponse.<ItemResponse>builder()
                 .count(totalItemsCount)
                 .results(cabinetMapper.toCabinetItemResponseList(items))
                 .build();
+    }
+
+    @Override
+    public void setReceivedDateItems(SetReceivedDateItem itemIds) {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder builder = s.getCriteriaBuilder();
+        CriteriaQuery<Item> cq = builder.createQuery(Item.class);
+        Root<Item> itemRoot = cq.from(Item.class);
+
+        cq.select(itemRoot).where(itemRoot.get("id").in(itemIds.getItems()));
+        List<Item> items = s.createQuery(cq).getResultList();
+
+        items.forEach(i -> {
+            i.setReceivedDate(LocalDate.now());
+            s.update(i);
+        });
     }
 }

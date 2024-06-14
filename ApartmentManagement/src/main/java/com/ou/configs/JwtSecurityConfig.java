@@ -63,6 +63,8 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/api/**");
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/token").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/users/").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/items/").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/items/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
@@ -72,19 +74,4 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        final CorsConfiguration configuration = new CorsConfiguration();
-
-//        configuration.setAllowedOrigins(ImmutableList.of("http://localhost:3000")); // www - obligatory
-        configuration.setAllowedOrigins(ImmutableList.of("*"));  //set access from all domains
-        configuration.setAllowedMethods(ImmutableList.of("GET", "POST", "PUT", "DELETE"));
-        configuration.setAllowCredentials(true);
-        configuration.setAllowedHeaders(ImmutableList.of("Authorization", "Cache-Control", "Content-Type"));
-
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-
-        return source;
-    }
 }
