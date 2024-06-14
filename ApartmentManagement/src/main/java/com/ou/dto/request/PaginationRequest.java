@@ -10,8 +10,8 @@ import lombok.experimental.FieldDefaults;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PaginationRequest {
-    int page;
+    int page = 1;
     int size;
     String sortBy;
-    String order;
+    String order = "asc";
 }

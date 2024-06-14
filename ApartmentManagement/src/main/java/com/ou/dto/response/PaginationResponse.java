@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class PaginationResponse<T> {
-    int count;
+    Long count;
     LinkResponse links;
     List<T> results;
 }
