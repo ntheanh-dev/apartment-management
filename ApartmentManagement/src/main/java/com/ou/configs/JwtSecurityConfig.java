@@ -1,5 +1,6 @@
 package com.ou.configs;
 
+import com.google.common.collect.ImmutableList;
 import com.ou.filters.CustomAccessDeniedHandler;
 import com.ou.filters.JwtAuthenticationTokenFilter;
 import com.ou.filters.RestAuthenticationEntryPoint;
@@ -14,6 +15,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.ws.rs.HttpMethod;
 
@@ -59,6 +63,16 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().ignoringAntMatchers("/api/**");
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/token").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/users/").permitAll();
+
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/items/").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/items/").permitAll();
+
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/relatives/").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/relatives/").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/relatives/add/").permitAll();
+
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/residents/my-info/").permitAll();
+
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
@@ -67,4 +81,5 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtAuthenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
     }
+
 }

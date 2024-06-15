@@ -6,6 +6,8 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +19,10 @@ import java.util.Objects;
 public class ResidentRepositoryImpl implements ResidentRepository {
     @Autowired
     private LocalSessionFactoryBean factory;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Override
     public void addResident(Resident resident) {
         Session s = this.factory.getObject().getCurrentSession();
@@ -32,6 +38,28 @@ public class ResidentRepositoryImpl implements ResidentRepository {
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Resident.findByUser_RoleAndUser_Active");
         return q.getResultList();
+    }
+
+    @Override
+    public Resident getResidentById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query query = s.createQuery("from Resident r where r.id = :id");
+        query.setParameter("id", id);
+        return (Resident) query.uniqueResult();
+    }
+
+    @Override
+    public Resident getResident() {
+        Session s = this.factory.getObject().getCurrentSession();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User u = this.userRepository.getUserByUsername(username);
+
+        Resident r = this.getResidentById(u.getId());
+        if(r == null) {
+            throw new AppException(ErrorCode.RESIDENT_NOT_FOUND);
+        }
+
+        return r;
     }
 
     public Boolean checkExist(Resident resident) {

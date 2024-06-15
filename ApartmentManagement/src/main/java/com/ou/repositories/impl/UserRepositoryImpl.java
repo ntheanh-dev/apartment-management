@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
 import javax.transaction.Transactional;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Repository
@@ -38,14 +39,15 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User addUser(User user) {
         Session s = this.factory.getObject().getCurrentSession();
-        return (User) s.save(user);
+        Serializable id = s.save(user);
+        return s.get(User.class, id);
     }
 
     @Override
-    public boolean authUser(String username, String password) {
-        User  u = this.getUserByUsername(username);
+    public User authUser(String username, String password) {
+        User u = this.getUserByUsername(username);
 
-        return this.bCryptPasswordEncoder.matches(password, u.getPassword());
+        return this.bCryptPasswordEncoder.matches(password, u.getPassword()) ? u : null;
     }
 
     @Override

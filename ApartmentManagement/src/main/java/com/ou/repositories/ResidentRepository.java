@@ -7,4 +7,7 @@ import java.util.List;
 public interface ResidentRepository {
     void addResident(Resident resident);
     List<Resident> getAllResidents();
+    Resident getResidentById(int id);
+    Resident getResident();
+
 }
