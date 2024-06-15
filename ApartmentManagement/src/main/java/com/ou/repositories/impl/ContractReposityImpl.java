@@ -10,6 +10,10 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.List;
+
 
 @Repository
 @Transactional
@@ -32,5 +36,13 @@ public class ContractReposityImpl implements ContractRepository {
         query.setParameter("id", roomId.getId());
 
         return (Contract) query.getResultList().get(0);
+    }
+
+    @Override
+    public List<Contract> getAllContractsActive() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query query = s.createNamedQuery("Contract.findByEndedDateLessThan");
+        query.setParameter("endedDate", LocalDate.now());
+        return (List<Contract>) query.getResultList();
     }
 }

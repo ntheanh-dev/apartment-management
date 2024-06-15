@@ -15,4 +15,14 @@ public class ServiceServiceImpl implements ServiceServices {
     public List<Service> getServices() {
         return serviceReposity.getServices();
     }
+
+    @Override
+    public Service getServiceById(int id) {
+        return serviceReposity.getServiceById(id);
+    }
+
+    @Override
+    public void addService(Service service) {
+        serviceReposity.addService(service);
+    }
 }

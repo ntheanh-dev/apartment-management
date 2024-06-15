@@ -10,6 +10,9 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "cabinet")
+@NamedQueries({
+        @NamedQuery(name = "Cabinet.findByContract_Id", query = "select c from Cabinet c where c.contract.id = :id")
+})
 public class Cabinet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

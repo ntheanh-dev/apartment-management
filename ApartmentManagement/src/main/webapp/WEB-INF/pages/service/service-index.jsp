@@ -18,11 +18,6 @@
                         <span>Thêm dịch vụ</span>
                     </div>
                 </a>
-                <button class="btn btn-danger removeCheckedRow">
-                    <div class="flex space-x-1 justify-center items-center">
-                        <span>Xoá</span>
-                    </div>
-                </button>
             </div>
         </div>
     </div>
@@ -63,30 +58,30 @@
             </tr>
             </thead>
             <tbody>
-<%--            <c:forEach var="i" begin="0" end="${room.numberMem}">--%>
-<%--                <tr class="bg-gray-50 text-center">--%>
-<%--                    <td class="p-2 border-r">--%>
-<%--                        ${s.id}--%>
-<%--                    </td>--%>
-<%--                    <td class="p-2 border-r">--%>
-<%--                        <div class="flex justify-center items-center space-x-2">--%>
-<%--                            <a class="btn btn-success"  href="<c:url value="/service/4/edit" />">--%>
-<%--                                <i class="bi bi-pencil-square"></i>--%>
-<%--                            </a>--%>
-<%--                            <button class="btn btn-danger"  onclick="removeRow(this)">X</button>--%>
-<%--                        </div>--%>
-<%--                    </td>--%>
-<%--                    <td class="p-2 border-r">--%>
-<%--                        ${s.name}--%>
-<%--                    </td>--%>
-<%--                    <td class="p-2 border-r">--%>
-<%--                        <input type="number" disabled class="border p-1" value="${s.price}">--%>
-<%--                    </td>--%>
-<%--                    <td class="p-2 border-r">--%>
-<%--                        <input type="text" disabled class="border p-1" value="${s.unit}">--%>
-<%--                    </td>--%>
-<%--                </tr>x--%>
-<%--            </c:forEach>--%>
+            <c:forEach items="${services}" var="s">
+                <tr class="bg-gray-50 text-center">
+                    <td class="p-2 border-r">
+                        ${s.id}
+                    </td>
+                    <td class="p-2 border-r">
+                        <div class="flex justify-center items-center space-x-2">
+                            <a class="btn btn-success"  href="<c:url value="/service/${s.id}/edit" />">
+                                <i class="bi bi-pencil-square"></i>
+                            </a>
+                            <button class="btn btn-danger"  onclick="removeRow(this)">X</button>
+                        </div>
+                    </td>
+                    <td class="p-2 border-r">
+                        ${s.name}
+                    </td>
+                    <td class="p-2 border-r">
+                        <input type="number" disabled class="border p-1" value="${s.price}">
+                    </td>
+                    <td class="p-2 border-r">
+                        <input type="text" disabled class="border p-1" value="${s.unit}">
+                    </td>
+                </tr>x
+            </c:forEach>
 
 
             </tbody>

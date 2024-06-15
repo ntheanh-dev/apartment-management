@@ -10,7 +10,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "resident")
 @NamedQueries({
-        @NamedQuery(name = "Resident.existsByUser_Id", query = "select (count(r) > 0) from Resident r where r.user.id = :id")
+        @NamedQuery(name = "Resident.existsByUser_Id", query = "select (count(r) > 0) from Resident r where r.user.id = :id"),
+        @NamedQuery(name = "Resident.findByUser_RoleAndUser_Active", query = "select r from Resident r where r.user.role = 'Resident' and r.user.active = true ")
 })
 public class Resident {
     @Id

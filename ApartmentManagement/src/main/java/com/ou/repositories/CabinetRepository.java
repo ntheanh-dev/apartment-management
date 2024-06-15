@@ -14,4 +14,5 @@ public interface CabinetRepository {
     List<Item> getItemsByCabinetId(int cabinetId,Map<String, String> params);
     Boolean isActiveCabinet(int cabinetId);
     void closeExpiredContractCabinets();
+    Boolean isExitedCabinet(int contractId);
 }

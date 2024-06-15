@@ -1,5 +1,6 @@
 package com.ou.repositories.impl;
 
+import com.ou.pojo.Room;
 import com.ou.pojo.Service;
 import com.ou.repositories.ServiceReposity;
 import org.hibernate.Session;
@@ -23,5 +24,21 @@ public class ServiceReposityImpl implements ServiceReposity {
         Session session = this.factoryBean.getObject().getCurrentSession();
         Query q = session.createNamedQuery("Service.findAll");
         return q.getResultList();
+    }
+
+    @Override
+    public Service getServiceById(int id) {
+        Session s = this.factoryBean.getObject().getCurrentSession();
+        return s.get(Service.class, id);
+    }
+
+    @Override
+    public void addService(Service service) {
+        Session s = this.factoryBean.getObject().getCurrentSession();
+        if(service.getId() != null){
+            s.update(service);
+        }else{
+            s.save(service);
+        }
     }
 }

@@ -39,7 +39,12 @@
                 <span>Báo Cáo</span>
             </a>
         </li>
-
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="<c:url value="/bill/"/>">
+                <i class="bi bi-receipt"></i>
+                <span>Hóa đơn</span>
+            </a>
+        </li>
         <li class="nav-item">
             <a class="nav-link collapsed" href="<c:url value="/statistic/"/>">
                 <i class="bi bi-file-earmark-bar-graph"></i>

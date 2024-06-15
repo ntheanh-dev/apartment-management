@@ -17,12 +17,6 @@
                         <span>Quay Về</span>
                     </div>
                 </a>
-                <button class="btn btn-success w-full sm:w-20">
-                    <div class="flex space-x-1 justify-center items-center">
-                        <i class="bi bi-check2 pb-1"></i>
-                        <span>Lưu</span>
-                    </div>
-                </button>
             </div>
         </div>
         <div class="w-full mb-3 overflow-auto rounded-sm border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center mt-2 px-2 sm:px-4">
@@ -31,12 +25,7 @@
                 <tr class="bg-gray-50 border-b">
                     <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
                         <div class="flex items-center justify-center">
-                            Tên Phòng
-                        </div>
-                    </th>
-                    <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
-                        <div class="flex items-center justify-center">
-                            Khu Vực
+                            Mã user
                         </div>
                     </th>
                     <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
@@ -46,57 +35,42 @@
                     </th>
                     <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
                         <div class="flex items-center justify-center">
+                            Ngày Sinh
+                        </div>
+                    </th>
+                    <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                        <div class="flex items-center justify-center">
                             Số Điện Thoại
                         </div>
                     </th>
-                    <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
+                    <th class="col-sm-6 p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
                         <div class="flex items-center justify-center">
-                            Ngày Bắt Đầu
-                        </div>
-                    </th>
-                    <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
-                        <div class="flex items-center justify-center">
-                            Tiền Phòng
-                        </div>
-                    </th>
-                    <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
-                        <div class="flex items-center justify-center">
-                            Tiền Cọc
-                        </div>
-                    </th>
-                    <th class="p-2 border-r cursor-pointer text-sm font-thin text-gray-500">
-                        <div class="flex items-center justify-center">
+                            Địa chỉ
                         </div>
                     </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr class="bg-gray-50 text-center">
-                    <td class="p-2 border-r">
-                        P01
-                    </td>
-                    <td class="p-2 border-r">
-                        Tầng 2
-                    </td>
-                    <td class="p-2 border-r">
-                        <input type="text" class="border p-1" value="Thế Anh" readonly>
-                    </td>
-                    <td class="p-2 border-r">
-                        <input type="text" class="border p-1" value="0384023948" readonly>
-                    </td>
-                    <td class="p-2 border-r">
-                        <input type="date" class="border p-1" value="2024-06-01" readonly>
-                    </td>
-                    <td class="p-2 border-r">
-                        <input type="text" class="border p-1" value="3000000" readonly>
-                    </td>
-                    <td class="p-2 border-r">
-                        <input type="text" class="border p-1" value="3000000" readonly>
-                    </td>
-                    <td class="p-2">
-                        <button class="btn btn-danger px-3"  onclick="removeTenant(this)"><span class="font-medium text-xl">-</span></button>
-                    </td>
-                </tr>
+                    <c:forEach items="${residents}" var="s">
+                        <tr class="bg-gray-50 text-center">
+                            <td class="p-2 border-r">
+                                ${s.id}
+                            </td>
+                            <td class="p-2 border-r">
+                                <input type="text" class="border p-1" value="${s.fullName}" readonly>
+                            </td>
+                            <td class="p-2 border-r">
+                                ${s.dateOfBirth}
+                            </td>
+                            <td class="p-2 border-r">
+                                <input type="text" class="border p-1" value="${s.phone}" readonly>
+                            </td>
+                            <td class="col-sm-6 p-2 border-r">
+                                <input type="text" class="border w-100" value="${s.address}" readonly>
+                            </td>
+                        </tr>
+                    </c:forEach>
+
                 </tbody>
             </table>
         </div>

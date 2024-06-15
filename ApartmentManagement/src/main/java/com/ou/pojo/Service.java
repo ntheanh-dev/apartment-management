@@ -15,6 +15,7 @@ import javax.persistence.*;
 public class Service {
     @Id
     @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "name", nullable = false, length = 45)

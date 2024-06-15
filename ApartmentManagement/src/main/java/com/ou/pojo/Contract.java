@@ -12,7 +12,8 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "contract")
 @NamedQueries({
-        @NamedQuery(name = "Contract.findByRoom_IdOrderByCreatedDateDesc", query = "select c from Contract c where c.room.id = :id order by c.createdDate DESC")
+        @NamedQuery(name = "Contract.findByRoom_IdOrderByCreatedDateDesc", query = "select c from Contract c where c.room.id = :id order by c.createdDate DESC"),
+        @NamedQuery(name = "Contract.findByEndedDateLessThan", query = "select c from Contract c where c.endedDate > :endedDate")
 })
 public class Contract {
     @Id

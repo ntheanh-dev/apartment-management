@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Table(name = "receipt_detail")
 public class ReceiptDetail {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 

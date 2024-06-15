@@ -20,6 +20,8 @@ import java.util.Map;
 @RequestMapping(path = "/room")
 public class RoomControllers {
     @Autowired
+    private ResidentServices residentServices;
+    @Autowired
     private MemberInRoomServices memberInRoomServices;
     @Autowired
     private ContractSerivces contractSerivces;
@@ -79,7 +81,9 @@ public class RoomControllers {
     }
 
     @GetMapping("/tenants")
-    public String listTenant() {
+    public String listTenant(Model model) {
+        System.out.println(this.residentServices.getAllResidents());
+        model.addAttribute("residents",this.residentServices.getAllResidents());
         return "listTenant";
     }
 

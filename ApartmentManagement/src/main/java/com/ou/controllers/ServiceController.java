@@ -1,10 +1,11 @@
 package com.ou.controllers;
 
-import com.ou.dto.Service;
+import com.ou.pojo.Service;
 import com.ou.services.ServiceServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -21,21 +22,29 @@ public class ServiceController {
     }
 
     @GetMapping("/create")
-    public String creatService() {
+    public String creatService( Model model) {
+        model.addAttribute("service", new Service());
         return "serviceCreation";
     }
 
     @GetMapping("{serviceId}/edit")
     public String editService(@PathVariable int serviceId, Model model) {
         // Get servicebyid here then modify it
-
-        Service service = Service.builder()
-                .name("Nuoc")
-                .price(1000)
-                .note("Adbc")
-                .build();
-        model.addAttribute("service", service);
-        return "serviceEdit";
+        model.addAttribute("service", this.serviceServices.getServiceById(serviceId));
+        return "serviceCreation";
+    }
+    @PostMapping("/updateOrCreate")
+    public String updateService(Model model, @ModelAttribute("service") Service service, BindingResult rs) {
+        if (!rs.hasErrors()) {
+            try {
+                serviceServices.addService(service);
+                return "redirect:./";
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                model.addAttribute("errMsg", ex.toString());
+            }
+        }
+        return "serviceIndex";
     }
 
 

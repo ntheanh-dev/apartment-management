@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -12,6 +14,7 @@ import java.time.LocalDate;
 @Table(name = "receipt")
 public class Receipt {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
@@ -25,4 +28,20 @@ public class Receipt {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
+    private String title;
+
+    @Column(name = "status")
+    private String status = "Chưa thu";
+
+//    private Set<ReceiptDetail> receiptDetails = new LinkedHashSet<>();
+//
+//    @OneToMany(mappedBy = "receipt")
+//    public Set<ReceiptDetail> getReceiptDetails() {
+//        return receiptDetails;
+//    }
+
+    @Column(name = "title", nullable = false, length = 45)
+    public String getTitle() {
+        return title;
+    }
 }

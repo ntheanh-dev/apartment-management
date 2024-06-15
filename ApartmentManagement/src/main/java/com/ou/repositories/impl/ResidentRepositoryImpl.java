@@ -9,6 +9,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Objects;
 
 @Repository
@@ -24,6 +25,13 @@ public class ResidentRepositoryImpl implements ResidentRepository {
         }else{
             s.save(resident);
         }
+    }
+
+    @Override
+    public List<Resident> getAllResidents() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("Resident.findByUser_RoleAndUser_Active");
+        return q.getResultList();
     }
 
     public Boolean checkExist(Resident resident) {

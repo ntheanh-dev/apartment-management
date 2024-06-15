@@ -70,4 +70,12 @@
         <put-attribute name="title" value="Chi Tiết Tủ Đồ"/>
         <put-attribute name="content" value="/WEB-INF/pages/cabinet/cabinet-detail.jsp"/>
     </definition>
+    <definition name="IndexBill" extends="baseLayout">
+        <put-attribute name="title" value="Hóa đơn thanh toán"/>
+        <put-attribute name="content" value="/WEB-INF/pages/bill/indexBill.jsp"/>
+    </definition>
+    <definition name="orderSuccess" template="/WEB-INF/pages/vnpay/ordersuccess.html">
+    </definition>
+    <definition name="orderFail" template="/WEB-INF/pages/vnpay/orderfail.html">
+    </definition>
 </tiles-definitions>

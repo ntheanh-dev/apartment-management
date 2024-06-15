@@ -28,11 +28,8 @@ public class CabinetRepositoryImpl implements CabinetRepository {
     @Override
     public void createCabinet(Cabinet cabinet) {
         Session session = this.factoryBean.getObject().getCurrentSession();
-        if (cabinet.getId() != null) {
-            session.update(cabinet);
-        } else {
+        if (!isExitedCabinet(cabinet.getContract().getId()))
             session.save(cabinet);
-        }
     }
     @Override
     public List<Object[]> getAllCabinet(Map<String, String> params) {
@@ -138,5 +135,13 @@ public class CabinetRepositoryImpl implements CabinetRepository {
             c.setIsActive(false);
             s.update(c);
         }
+    }
+
+    @Override
+    public Boolean isExitedCabinet(int contractId) {
+        Session s = this.factoryBean.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("Cabinet.findByContract_Id");
+        q.setParameter("id", contractId);
+        return  !q.getResultList().isEmpty();
     }
 }
