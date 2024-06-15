@@ -1,5 +1,6 @@
 package com.ou.controllers;
 
+import com.ou.dto.request.ChangePasswordRequest;
 import com.ou.dto.request.UserCreationRequest;
 import com.ou.dto.response.UserResponse;
 import com.ou.services.JwtService;
@@ -47,4 +48,11 @@ public class ApiUserController {
                 .result(userService.getMyInfo())
                 .build();
     }
+
+    @PostMapping(path = "/change-password/",consumes = MediaType.APPLICATION_JSON_VALUE,produces = MediaType.APPLICATION_JSON_VALUE)
+    ApiResponse<Void> changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
+        this.userService.changePassword(changePasswordRequest);
+        return ApiResponse.<Void>builder().build();
+    }
+
 }

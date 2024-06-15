@@ -1,6 +1,7 @@
 package com.ou.services.impl;
 
 import com.ou.dto.RoomRegisterDto;
+import com.ou.dto.request.ChangePasswordRequest;
 import com.ou.dto.request.UserCreationRequest;
 import com.ou.dto.response.UserResponse;
 import com.ou.exception.AppException;
@@ -21,7 +22,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -155,5 +155,17 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
+    }
+
+    @Override
+    public void changePassword(ChangePasswordRequest changePasswordRequest) {
+        var context = SecurityContextHolder.getContext();
+        String username = context.getAuthentication().getName();
+        User user = userRepository.getUserByUsername(username);
+        if(this.passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword())){
+            throw new AppException(ErrorCode.UNMATCHED_PASSWORD);
+        }
+        user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+        this.userRepository.changePassword(user);
     }
 }

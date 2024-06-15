@@ -1,5 +1,6 @@
 package com.ou.repositories.impl;
 
+import com.ou.dto.request.ChangePasswordRequest;
 import com.ou.exception.AppException;
 import com.ou.exception.ErrorCode;
 import com.ou.pojo.User;
@@ -39,8 +40,8 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User addUser(User user) {
         Session s = this.factory.getObject().getCurrentSession();
-        Serializable id = s.save(user);
-        return s.get(User.class, id);
+        s.save(user);
+        return user;
     }
 
     @Override
@@ -58,5 +59,11 @@ public class UserRepositoryImpl implements UserRepository {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public void changePassword(User user) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.update(user);
     }
 }

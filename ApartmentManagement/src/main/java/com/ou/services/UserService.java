@@ -1,6 +1,7 @@
 package com.ou.services;
 
 import com.ou.dto.RoomRegisterDto;
+import com.ou.dto.request.ChangePasswordRequest;
 import com.ou.dto.request.UserCreationRequest;
 import com.ou.dto.response.UserResponse;
 import com.ou.pojo.User;
@@ -12,4 +13,5 @@ public interface UserService extends UserDetailsService {
     User authUser(String username, String password);
     UserResponse getMyInfo();
     void createContract(RoomRegisterDto user,Integer roomId);
+    void changePassword(ChangePasswordRequest changePasswordRequest);
 }

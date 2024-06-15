@@ -10,7 +10,7 @@ public enum ErrorCode {
     INVALID_TOKEN(1004,"Invalid Token",HttpStatus.UNAUTHORIZED),
     RESIDENT_NOT_FOUND(1005,"Resident Not Found",HttpStatus.BAD_REQUEST),
     FORBIDDEN(1006,"Forbidden",HttpStatus.FORBIDDEN),
-
+    UNMATCHED_PASSWORD(1007,"Unmatched Password",HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatus statusCode) {
