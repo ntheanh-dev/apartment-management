@@ -1,7 +1,11 @@
 package com.ou.repositories.impl;
 
+import com.ou.exception.AppException;
+import com.ou.exception.ErrorCode;
 import com.ou.pojo.Resident;
+import com.ou.pojo.User;
 import com.ou.repositories.ResidentRepository;
+import com.ou.repositories.UserRepository;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
