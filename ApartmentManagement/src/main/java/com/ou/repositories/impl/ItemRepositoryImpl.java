@@ -6,6 +6,7 @@ import com.ou.dto.response.PaginationResponse;
 import com.ou.mapper.CabinetMapper;
 import com.ou.pojo.*;
 import com.ou.repositories.ItemRepository;
+import com.ou.repositories.UserRepository;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -30,6 +31,9 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Autowired
     private LocalSessionFactoryBean factory;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private Environment env;
@@ -66,9 +70,11 @@ public class ItemRepositoryImpl implements ItemRepository {
 //    where memberinro3_.Resident_User_id=135
     @Override
     public PaginationResponse<ItemResponse> getItemsInMyRoom(Map<String,String> params) {
-//        User u = (User) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder builder = s.getCriteriaBuilder();
+
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User u = this.userRepository.getUserByUsername(username);
 
         // Fetch paginated items
         CriteriaQuery<Item> cq = builder.createQuery(Item.class);
@@ -77,7 +83,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         Join<Cabinet, Contract> joinContract = joinCabinet.join("contract", JoinType.INNER);
         Join<Contract, MemberInRoom> joinMember = joinContract.join("memberInRoom", JoinType.INNER);
         List<Predicate> predicates = new ArrayList<>();
-        predicates.add(builder.equal(joinMember.get("residentUser"), 135));
+        predicates.add(builder.equal(joinMember.get("residentUser"), u.getId()));
         cq.select(itemRoot).where(predicates.toArray(Predicate[]::new));
         //-----------------order----------------
         String sortBy = params.get("sortBy");
@@ -121,7 +127,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         Join<Cabinet, Contract> countJoinContract = countJoinCabinet.join("contract", JoinType.INNER);
         Join<Contract, MemberInRoom> countJoinMember = countJoinContract.join("memberInRoom", JoinType.INNER);
         List<Predicate> countPredicates = new ArrayList<>();
-        countPredicates.add(builder.equal(countJoinMember.get("residentUser"), 135));
+        countPredicates.add(builder.equal(countJoinMember.get("residentUser"), u.getId()));
         countCq.select(builder.count(countItemRoot)).where(countPredicates.toArray(new Predicate[0]));
         Query countQuery = s.createQuery(countCq);
         Long totalItemsCount = (Long) countQuery.getSingleResult();

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api")
 @Slf4j
+@CrossOrigin
 public class ApiUserController {
 
     @Autowired
@@ -25,7 +26,7 @@ public class ApiUserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping(path = "/token",consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(path = "/token",consumes = {MediaType.APPLICATION_JSON_VALUE},produces = MediaType.APPLICATION_JSON_VALUE)
     public ApiResponse<AuthenticationResponse> login(@RequestBody AuthenticationRequest authenticationRequest) {
         var response = jwtService.authenticated(authenticationRequest);
 
@@ -34,9 +35,7 @@ public class ApiUserController {
                 .build();
     }
 
-    @PostMapping(path = "/users/", consumes = {
-            MediaType.APPLICATION_JSON_VALUE,
-    })
+    @PostMapping(path = "/users/", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@RequestBody UserCreationRequest userCreationRequest) {
         UserResponse u = userService.addUser(userCreationRequest);

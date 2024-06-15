@@ -8,6 +8,7 @@ import com.ou.pojo.Resident;
 import com.ou.pojo.User;
 import com.ou.repositories.FamilyMemberRepository;
 import com.ou.repositories.ResidentRepository;
+import com.ou.repositories.UserRepository;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -32,11 +33,15 @@ public class FamilyMemberRepositoryImpl implements FamilyMemberRepository {
     private LocalSessionFactoryBean factory;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private ResidentRepository residentRepository;
 
     @Override
     public List<FamilyMember> findAll() {
-        User u = (User) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User u = this.userRepository.getUserByUsername(username);
 
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder builder = s.getCriteriaBuilder();
@@ -71,7 +76,9 @@ public class FamilyMemberRepositoryImpl implements FamilyMemberRepository {
 
     @Override
     public FamilyMember add(FamilyMember familyMember) {
-        User u = (User) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User u = this.userRepository.getUserByUsername(username);
+
         Session s = this.factory.getObject().getCurrentSession();
 
         Resident r = this.residentRepository.getResidentById(u.getId());

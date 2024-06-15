@@ -64,11 +64,12 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/token").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/users/").permitAll();
 
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/items/").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/items/").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/relatives/").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/relatives/").permitAll();
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/relatives/add/").permitAll();
+//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/items/").permitAll();
+//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/items/").permitAll();
+//
+//        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/relatives/").permitAll();
+//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/relatives/").permitAll();
+//        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/relatives/add/").permitAll();
 
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
