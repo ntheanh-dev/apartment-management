@@ -1,6 +1,5 @@
 package com.ou.repositories.impl;
 
-import com.ou.dto.request.PaginationRequest;
 import com.ou.dto.request.SetReceivedDateItem;
 import com.ou.dto.response.ItemResponse;
 import com.ou.dto.response.PaginationResponse;
@@ -19,10 +18,8 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
 import java.lang.reflect.Field;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -69,7 +66,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 //    where memberinro3_.Resident_User_id=135
     @Override
     public PaginationResponse<ItemResponse> getItemsInMyRoom(Map<String,String> params) {
-        User u = (User) SecurityContextHolder.getContext().getAuthentication().getCredentials();
+//        User u = (User) SecurityContextHolder.getContext().getAuthentication().getCredentials();
         Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder builder = s.getCriteriaBuilder();
 
@@ -80,7 +77,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         Join<Cabinet, Contract> joinContract = joinCabinet.join("contract", JoinType.INNER);
         Join<Contract, MemberInRoom> joinMember = joinContract.join("memberInRoom", JoinType.INNER);
         List<Predicate> predicates = new ArrayList<>();
-        predicates.add(builder.equal(joinMember.get("residentUser"), u.getId()));
+        predicates.add(builder.equal(joinMember.get("residentUser"), 135));
         cq.select(itemRoot).where(predicates.toArray(Predicate[]::new));
         //-----------------order----------------
         String sortBy = params.get("sortBy");
@@ -124,7 +121,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         Join<Cabinet, Contract> countJoinContract = countJoinCabinet.join("contract", JoinType.INNER);
         Join<Contract, MemberInRoom> countJoinMember = countJoinContract.join("memberInRoom", JoinType.INNER);
         List<Predicate> countPredicates = new ArrayList<>();
-        countPredicates.add(builder.equal(countJoinMember.get("residentUser"), u.getId()));
+        countPredicates.add(builder.equal(countJoinMember.get("residentUser"), 135));
         countCq.select(builder.count(countItemRoot)).where(countPredicates.toArray(new Predicate[0]));
         Query countQuery = s.createQuery(countCq);
         Long totalItemsCount = (Long) countQuery.getSingleResult();

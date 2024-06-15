@@ -26,6 +26,14 @@ public class ResidentRepositoryImpl implements ResidentRepository {
         }
     }
 
+    @Override
+    public Resident getResidentById(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query query = s.createQuery("from Resident r where r.id = :id");
+        query.setParameter("id", id);
+        return (Resident) query.uniqueResult();
+    }
+
     public Boolean checkExist(Resident resident) {
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Resident.existsByUser_Id");

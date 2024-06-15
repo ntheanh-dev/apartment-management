@@ -17,20 +17,22 @@ public final class RestAuthenticationEntryPoint implements AuthenticationEntryPo
                          HttpServletResponse response,
                          AuthenticationException authException)
             throws IOException {
+        ErrorCode errorcode = ErrorCode.UNAUTHORIZED;
+
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//        response.getWriter().write("Unauthorized");
-//        response.setStatus(errorCode.getCode());
-        ErrorCode errorCode = ErrorCode.UNAUTHORIZED;
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         ApiResponse<?> apiResponse = ApiResponse.builder()
-                .code(errorCode.getCode())
-                .message(errorCode.getMessage())
+                .code(errorcode.getCode())
+                .message(errorcode.getMessage())
                 .build();
-
         // Convert object sang string (JSON)
         ObjectMapper mapper = new ObjectMapper();
 
         response.getWriter().write(mapper.writeValueAsString(apiResponse));
+        response.flushBuffer();
+
+//        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+//        response.getWriter().write("Unauthorized");
     }
 }

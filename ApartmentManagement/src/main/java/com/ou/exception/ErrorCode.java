@@ -8,6 +8,7 @@ public enum ErrorCode {
     USER_EXISTED(1002,"User Existed",HttpStatus.BAD_REQUEST),
     USER_NOT_EXISTED(1003,"User not existed",HttpStatus.NOT_FOUND),
     INVALID_TOKEN(1004,"Invalid Token",HttpStatus.UNAUTHORIZED),
+    RESIDENT_NOT_FOUND(1005,"Resident Not Found",HttpStatus.BAD_REQUEST),
     ;
 
     ErrorCode(int code, String message, HttpStatus statusCode) {
