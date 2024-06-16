@@ -40,17 +40,18 @@ public class InitAdmin {
         try {
             List<QueryDocumentSnapshot> users = this.firebaseService.getUsersByField("id",defaultAdmin);
             if(users.isEmpty()) {
-                //----------- Khởi tạo collection users---------------
-                Map<String,Object> userMap = new HashMap<>();
-                userMap.put("id",defaultAdmin);
-                userMap.put("username",defaultAdmin);
-                userMap.put("role",user.getRole());
-
-                this.firebaseService.initCollection("users",userMap);
-                System.out.println("Added user: " + user.getUsername() + "to firebase");
-            } else {
-                if(users.get(0).getId().equals(defaultAdmin)) {
+                boolean isUserCollectionExists = this.firebaseService.checkCollectionExist("users");
+                if(isUserCollectionExists) {
                     this.firebaseService.addUser(user);
+                    System.out.println("Added user: " + user.getUsername() + " to firebase");
+                } else {
+                    //----------- Khởi tạo collection users---------------
+                    Map<String,Object> userMap = new HashMap<>();
+                    userMap.put("id",defaultAdmin);
+                    userMap.put("username",defaultAdmin);
+                    userMap.put("role",user.getRole());
+
+                    this.firebaseService.initCollection("users",userMap);
                     System.out.println("Added user: " + user.getUsername() + "to firebase");
                 }
             }
