@@ -1,5 +1,7 @@
 package com.ou.services.impl;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.ou.dto.RoomRegisterDto;
 import com.ou.dto.request.ChangePasswordRequest;
 import com.ou.dto.request.UserCreationRequest;
@@ -19,12 +21,17 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service("userDetailsService") // chỉ định tên cụ theer
 public class UserServiceImpl implements UserService {
@@ -162,10 +169,11 @@ public class UserServiceImpl implements UserService {
         var context = SecurityContextHolder.getContext();
         String username = context.getAuthentication().getName();
         User user = userRepository.getUserByUsername(username);
-        if(this.passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword())){
+        if(!this.passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword())){
             throw new AppException(ErrorCode.UNMATCHED_PASSWORD);
         }
         user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
         this.userRepository.changePassword(user);
     }
+
 }

@@ -72,6 +72,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/relatives/add/").permitAll();
 
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/residents/my-info/").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/residents/change-avatar/").permitAll();
 
         http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/change-password/").permitAll();
 

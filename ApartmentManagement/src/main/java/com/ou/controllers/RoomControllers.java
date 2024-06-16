@@ -20,7 +20,7 @@ import java.util.Map;
 @RequestMapping(path = "/room")
 public class RoomControllers {
     @Autowired
-    private ResidentServices residentServices;
+    private ResidentService residentServices;
     @Autowired
     private MemberInRoomServices memberInRoomServices;
     @Autowired

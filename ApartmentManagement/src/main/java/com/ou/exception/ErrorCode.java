@@ -11,6 +11,8 @@ public enum ErrorCode {
     RESIDENT_NOT_FOUND(1005,"Resident Not Found",HttpStatus.BAD_REQUEST),
     FORBIDDEN(1006,"Forbidden",HttpStatus.FORBIDDEN),
     UNMATCHED_PASSWORD(1007,"Unmatched Password",HttpStatus.BAD_REQUEST),
+    INVALID_FILE(1008,"Invalid File",HttpStatus.BAD_REQUEST),
+    CANNOT_UPLOAD_FILE(1009,"Can't Upload File ON Cloudinary",HttpStatus.INTERNAL_SERVER_ERROR),
     ;
 
     ErrorCode(int code, String message, HttpStatus statusCode) {

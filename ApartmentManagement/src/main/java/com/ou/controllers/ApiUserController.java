@@ -8,17 +8,14 @@ import com.ou.dto.request.AuthenticationRequest;
 import com.ou.dto.response.ApiResponse;
 import com.ou.dto.response.AuthenticationResponse;
 import com.ou.services.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 
-
 @RestController
 @RequestMapping("api")
-@Slf4j
 @CrossOrigin
 public class ApiUserController {
 

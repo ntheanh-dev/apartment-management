@@ -6,6 +6,7 @@ import com.ou.dto.request.UserCreationRequest;
 import com.ou.dto.response.UserResponse;
 import com.ou.pojo.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService extends UserDetailsService {
     User getUserByUsername(String username);
