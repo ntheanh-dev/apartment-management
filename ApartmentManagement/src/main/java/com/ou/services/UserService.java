@@ -15,4 +15,6 @@ public interface UserService extends UserDetailsService {
     UserResponse getMyInfo();
     void createContract(RoomRegisterDto user,Integer roomId);
     void changePassword(ChangePasswordRequest changePasswordRequest);
+    User addAdmin(User user);
+    boolean userExistsByUsername(String username);
 }

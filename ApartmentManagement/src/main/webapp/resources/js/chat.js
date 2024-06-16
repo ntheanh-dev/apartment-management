@@ -1,18 +1,77 @@
-$(document).ready(function () {
+import {
+    getFirestore, updateDoc, arrayUnion, arrayRemove, doc, setDoc,
+    onSnapshot, collection, query, where, orderBy, limit, serverTimestamp
+}
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    //Test render message
-    renderMessage("Sau tiếng còi mãn cuộc, Mourinho đã xuống sân nói chuyện ngắn, ôm và an ủi HLV Edin Terzic của Dortmund. Khi được hỏi về cuộc nói chuyện này, HLV Bồ Đào Nha tiết lộ: \"Terzic nói thất bại này rất khó nuốt, và tôi nói rằng thời gian sẽ không giúp ích được gì bởi thất bại sẽ khó khăn cho phần còn lại của sự nghiệp cũng như cuộc đời. Nhưng ông ấy phải rất tự hào vì đã làm công việc tuyệt vời. Ông ấy mang lại sự tổ chức, tự tin, tinh thần và không thể làm gì hơn nữa. Dortmund đã làm tốt mọi thứ ngoại trừ việc ghi bàn\".", 'sent', "Thế Em")
-    renderMessage("Sau tiếng còi mãn cuộc, Mourinho đã xuống sân nói chuyện ngắn, ôm và an ủi HLV Edin Terzic của Dortmund. Khi được hỏi về cuộc nói chuyện này, HLV Bồ Đào Nha tiết lộ: \"Terzic nói thất bại này rất khó nuốt, và tôi nói rằng thời gian sẽ không giúp ích được gì bởi thất bại sẽ khó khăn cho phần còn lại của sự nghiệp cũng như cuộc đời. Nhưng ông ấy phải rất tự hào vì đã làm công việc tuyệt vời. Ông ấy mang lại sự tổ chức, tự tin, tinh thần và không thể làm gì hơn nữa. Dortmund đã làm tốt mọi thứ ngoại trừ việc ghi bàn\".", 'sent', "Thế Em")
 
-
-    //-------------Gửi tin nhan----------------
-    $('#sendMess').click(() => {
-        var message = $("#messInput").val()
-        if(message) {
-            $("#messInput").val('')
-            renderMessage(message, 'receiver', "Thế Anh")
+$(document).ready(async function () {
+    let db = getFirestore();
+    const username = localStorage.getItem('username')
+    try {
+        const user = await fetUsersByName(username)
+        if(user.length ===0 || user[0].username !== username) {
+            throw new Error("Không tìm thấy admin")
         }
-    })
+        const rooms = await fetchCurrentUserConversation(username);
+        if(rooms.length == 0) {
+            throw new Error("Không tìm thấy dữ liệu tin nhắn")
+        }
+        let currentRoomId = rooms[0].id;
+
+        if(currentRoomId) {
+            //------------Theo dõi du lieu thay đổi
+            const q = query(collection(db, "messages"), where('roomId', '==', currentRoomId), orderBy('createAt'), limit(30));
+            onSnapshot(q, (querySnapshot) => {
+                querySnapshot.docChanges().forEach((change) => {
+                    if (change.type === "added") {
+                        const {text, senderId} = change.doc.data()
+                        if (senderId === username) {
+                            renderMessage(text, "", senderId)
+                        } else {
+                            renderMessage(text, "sent", senderId)
+                        }
+                    }
+                });
+            });
+            //-------------Gửi tin nhan----------------
+            $('#sendMess').click(() => {
+                var message = $("#messInput").val()
+                if (message) {
+                    addDocument("messages", {
+                        text: message,
+                        senderId: username,
+                        roomId: currentRoomId
+                    })
+                    $("#messInput").val('')
+                }
+            })
+
+        }
+    } catch (ex) {
+        Swal.fire({
+            title: ex.message,
+            text: 'Nguyên nhân có thể do internet hoặc máy chủ không phản hồi. Trở về trang chủ?',
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+        }).then(() => {
+            window.history.back()
+        })
+    }
+
+    // if(rooms.length === 0) {
+    //     // Swal.fire({
+    //     //     title: 'Không thể thực hiện chức năng này.',
+    //     //     text: 'Nguyên nhân có thể do internet hoặc máy chủ không phản hồi.',
+    //     //     icon: 'warning',
+    //     //     confirmButtonColor: '#3085d6',
+    //     //     confirmButtonText: 'Ok',
+    //     // }).then(() => {
+    //     //     window.history.back()
+    //     // })
+    // }
+
 })
 
 function renderMessage(message, type, sender) {
@@ -60,7 +119,7 @@ function renderMessage(message, type, sender) {
         var linkText = document.createTextNode(link);
         var anchor = $('<a></a>')
             .attr('href', link)
-            .css({ color: 'blue', textDecoration: 'underline' })
+            .css({color: 'blue', textDecoration: 'underline'})
             .attr('target', '_blank')
             .append(linkText);
 
@@ -87,4 +146,71 @@ function renderMessage(message, type, sender) {
     // Append the message div to the messagesDiv and scroll to the bottom
     $('#messagesDiv').append(messageDiv);
     $('#messagesDiv').scrollTop($('#messagesDiv')[0].scrollHeight);
+}
+
+//--------------------Firebase------------------------
+const fetUsersByName = (username) => {
+    const condition = {
+        field: 'username',
+        operator: '==',
+        value: username
+    }
+    return fetchFirebaseData('users', condition)
+}
+
+function fetchCurrentUserConversation(username) {
+    const condition = {
+        field: 'members',
+        operator: 'array-contains',
+        value: username
+    }
+    return fetchFirebaseData('rooms', condition)
+}
+const addDocument = (collectionName, data) => {
+    let db = getFirestore();
+    (async () => {
+        if (data.id)
+            await setDoc(doc(db, collectionName, data.id), {
+                ...data,
+                createAt: serverTimestamp()
+            })
+        else {
+            const newData = doc(collection(db, collectionName));
+            await setDoc(newData, {
+                ...data,
+                createAt: serverTimestamp(),
+                id: newData.id
+            });
+        }
+    })();
+}
+// condition =  {
+//     field: 'abc',
+//     operator: '==', 'in,','array-contains'...,
+//     value: 'dvas'
+// }
+function fetchFirebaseData(dbName, condition) {
+    return new Promise((resolve, reject) => {
+        const db = getFirestore();
+        const q = query(collection(db, dbName),
+            where(condition.field, condition.operator, condition.value)
+        )
+        onSnapshot(q, (snapshot) => {
+            const result = []
+            snapshot.docs.forEach((doc) => {
+                result.push({...doc.data()})
+            })
+            resolve(result)
+        })
+    })
+}
+
+
+////////////////Localstorage////////////
+function getCurrentUserData() {
+    return localStorage.getItem("username");
+}
+
+function setSelectedChat(id) {
+    localStorage.setItem("selectedChatId", JSON.stringify(id));
 }

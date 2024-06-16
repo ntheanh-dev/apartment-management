@@ -176,4 +176,16 @@ public class UserServiceImpl implements UserService {
         this.userRepository.changePassword(user);
     }
 
+    @Override
+    public User addAdmin(User user) {
+        user.setRole("ROLE_ADMIN");
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setActive(true);
+        return userRepository.addUser(user);
+    }
+
+    @Override
+    public boolean userExistsByUsername(String username) {
+        return this.userRepository.userExistsByUsername(username);
+    }
 }

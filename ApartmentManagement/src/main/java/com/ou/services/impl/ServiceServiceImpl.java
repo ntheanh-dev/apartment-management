@@ -25,4 +25,9 @@ public class ServiceServiceImpl implements ServiceServices {
     public void addService(Service service) {
         serviceReposity.addService(service);
     }
+
+    @Override
+    public boolean userExitsByUserName(String userName) {
+        return this.userExitsByUserName(userName);
+    }
 }

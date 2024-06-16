@@ -152,6 +152,20 @@
             <artifactId>cloudinary-http44</artifactId>
             <version>1.29.0</version>
         </dependency>
+
+        <!--=============== Firebase ===================-->
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-admin</artifactId>
+            <version>9.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>32.1.2-jre</version>
+        </dependency>
+
+
     </dependencies>
     
     <build>

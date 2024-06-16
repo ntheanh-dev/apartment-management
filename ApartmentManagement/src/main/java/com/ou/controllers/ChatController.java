@@ -13,7 +13,6 @@ public class ChatController {
     @GetMapping("/")
     public String index(Model model) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println(username);
         model.addAttribute("username", username);
         return "chatIndex";
     }
