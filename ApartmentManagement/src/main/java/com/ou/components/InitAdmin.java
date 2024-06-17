@@ -1,4 +1,5 @@
 package com.ou.components;
+
 import com.google.cloud.firestore.*;
 import com.ou.pojo.User;
 import com.ou.services.UserService;
@@ -25,7 +26,7 @@ public class InitAdmin {
     public void init() throws ExecutionException, InterruptedException {
         String defaultAdmin = "admin1";
         User user = null;
-        if(!userService.userExistsByUsername(defaultAdmin)) {
+        if (!userService.userExistsByUsername(defaultAdmin)) {
             // Tạo admin ở db
             User u = User.builder()
                     .username(defaultAdmin)
@@ -34,39 +35,38 @@ public class InitAdmin {
             user = userService.addAdmin(u);
         } else {
             user = this.userService.getUserByUsername(defaultAdmin);
-            System.out.println("Admin account has added with username: " + defaultAdmin + ", password: 12345") ;
+            System.out.println("Admin account has added with username: " + defaultAdmin + ", password: 12345");
         }
 
         try {
-            List<QueryDocumentSnapshot> users = this.firebaseService.getUsersByField("id",defaultAdmin);
-            if(users.isEmpty()) {
+            List<QueryDocumentSnapshot> users = this.firebaseService.getUsersByField("id", defaultAdmin);
+            if (users.isEmpty()) {
+                Map<String, Object> userMap = new HashMap<>();
+                userMap.put("username", defaultAdmin);
+                userMap.put("role", user.getRole());
+
                 boolean isUserCollectionExists = this.firebaseService.checkCollectionExist("users");
-                if(isUserCollectionExists) {
-                    this.firebaseService.addUser(user);
+                if (isUserCollectionExists) {
+                    this.firebaseService.addUser(userMap);
                     System.out.println("Added user: " + user.getUsername() + " to firebase");
                 } else {
                     //----------- Khởi tạo collection users---------------
-                    Map<String,Object> userMap = new HashMap<>();
-                    userMap.put("id",defaultAdmin);
-                    userMap.put("username",defaultAdmin);
-                    userMap.put("role",user.getRole());
-
-                    this.firebaseService.initCollection("users",userMap);
+                    this.firebaseService.initCollection("users", userMap);
                     System.out.println("Added user: " + user.getUsername() + "to firebase");
                 }
             }
             boolean isRoomCollectionExisted = this.firebaseService.checkCollectionExist("rooms");
-            if(!isRoomCollectionExisted) {
+            if (!isRoomCollectionExisted) {
                 Map<String, Object> roomMap = new HashMap<>();
-                roomMap.put("members",Arrays.asList(new String[]{defaultAdmin}));
+                roomMap.put("members", Arrays.asList(new String[]{defaultAdmin}));
                 roomMap.put("name", "Nhóm Chát Chung Cư");
                 //----------- Khởi tạo collection rooms ---------------
-                this.firebaseService.initCollection("rooms",roomMap);
+                this.firebaseService.initCollection("rooms", roomMap);
                 //----------- Khởi tạo collection messages ---------------
                 Map<String, Object> messageMap = new HashMap<>();
-                this.firebaseService.initCollection("messages",messageMap);
+                this.firebaseService.initCollection("messages", messageMap);
             }
-
+            this.firebaseService.addUserToFirstRoom("resident2");
         } catch (Exception exception) {
             System.out.println(exception.getMessage());
             System.out.println("Some thing went wrong with firebase");

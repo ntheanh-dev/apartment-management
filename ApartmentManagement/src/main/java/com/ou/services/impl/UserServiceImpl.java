@@ -2,6 +2,7 @@ package com.ou.services.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.ou.components.FirebaseService;
 import com.ou.dto.RoomRegisterDto;
 import com.ou.dto.request.ChangePasswordRequest;
 import com.ou.dto.request.UserCreationRequest;
@@ -26,10 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,6 +56,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private FirebaseService firebaseService;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -122,6 +123,17 @@ public class UserServiceImpl implements UserService {
         r.setId(user.getId());
         residentRepository.addResident(r);
 
+        try {
+            Map<String, Object> rFirebase = new HashMap<>();
+            rFirebase.put("username",r.getIdentity());
+            rFirebase.put("name",r.getFullName());
+            rFirebase.put("avatar",r.getAvatar());
+            this.firebaseService.addUser(rFirebase);
+            this.firebaseService.addUserToFirstRoom(r.getIdentity());
+        } catch (Exception ex) {
+            System.out.println("Somwthing went wrong with firebase");
+        }
+
         Contract c = userMapper.toContract(user);
         if(user.getIdContract() !=0){
             c.setId(user.getIdContract());
@@ -154,6 +166,18 @@ public class UserServiceImpl implements UserService {
                 i.setUser(mem);
                 i.setId(mem.getId());
                 residentRepository.addResident(i);
+
+                try {
+                    Map<String, Object> rFirebase = new HashMap<>();
+                    rFirebase.put("username",i.getIdentity());
+                    rFirebase.put("name",i.getFullName());
+                    rFirebase.put("avatar",i.getAvatar());
+                    this.firebaseService.addUser(rFirebase);
+                    this.firebaseService.addUserToFirstRoom(i.getIdentity());
+                } catch (Exception ex) {
+                    System.out.println("Somwthing went wrong with firebase");
+                }
+
                 if(memberInRoomRepository.checkExistence(c,i)){
                     MemberInRoom memberInRoom = new MemberInRoom();
                     memberInRoom.setContract(c);
@@ -170,7 +194,7 @@ public class UserServiceImpl implements UserService {
         String username = context.getAuthentication().getName();
         User user = userRepository.getUserByUsername(username);
         if(!this.passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword())){
-            throw new AppException(ErrorCode.UNMATCHED_PASSWORD);
+            throw new AppException(ErrorCode.INCORRECT_PASSWORD);
         }
         user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
         this.userRepository.changePassword(user);

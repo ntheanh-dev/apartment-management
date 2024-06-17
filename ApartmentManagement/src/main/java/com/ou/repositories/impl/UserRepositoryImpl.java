@@ -47,8 +47,10 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User authUser(String username, String password) {
         User u = this.getUserByUsername(username);
-
-        return this.bCryptPasswordEncoder.matches(password, u.getPassword()) ? u : null;
+        if(!bCryptPasswordEncoder.matches(password, u.getPassword())){
+            throw new AppException(ErrorCode.INCORRECT_PASSWORD);
+        }
+        return u;
     }
 
     @Override

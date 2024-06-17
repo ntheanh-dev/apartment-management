@@ -1,12 +1,10 @@
 package com.ou.components;
-
 import com.google.api.core.ApiFuture;
+import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.*;
 import com.google.firebase.cloud.FirestoreClient;
-import com.ou.pojo.User;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -26,10 +24,37 @@ public class FirebaseService {
         return querySnapshot.get().getDocuments();
     }
 
-    public void addUser(User user) {
+    public void addUser(Map<String, Object> dataMap) {
         Firestore db = FirestoreClient.getFirestore();
         DocumentReference docRef = db.collection("users").document(); // Automatically generates a new document ID
-        ApiFuture<com.google.cloud.firestore.WriteResult> result = docRef.set(user);
+        String docId = docRef.getId();
+
+        dataMap.put("createAt", Timestamp.now());
+        dataMap.put("id", docId);
+
+        ApiFuture<WriteResult> result = docRef.set(dataMap);
+    }
+
+    public void addUserToFirstRoom(String userId) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        CollectionReference rooms = db.collection("rooms");
+
+        ApiFuture<QuerySnapshot> querySnapshot = rooms.limit(1).get();
+
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+        if (!documents.isEmpty()) {
+            DocumentReference firstRoom = documents.get(0).getReference();
+            firstRoom.update("members", FieldValue.arrayUnion(userId));
+        }
+    }
+
+    public void updateDocument(String collectionName, String documentId, Map<String, Object> updatedData) throws InterruptedException, ExecutionException {
+        Firestore db = FirestoreClient.getFirestore();
+        DocumentReference docRef = db.collection(collectionName).document(documentId);
+
+        // Update data in Firestore document
+        ApiFuture<WriteResult> result = docRef.update(updatedData);
+        result.get(); // Optional: Wait for the result if needed
     }
 
     public boolean checkCollectionExist(String collectionName) throws ExecutionException, InterruptedException {
@@ -44,9 +69,8 @@ public class FirebaseService {
         DocumentReference docRef = db.collection(collectionName).document();
         String docId = docRef.getId();
 
-        if(!dataMap.containsKey("id")) {
-            dataMap.put("id", docId);
-        }
+        dataMap.put("createAt", Timestamp.now());
+        dataMap.put("id", docId);
 
         ApiFuture<WriteResult> result = docRef.set(dataMap);
     }

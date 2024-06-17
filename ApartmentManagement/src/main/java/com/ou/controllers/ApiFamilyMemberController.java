@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/relatives")
+@CrossOrigin
 public class ApiFamilyMemberController {
 
     @Autowired
@@ -44,9 +44,6 @@ public class ApiFamilyMemberController {
     public ApiResponse<FamilyMemberResponse> createRelative(
             @RequestBody AddFamilyMemberRequest memberRequest
     ) {
-        System.out.println(memberRequest.getName());
-        System.out.println(memberRequest.getDob());
-        System.out.println(memberRequest.getRelationshipType());
         var response = this.familyMemberService.add(memberRequest);
         return ApiResponse.<FamilyMemberResponse>builder()
                 .result(response)
