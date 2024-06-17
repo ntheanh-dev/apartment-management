@@ -2,6 +2,7 @@ package com.ou.components;
 
 import com.google.cloud.firestore.*;
 import com.ou.pojo.User;
+import com.ou.services.FirebaseService;
 import com.ou.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

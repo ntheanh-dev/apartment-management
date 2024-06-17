@@ -1,8 +1,6 @@
 package com.ou.services.impl;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
-import com.ou.components.FirebaseService;
+import com.ou.services.FirebaseService;
 import com.ou.dto.RoomRegisterDto;
 import com.ou.dto.request.ChangePasswordRequest;
 import com.ou.dto.request.UserCreationRequest;
@@ -22,14 +20,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Service("userDetailsService") // chỉ định tên cụ theer
 public class UserServiceImpl implements UserService {

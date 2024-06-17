@@ -1,6 +1,6 @@
 import {
-    getFirestore, updateDoc, arrayUnion, arrayRemove, doc, setDoc,
-    onSnapshot, collection, query, where, orderBy, limit, serverTimestamp
+    getFirestore, doc, setDoc,getDocs,
+    onSnapshot, collection, query, where, orderBy, serverTimestamp
 }
     from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
@@ -8,45 +8,44 @@ import {
 $(document).ready(async function () {
     let db = getFirestore();
     const username = localStorage.getItem('username')
+    if(!username || username === "anonymousUser") {
+        window.history.back()
+    }
     try {
-        const user = await fetUsersByName(username)
-        if(user.length ===0 || user[0].username !== username) {
+        const collection_ref = collection(db, 'users');
+        const q = query(collection_ref, where('username', '==', username));
+        const docRefs = await getDocs(q);
+        let res = [];
+        docRefs.forEach((doc) => res.push({...doc.data()}));
+        if (res.length === 0) {
             throw new Error("Không tìm thấy admin")
-        }
-        const rooms = await fetchCurrentUserConversation(username);
-        if(rooms.length == 0) {
-            throw new Error("Không tìm thấy dữ liệu tin nhắn")
-        }
-        let currentRoomId = rooms[0].id;
-
-        if(currentRoomId) {
-            //------------Theo dõi du lieu thay đổi
-            const q = query(collection(db, "messages"), where('roomId', '==', currentRoomId), orderBy('createAt'), limit(30));
-            onSnapshot(q, (querySnapshot) => {
-                querySnapshot.docChanges().forEach((change) => {
-                    if (change.type === "added") {
-                        const {text, senderId} = change.doc.data()
-                        if (senderId === username) {
-                            renderMessage(text, "", senderId)
-                        } else {
-                            renderMessage(text, "sent", senderId)
+        } else {
+            res = [];
+            const collection_ref = collection(db, 'rooms');
+            const q = query(collection_ref, where('members', 'array-contains', username));
+            const docRefs = await getDocs(q);
+            docRefs.forEach((doc) => res.push({...doc.data()}));
+            if (res.length === 0) {
+                throw new Error('Không tìm thấy dữ liệu');
+            } else {
+                const q = query(
+                    collection(db, 'messages'),
+                    where('roomId', '==', res[0].id),
+                    orderBy('createAt'),
+                );
+                onSnapshot(q, (querySnapshot) => {
+                    querySnapshot.docChanges().forEach((change) => {
+                        if (change.type === 'added') {
+                            const {text, senderUsername} = change.doc.data()
+                            if (senderUsername === username) {
+                                renderMessage(text, "", senderUsername)
+                            } else {
+                                renderMessage(text, "sent", senderUsername)
+                            }
                         }
-                    }
+                    });
                 });
-            });
-            //-------------Gửi tin nhan----------------
-            $('#sendMess').click(() => {
-                var message = $("#messInput").val()
-                if (message) {
-                    addDocument("messages", {
-                        text: message,
-                        senderId: username,
-                        roomId: currentRoomId
-                    })
-                    $("#messInput").val('')
-                }
-            })
-
+            }
         }
     } catch (ex) {
         Swal.fire({
@@ -60,17 +59,18 @@ $(document).ready(async function () {
         })
     }
 
-    // if(rooms.length === 0) {
-    //     // Swal.fire({
-    //     //     title: 'Không thể thực hiện chức năng này.',
-    //     //     text: 'Nguyên nhân có thể do internet hoặc máy chủ không phản hồi.',
-    //     //     icon: 'warning',
-    //     //     confirmButtonColor: '#3085d6',
-    //     //     confirmButtonText: 'Ok',
-    //     // }).then(() => {
-    //     //     window.history.back()
-    //     // })
-    // }
+    //-------------Gửi tin nhan----------------
+    $('#sendMess').click(() => {
+        var message = $("#messInput").val()
+        if (message) {
+            addDocument("messages", {
+                text: message,
+                senderUsername: username,
+                roomId: currentRoomId
+            })
+            $("#messInput").val('')
+        }
+    })
 
 })
 
@@ -85,10 +85,10 @@ function renderMessage(message, type, sender) {
     // Add classes based on the type of message
     if (type === 'sent') {
         senderSpan.addClass('font-bold text-[#00aff0]');
-        messageBody.addClass('mt-2 mb-4 font-normal text-left float-left p-2.5 w-3/5 max-w-3/5 border border-[#d9f4ff] rounded-br-lg rounded-bl-lg bg-[#d9f4ff] text-black');
+        messageBody.addClass('mt-2 mb-4 font-normal text-left float-left p-2.5 inline-block max-w-[60vw] break-words border border-[#d9f4ff] rounded-br-lg rounded-bl-lg bg-[#d9f4ff] text-black');
     } else {
         senderSpan.addClass('text-[#00aff0] font-bold float-right');
-        messageBody.addClass('mt-2 mb-4 font-normal float-right p-2.5 text-left w-3/5 max-w-3/5 border border-[#d9f4ff] rounded-tl-lg rounded-tr-lg rounded-bl-lg bg-[#d9f4ff] text-black');
+        messageBody.addClass('mt-2 mb-4 font-normal float-right p-2.5 text-left inline-block max-w-[60vw] break-words border border-[#d9f4ff] rounded-tl-lg rounded-tr-lg rounded-bl-lg bg-[#d9f4ff] text-black');
     }
 
     // Set the sender's name
@@ -148,24 +148,6 @@ function renderMessage(message, type, sender) {
     $('#messagesDiv').scrollTop($('#messagesDiv')[0].scrollHeight);
 }
 
-//--------------------Firebase------------------------
-const fetUsersByName = (username) => {
-    const condition = {
-        field: 'username',
-        operator: '==',
-        value: username
-    }
-    return fetchFirebaseData('users', condition)
-}
-
-function fetchCurrentUserConversation(username) {
-    const condition = {
-        field: 'members',
-        operator: 'array-contains',
-        value: username
-    }
-    return fetchFirebaseData('rooms', condition)
-}
 const addDocument = (collectionName, data) => {
     let db = getFirestore();
     (async () => {
@@ -184,27 +166,6 @@ const addDocument = (collectionName, data) => {
         }
     })();
 }
-// condition =  {
-//     field: 'abc',
-//     operator: '==', 'in,','array-contains'...,
-//     value: 'dvas'
-// }
-function fetchFirebaseData(dbName, condition) {
-    return new Promise((resolve, reject) => {
-        const db = getFirestore();
-        const q = query(collection(db, dbName),
-            where(condition.field, condition.operator, condition.value)
-        )
-        onSnapshot(q, (snapshot) => {
-            const result = []
-            snapshot.docs.forEach((doc) => {
-                result.push({...doc.data()})
-            })
-            resolve(result)
-        })
-    })
-}
-
 
 ////////////////Localstorage////////////
 function getCurrentUserData() {
