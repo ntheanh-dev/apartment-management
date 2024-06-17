@@ -69,7 +69,7 @@ public class ResidentRepositoryImpl implements ResidentRepository {
     @Override
     public void changeAvatar(Resident resident) {
         Session s = this.factory.getObject().getCurrentSession();
-        s.save(resident);
+        s.update(resident);
     }
 
     public Boolean checkExist(Resident resident) {

@@ -32,7 +32,7 @@ public class FirebaseService {
         dataMap.put("createAt", Timestamp.now());
         dataMap.put("id", docId);
 
-        ApiFuture<WriteResult> result = docRef.set(dataMap);
+        docRef.set(dataMap);
     }
 
     public void addUserToFirstRoom(String userId) throws ExecutionException, InterruptedException {

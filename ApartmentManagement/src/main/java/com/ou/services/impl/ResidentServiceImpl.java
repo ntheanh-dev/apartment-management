@@ -56,6 +56,7 @@ public class ResidentServiceImpl implements ResidentService {
             Map res = this.cloudinary.uploader().upload(file[0].getBytes(), ObjectUtils.asMap("resource_type", "auto"));
             String url = res.get("secure_url").toString();
             r.setAvatar(url);
+            this.residentRepository.changeAvatar(r);
             return url;
         } catch (IOException ex) {
             System.out.println(ex.getMessage());

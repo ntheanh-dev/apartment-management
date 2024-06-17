@@ -123,15 +123,15 @@ public class UserServiceImpl implements UserService {
         r.setId(user.getId());
         residentRepository.addResident(r);
 
+        Map<String, Object> rFirebase = new HashMap<>();
         try {
-            Map<String, Object> rFirebase = new HashMap<>();
             rFirebase.put("username",r.getIdentity());
             rFirebase.put("name",r.getFullName());
             rFirebase.put("avatar",r.getAvatar());
             this.firebaseService.addUser(rFirebase);
             this.firebaseService.addUserToFirstRoom(r.getIdentity());
         } catch (Exception ex) {
-            System.out.println("Somwthing went wrong with firebase");
+            System.out.println("Something went wrong with firebase");
         }
 
         Contract c = userMapper.toContract(user);
@@ -168,7 +168,6 @@ public class UserServiceImpl implements UserService {
                 residentRepository.addResident(i);
 
                 try {
-                    Map<String, Object> rFirebase = new HashMap<>();
                     rFirebase.put("username",i.getIdentity());
                     rFirebase.put("name",i.getFullName());
                     rFirebase.put("avatar",i.getAvatar());
