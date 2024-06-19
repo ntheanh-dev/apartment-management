@@ -17,10 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 
@@ -29,7 +26,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 /**
- *
  * @author Admin
  */
 @Configuration
@@ -56,6 +52,7 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/");
         registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/");
     }
+
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(new FloorFormmatter());
@@ -80,7 +77,7 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         return slr;
     }
 
-//    public InternalResourceViewResolver internalResourceViewResolver() {
+    //    public InternalResourceViewResolver internalResourceViewResolver() {
 //        InternalResourceViewResolver resolver  = new InternalResourceViewResolver();
 //        // Configure the view class to be used as JSTL for rendering views
 //        resolver .setViewClass(JstlView.class);
@@ -88,4 +85,12 @@ public class WebAppContextConfig implements WebMvcConfigurer {
 //        resolver.setSuffix(".jsp"); // Hậu tố
 //        return resolver;
 //    }
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:3000")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD")
+                .allowedHeaders("*")
+                .allowCredentials(true);
+    }
 }

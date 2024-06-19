@@ -31,6 +31,8 @@ public class AdminController {
     private StatService statService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(Model model) {
+
+
         model.addAttribute("countRoom",this.roomServices.getRoomCount());
         model.addAttribute("countReport",this.reportService.countReport());
         model.addAttribute("countEvaluation",this.evaluationService.countAllEvaluations());
