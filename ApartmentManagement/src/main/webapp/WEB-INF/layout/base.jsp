@@ -35,9 +35,29 @@
         <%-----------------SweetAlert2----------------%>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+        <%-----------------Firebase----------------%>
 
+        <script src="https://www.gstatic.com/firebasejs/9.13.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.13.0/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/ui/6.0.2/firebase-ui-auth.js"></script>
     </head>
     <body>
+        <script type="module">
+            import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+            import { getStorage ,ref, uploadBytesResumable, getDownloadURL} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
+            const firebaseConfig = {
+                apiKey: "",
+                authDomain: "",
+                projectId: "",
+                storageBucket: "",
+                messagingSenderId: "",
+                appId: ""
+            };
+
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const storage = getStorage(app);
+        </script>
         <%--  Header      --%>
         <tiles:insertAttribute name="header" />
         <%--  Sidebar     --%>
@@ -49,6 +69,5 @@
         </main>
 
         <script src="<c:url value="/js/index.js"/>"></script>
-
     </body>
 </html>

@@ -1,5 +1,6 @@
 package com.ou.repositories;
 
+import com.ou.dto.request.ChangePasswordRequest;
 import com.ou.pojo.User;
 
 public interface UserRepository {
@@ -7,4 +8,5 @@ public interface UserRepository {
     User addUser(User user);
     User authUser(String username, String password);
     boolean userExistsByUsername(String username);
+    void changePassword(User user);
 }

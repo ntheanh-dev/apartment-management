@@ -29,7 +29,7 @@ public class Resident {
     @Column(name = "gender")
     private Boolean gender = false;
 
-    @Column(name = "avatar", length = 50)
+    @Column(name = "avatar", length = 255)
     private String avatar;
 
     @Column(name = "phone", nullable = false, length = 10)

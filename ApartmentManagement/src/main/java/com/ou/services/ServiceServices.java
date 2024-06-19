@@ -8,4 +8,5 @@ public interface ServiceServices {
     List<Service> getServices();
     Service getServiceById(int id);
     void addService(Service service);
+    boolean userExitsByUserName(String userName);
 }

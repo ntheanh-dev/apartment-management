@@ -1,18 +1,77 @@
-$(document).ready(function () {
+import {
+    getFirestore, doc, setDoc,getDocs,
+    onSnapshot, collection, query, where, orderBy, serverTimestamp
+}
+    from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-    //Test render message
-    renderMessage("Sau tiếng còi mãn cuộc, Mourinho đã xuống sân nói chuyện ngắn, ôm và an ủi HLV Edin Terzic của Dortmund. Khi được hỏi về cuộc nói chuyện này, HLV Bồ Đào Nha tiết lộ: \"Terzic nói thất bại này rất khó nuốt, và tôi nói rằng thời gian sẽ không giúp ích được gì bởi thất bại sẽ khó khăn cho phần còn lại của sự nghiệp cũng như cuộc đời. Nhưng ông ấy phải rất tự hào vì đã làm công việc tuyệt vời. Ông ấy mang lại sự tổ chức, tự tin, tinh thần và không thể làm gì hơn nữa. Dortmund đã làm tốt mọi thứ ngoại trừ việc ghi bàn\".", 'sent', "Thế Em")
-    renderMessage("Sau tiếng còi mãn cuộc, Mourinho đã xuống sân nói chuyện ngắn, ôm và an ủi HLV Edin Terzic của Dortmund. Khi được hỏi về cuộc nói chuyện này, HLV Bồ Đào Nha tiết lộ: \"Terzic nói thất bại này rất khó nuốt, và tôi nói rằng thời gian sẽ không giúp ích được gì bởi thất bại sẽ khó khăn cho phần còn lại của sự nghiệp cũng như cuộc đời. Nhưng ông ấy phải rất tự hào vì đã làm công việc tuyệt vời. Ông ấy mang lại sự tổ chức, tự tin, tinh thần và không thể làm gì hơn nữa. Dortmund đã làm tốt mọi thứ ngoại trừ việc ghi bàn\".", 'sent', "Thế Em")
 
+$(document).ready(async function () {
+    let db = getFirestore();
+    const username = localStorage.getItem('username')
+    if(!username || username === "anonymousUser") {
+        window.history.back()
+    }
+    try {
+        const collection_ref = collection(db, 'users');
+        const q = query(collection_ref, where('username', '==', username));
+        const docRefs = await getDocs(q);
+        let res = [];
+        docRefs.forEach((doc) => res.push({...doc.data()}));
+        if (res.length === 0) {
+            throw new Error("Không tìm thấy admin")
+        } else {
+            res = [];
+            const collection_ref = collection(db, 'rooms');
+            const q = query(collection_ref, where('members', 'array-contains', username));
+            const docRefs = await getDocs(q);
+            docRefs.forEach((doc) => res.push({...doc.data()}));
+            if (res.length === 0) {
+                throw new Error('Không tìm thấy dữ liệu');
+            } else {
+                const q = query(
+                    collection(db, 'messages'),
+                    where('roomId', '==', res[0].id),
+                    orderBy('createAt'),
+                );
+                onSnapshot(q, (querySnapshot) => {
+                    querySnapshot.docChanges().forEach((change) => {
+                        if (change.type === 'added') {
+                            const {text, senderUsername} = change.doc.data()
+                            if (senderUsername === username) {
+                                renderMessage(text, "", senderUsername)
+                            } else {
+                                renderMessage(text, "sent", senderUsername)
+                            }
+                        }
+                    });
+                });
+            }
+        }
+    } catch (ex) {
+        Swal.fire({
+            title: ex.message,
+            text: 'Nguyên nhân có thể do internet hoặc máy chủ không phản hồi. Trở về trang chủ?',
+            icon: 'warning',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok',
+        }).then(() => {
+            window.history.back()
+        })
+    }
 
     //-------------Gửi tin nhan----------------
     $('#sendMess').click(() => {
         var message = $("#messInput").val()
-        if(message) {
+        if (message) {
+            addDocument("messages", {
+                text: message,
+                senderUsername: username,
+                roomId: currentRoomId
+            })
             $("#messInput").val('')
-            renderMessage(message, 'receiver', "Thế Anh")
         }
     })
+
 })
 
 function renderMessage(message, type, sender) {
@@ -26,10 +85,10 @@ function renderMessage(message, type, sender) {
     // Add classes based on the type of message
     if (type === 'sent') {
         senderSpan.addClass('font-bold text-[#00aff0]');
-        messageBody.addClass('mt-2 mb-4 font-normal text-left float-left p-2.5 w-3/5 max-w-3/5 border border-[#d9f4ff] rounded-br-lg rounded-bl-lg bg-[#d9f4ff] text-black');
+        messageBody.addClass('mt-2 mb-4 font-normal text-left float-left p-2.5 inline-block max-w-[60vw] break-words border border-[#d9f4ff] rounded-br-lg rounded-bl-lg bg-[#d9f4ff] text-black');
     } else {
         senderSpan.addClass('text-[#00aff0] font-bold float-right');
-        messageBody.addClass('mt-2 mb-4 font-normal float-right p-2.5 text-left w-3/5 max-w-3/5 border border-[#d9f4ff] rounded-tl-lg rounded-tr-lg rounded-bl-lg bg-[#d9f4ff] text-black');
+        messageBody.addClass('mt-2 mb-4 font-normal float-right p-2.5 text-left inline-block max-w-[60vw] break-words border border-[#d9f4ff] rounded-tl-lg rounded-tr-lg rounded-bl-lg bg-[#d9f4ff] text-black');
     }
 
     // Set the sender's name
@@ -60,7 +119,7 @@ function renderMessage(message, type, sender) {
         var linkText = document.createTextNode(link);
         var anchor = $('<a></a>')
             .attr('href', link)
-            .css({ color: 'blue', textDecoration: 'underline' })
+            .css({color: 'blue', textDecoration: 'underline'})
             .attr('target', '_blank')
             .append(linkText);
 
@@ -87,4 +146,32 @@ function renderMessage(message, type, sender) {
     // Append the message div to the messagesDiv and scroll to the bottom
     $('#messagesDiv').append(messageDiv);
     $('#messagesDiv').scrollTop($('#messagesDiv')[0].scrollHeight);
+}
+
+const addDocument = (collectionName, data) => {
+    let db = getFirestore();
+    (async () => {
+        if (data.id)
+            await setDoc(doc(db, collectionName, data.id), {
+                ...data,
+                createAt: serverTimestamp()
+            })
+        else {
+            const newData = doc(collection(db, collectionName));
+            await setDoc(newData, {
+                ...data,
+                createAt: serverTimestamp(),
+                id: newData.id
+            });
+        }
+    })();
+}
+
+////////////////Localstorage////////////
+function getCurrentUserData() {
+    return localStorage.getItem("username");
+}
+
+function setSelectedChat(id) {
+    localStorage.setItem("selectedChatId", JSON.stringify(id));
 }

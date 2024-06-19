@@ -66,6 +66,12 @@ public class ResidentRepositoryImpl implements ResidentRepository {
         return r;
     }
 
+    @Override
+    public void changeAvatar(Resident resident) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.update(resident);
+    }
+
     public Boolean checkExist(Resident resident) {
         Session s = this.factory.getObject().getCurrentSession();
         Query q = s.createNamedQuery("Resident.existsByUser_Id");

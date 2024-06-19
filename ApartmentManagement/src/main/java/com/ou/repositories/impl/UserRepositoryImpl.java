@@ -1,5 +1,6 @@
 package com.ou.repositories.impl;
 
+import com.ou.dto.request.ChangePasswordRequest;
 import com.ou.exception.AppException;
 import com.ou.exception.ErrorCode;
 import com.ou.pojo.User;
@@ -39,24 +40,34 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User addUser(User user) {
         Session s = this.factory.getObject().getCurrentSession();
-        Serializable id = s.save(user);
-        return s.get(User.class, id);
+        s.save(user);
+        return user;
     }
 
     @Override
     public User authUser(String username, String password) {
         User u = this.getUserByUsername(username);
-
-        return this.bCryptPasswordEncoder.matches(password, u.getPassword()) ? u : null;
+        if(!bCryptPasswordEncoder.matches(password, u.getPassword())){
+            throw new AppException(ErrorCode.INCORRECT_PASSWORD);
+        }
+        return u;
     }
 
     @Override
     public boolean userExistsByUsername(String username) {
         try {
-            this.getUserByUsername(username);
-            return true;
+            Session s = this.factory.getObject().getCurrentSession();
+            Query q = s.createQuery("FROM User WHERE username = :username");
+            q.setParameter("username", username);
+            return !q.getResultList().isEmpty();
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public void changePassword(User user) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.update(user);
     }
 }

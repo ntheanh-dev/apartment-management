@@ -38,4 +38,7 @@
         </div>
     </div>
 </div>
-<script type="application/javascript" src="<c:url value="/js/chat.js"/>"></script>
+<script>
+    localStorage.setItem("username","${username}")
+</script>
+<script type="module" src="<c:url value="/js/chat.js"/>"></script>
