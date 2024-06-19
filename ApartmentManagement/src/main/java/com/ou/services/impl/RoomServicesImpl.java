@@ -47,4 +47,9 @@ public class RoomServicesImpl implements RoomServices {
     public Long getRoomCount() {
         return this.roomRepository.getRoomCount();
     }
+
+    @Override
+    public void activateRoomAfterContractClose() {
+        this.roomRepository.activateRoomAfterContractClose();
+    }
 }

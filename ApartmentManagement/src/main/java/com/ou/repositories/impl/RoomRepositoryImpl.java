@@ -1,5 +1,7 @@
 package com.ou.repositories.impl;
 
+import com.ou.pojo.Cabinet;
+import com.ou.pojo.Contract;
 import com.ou.pojo.Room;
 import com.ou.repositories.RoomRepository;
 import org.hibernate.Session;
@@ -13,6 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -84,4 +87,29 @@ public class RoomRepositoryImpl implements RoomRepository {
         q.setParameter("status", "đã thuê");
         return (Long) q.getSingleResult();
     }
+
+    @Override
+    public void activateRoomAfterContractClose() {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder builder = s.getCriteriaBuilder();
+
+        CriteriaQuery<Room> cq = builder.createQuery(Room.class);
+        Root room = cq.from(Room.class);
+        Root contractRoot = cq.from(Contract.class);
+
+        List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(builder.equal(contractRoot.get("room"), room.get("id")));
+        predicates.add(builder.lessThanOrEqualTo(contractRoot.get("endedDate"), LocalDate.now()));
+
+        cq.select(room).where(predicates.toArray(Predicate[]::new));
+
+        List<Room> rooms = s.createQuery(cq).getResultList();
+        for (Room r : rooms) {
+            r.setStatus("còn trống");
+            s.update(r);
+        }
+    }
+
+
 }

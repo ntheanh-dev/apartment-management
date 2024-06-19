@@ -12,4 +12,6 @@ public interface RoomServices {
     void deleteRoomById(int id);
     void updateRoom(Room room);
     Long getRoomCount();
+    void activateRoomAfterContractClose();
+
 }

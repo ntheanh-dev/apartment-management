@@ -12,4 +12,5 @@ public interface RoomRepository{
     void deleteRoomById(Room room);
     void updateStatus(Room room);
     Long getRoomCount();
+    void activateRoomAfterContractClose();
 }
