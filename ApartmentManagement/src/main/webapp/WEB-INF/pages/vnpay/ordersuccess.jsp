@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -23,19 +25,19 @@
                 <tbody>
                 <tr>
                     <td>Thông tin đơn hàng:</td>
-                    <td><span th:text="${orderId}"></span></td>
+                    <td>${orderId}</td>
                 </tr>
                 <tr>
                     <td>Tổng tiền:</td>
-                    <td><span th:text="${totalPrice}"></span></td>
+                    <td>${totalPrice}</td>
                 </tr>
                 <tr>
                     <td>Thời gian thanh toán:</td>
-                    <td><span th:text="${paymentTime}"></span></td>
+                    <td>${paymentTime}</td>
                 </tr>
                 <tr>
                     <td>Mã giao dịch:</td>
-                    <td><span th:text="${transactionId}"></span></td>
+                    <td>${transactionId}</td>
                 </tr>
                 </tbody>
             </table>

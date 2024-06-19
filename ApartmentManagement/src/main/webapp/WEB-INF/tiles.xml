@@ -74,8 +74,25 @@
         <put-attribute name="title" value="Hóa đơn thanh toán"/>
         <put-attribute name="content" value="/WEB-INF/pages/bill/indexBill.jsp"/>
     </definition>
-    <definition name="orderSuccess" template="/WEB-INF/pages/vnpay/ordersuccess.html">
+    <definition name="IndexEvaluation" extends="baseLayout">
+        <put-attribute name="title" value="Đánh giá"/>
+        <put-attribute name="content" value="/WEB-INF/pages/Evaluation/index.jsp"/>
     </definition>
-    <definition name="orderFail" template="/WEB-INF/pages/vnpay/orderfail.html">
+    <definition name="IndexCriterion" extends="baseLayout">
+        <put-attribute name="title" value="Tiêu chí"/>
+        <put-attribute name="content" value="/WEB-INF/pages/criterion/index.jsp"/>
+    </definition>
+    <definition name="IndexReport" extends="baseLayout">
+        <put-attribute name="title" value="Phản hồi người dân"/>
+        <put-attribute name="content" value="/WEB-INF/pages/report/indexReport.jsp"/>
+    </definition>
+    <definition name="IndexStat" extends="baseLayout">
+        <put-attribute name="title" value="Thống kê"/>
+        <put-attribute name="content" value="/WEB-INF/pages/stat/index.jsp"/>
+    </definition>
+
+    <definition name="orderSuccess" template="/WEB-INF/pages/vnpay/ordersuccess.jsp">
+    </definition>
+    <definition name="orderFail" template="/WEB-INF/pages/vnpay/orderfail.jsp">
     </definition>
 </tiles-definitions>

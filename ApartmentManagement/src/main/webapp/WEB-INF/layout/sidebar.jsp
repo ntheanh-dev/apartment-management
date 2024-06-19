@@ -34,7 +34,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="<c:url value="/report/"/>">
+            <a class="nav-link collapsed" href="<c:url value="/evaluation/"/>">
                 <i class="bi bi-clipboard-data"></i>
                 <span>Báo Cáo</span>
             </a>
@@ -46,9 +46,9 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link collapsed" href="<c:url value="/statistic/"/>">
-                <i class="bi bi-file-earmark-bar-graph"></i>
-                <span>Thống Kê</span>
+            <a class="nav-link collapsed" href="<c:url value="/report/"/>">
+                <i class="bi bi-reply"></i>
+                <span>Đóng góp</span>
             </a>
         </li>
     </ul>

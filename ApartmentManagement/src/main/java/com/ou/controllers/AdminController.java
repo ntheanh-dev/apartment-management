@@ -24,7 +24,7 @@ public class AdminController {
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index() {
-        return "redirect:/room/";
+        return "IndexStat";
     }
 
     @ModelAttribute

@@ -23,26 +23,19 @@
             <option value="Còn trống">Còn trống</option>
             <option value="đã thuê">Đã cho thuê</option>
         </select>
-        <select
-                class="col-6 col-md-2 form-select appearance-none block px-3 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 focus:ring focus:outline-none cursor-pointer"
-        >
-            <option value="" selected>Trạng thái phí</option>
-            <option value="paid">Đã thu phí</option>
-            <option value="unpaid">Chưa Thu Phí</option>
-        </select>
         <input
                 type="search"
                 name="kw"
                 class="col-6 col-md-2 w-auto block px-3 py-2 border rounded-lg bg-white shadow-lg placeholder-gray-400 text-gray-700 input-bordered input "
                 placeholder="Phòng"
-        />
-        <button type="submit" class="btn btn-primary sm:w-40">
-            <div class="flex space-x-1 justify-center items-center">
-                <i class="bi bi-search pb-1 flex-1"></i>
-                <%--                <span><a class="nav-link text-white flex-3" href="${myUrl}">Tìm kiếm </a></span>--%>
-                <span class="nav-link text-white flex-3">Tìm kiếm</span>
-            </div>
-        </button>
+        /><button type="submit" class="btn btn-primary sm:w-40">
+        <div class="flex space-x-1 justify-center items-center">
+            <i class="bi bi-search pb-1 flex-1"></i>
+            <%--                <span><a class="nav-link text-white flex-3" href="${myUrl}">Tìm kiếm </a></span>--%>
+            <span class="nav-link text-white flex-3">Tìm kiếm</span>
+        </div>
+    </button>
+
     </form>
     <div class="sm:col-span-1 flex items-center justify-end">
         <a class="btn btn-info w-full sm:w-40" href="<c:url value="/room/tenants" />">

@@ -1,6 +1,7 @@
 package com.ou.repositories.impl;
 
 import com.ou.pojo.Receipt;
+import com.ou.pojo.Room;
 import com.ou.repositories.BillRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,5 +29,13 @@ public class BillRepositoryImpl implements BillRepository {
     @Override
     public List<Receipt> getAllReceipts() {
         return List.of();
+    }
+
+    @Override
+    public void updateBillById(int orderID) {
+        Session s = this.sessionFactory.getCurrentSession();
+        Receipt receipt = s.get(Receipt.class, orderID);
+        receipt.setStatus("Đã thu");
+        s.update(receipt);
     }
 }

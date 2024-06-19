@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
@@ -19,11 +21,11 @@
                     <form th:action="@{/submitOrder}" method="post">
                         <div class="form-group">
                             <label for="amount">Số tiền:</label>
-                            <input type="number" class="form-control" id="amount" name="amount" required value="299999">
+                            <input type="number" class="form-control" id="amount" name="amount" required value="${totalPrice}">
                         </div>
                         <div class="form-group">
                             <label for="orderInfo">Thông tin đơn hàng:</label>
-                            <input type="text" class="form-control" id="orderInfo" name="orderInfo" required value="Thanh toan don hang 2923">
+                            <input type="text" class="form-control" id="orderInfo" name="orderInfo" required value="${orderId}">
                         </div>
                         <button type="submit" class="btn btn-primary">Thanh toán</button>
                     </form>

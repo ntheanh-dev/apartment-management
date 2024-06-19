@@ -1,5 +1,6 @@
 package com.ou.controllers;
 
+import com.ou.services.BillService;
 import com.ou.services.VnpayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 public class VnpayController {
     @Autowired
     private VnpayService vnPayService;
+    @Autowired
+    private BillService billService;
 
     @GetMapping("/submitOrder")
     public String submidOrder(@RequestParam("amount") int orderTotal,
@@ -40,6 +43,11 @@ public class VnpayController {
         model.addAttribute("totalPrice", totalPrice);
         model.addAttribute("paymentTime", paymentTime);
         model.addAttribute("transactionId", transactionId);
-        return paymentStatus == 1 ? "orderSuccess" : "orderFail";
+        if(paymentStatus == 1){
+            billService.updateBill(Integer.parseInt(orderInfo));
+            return "orderSuccess";
+        }else{
+            return "orderFail";
+        }
     }
 }

@@ -14,7 +14,6 @@ public class BillController {
     private BillService billService;
     @GetMapping("/")
     public String index() {
-        billService.createAllBill();
         return "IndexBill";
     }
 }

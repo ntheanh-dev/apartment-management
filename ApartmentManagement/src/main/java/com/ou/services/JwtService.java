@@ -38,7 +38,7 @@ public class JwtService {
                 authenticationRequest.getPassword()
         );
         if (authUser == null) {
-            throw new AppException(ErrorCode.UNAUTHORIZED);
+            throw new AppException(ErrorCode.RESIDENT_NOT_FOUND);
         }
 
         var token = generateToken(authUser);

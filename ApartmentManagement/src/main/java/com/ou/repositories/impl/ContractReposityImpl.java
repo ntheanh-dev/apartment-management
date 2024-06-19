@@ -25,7 +25,9 @@ public class ContractReposityImpl implements ContractRepository {
     @Override
     public void addContract(Contract contract) {
         Session s = this.factory.getObject().getCurrentSession();
-        if(contract.getId()!=null) s.update(contract);
+        if(contract.getId() != null && contract.getId() > 0){
+            s.update(contract);
+        }
         else s.save(contract);
     }
 

@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
         residentRepository.addResident(r);
 
         Contract c = userMapper.toContract(user);
-        if(user.getIdContract() !=0){
+        if(user.getIdContract() != 0){
             c.setId(user.getIdContract());
         }
         Room room = roomServices.getRoomById(roomId);

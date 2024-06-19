@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -32,6 +33,13 @@ public class Receipt {
 
     @Column(name = "status")
     private String status = "Chưa thu";
+
+    private BigDecimal price;
+
+    @Column(name = "price", precision = 10, scale = 2)
+    public BigDecimal getPrice() {
+        return price;
+    }
 
 //    private Set<ReceiptDetail> receiptDetails = new LinkedHashSet<>();
 //

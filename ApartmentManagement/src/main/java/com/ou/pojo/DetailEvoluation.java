@@ -1,5 +1,6 @@
 package com.ou.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,12 +13,12 @@ import java.io.Serializable;
 @Table(name = "detail_evoluation")
 public class DetailEvoluation implements Serializable {
     @Id
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Criterion_id", nullable = false)
     private Criterion criterion;
 
     @Id
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Evaluation_id", nullable = false)
     private Evaluation evaluation;
 

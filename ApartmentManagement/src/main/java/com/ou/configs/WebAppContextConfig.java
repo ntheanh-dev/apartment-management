@@ -5,6 +5,7 @@
 package com.ou.configs;
 
 import com.ou.formatters.CabinetFormatter;
+import com.ou.formatters.CriterionFormatter;
 import com.ou.formatters.FloorFormmatter;
 import com.ou.formatters.LocalDateFormatter;
 import org.springframework.context.annotation.Bean;
@@ -60,6 +61,7 @@ public class WebAppContextConfig implements WebMvcConfigurer {
         registry.addFormatter(new FloorFormmatter());
         registry.addFormatter(new CabinetFormatter());
         registry.addFormatter(new LocalDateFormatter());
+        registry.addFormatter(new CriterionFormatter());
     }
 
 
