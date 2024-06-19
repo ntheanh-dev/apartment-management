@@ -18,6 +18,7 @@ public class ScheduledTasks {
     @Autowired
     private BillService billService;
 
+    //0s 0m 7h daily monthly
     @Scheduled(cron = "0 0 7 * * ?")
     public void checkExpireContract() {
         this.cabinetService.closeExpiredContractCabinets();

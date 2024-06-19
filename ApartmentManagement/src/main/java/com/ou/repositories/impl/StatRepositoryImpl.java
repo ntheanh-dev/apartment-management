@@ -1,6 +1,7 @@
 package com.ou.repositories.impl;
 
 import com.ou.pojo.Receipt;
+import com.ou.pojo.Report;
 import com.ou.repositories.StatRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -31,13 +32,13 @@ public class StatRepositoryImpl implements StatRepository {
 
         Root rD = q.from(Receipt.class);
 
-        q.multiselect(b.function("MONTH", Integer.class, rD.get("started_date")),b.sum(rD.get("quantity")));
+        q.multiselect(b.function("MONTH", Integer.class, rD.get("startedDate")),b.sum(rD.get("price")));
 
         List<Predicate> predicates = new ArrayList<>();
-        predicates.add(b.equal(b.function("YEAR", Integer.class, rD.get("started_date")), year));
+        predicates.add(b.equal(b.function("YEAR", Integer.class, rD.get("startedDate")), year));
 
         q.where(predicates.toArray(Predicate[]::new));
-        q.groupBy(b.function("MONTH", Integer.class, rD.get("started_date")));
+        q.groupBy(b.function("MONTH", Integer.class, rD.get("startedDate")));
 
         Query query = s.createQuery(q);
 
@@ -46,6 +47,17 @@ public class StatRepositoryImpl implements StatRepository {
 
     @Override
     public List<Object[]> statReport() {
-        return List.of();
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
+
+        Root rD = q.from(Report.class);
+
+        q.multiselect(rD.get("status"),b.count(rD.get("id")));
+
+        q.groupBy(rD.get("status"));
+        Query query = s.createQuery(q);
+
+        return query.getResultList();
     }
 }

@@ -38,4 +38,5 @@ public class Evaluation {
 
     @Column(name = "created_date", nullable = false)
     private LocalDate createdDate;
+
 }

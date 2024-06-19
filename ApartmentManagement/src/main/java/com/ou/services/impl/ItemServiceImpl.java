@@ -3,7 +3,6 @@ package com.ou.services.impl;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.ou.dto.request.ItemCreationRequest;
-import com.ou.dto.request.PaginationRequest;
 import com.ou.dto.request.SetReceivedDateItem;
 import com.ou.dto.response.ItemResponse;
 import com.ou.dto.response.LinkResponse;
@@ -18,13 +17,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
-@PropertySource("classpath:app.properties")
+@PropertySource("classpath:application-dev.properties")
 public class ItemServiceImpl implements ItemService {
     @Autowired
     private Environment env;

@@ -44,7 +44,7 @@ public class VnpayController {
         model.addAttribute("paymentTime", paymentTime);
         model.addAttribute("transactionId", transactionId);
         if(paymentStatus == 1){
-            billService.updateBill(Integer.parseInt(orderInfo));
+            billService.updateBill(Integer.parseInt(orderInfo),Long.parseLong(totalPrice));
             return "orderSuccess";
         }else{
             return "orderFail";

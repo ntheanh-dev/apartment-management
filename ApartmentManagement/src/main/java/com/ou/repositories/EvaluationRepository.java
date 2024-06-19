@@ -7,4 +7,5 @@ import java.util.List;
 public interface EvaluationRepository {
     Evaluation addEvaluation(Evaluation evaluation);
     List<Evaluation> getAllEvaluations();
+    Long countAllEvaluations();
 }

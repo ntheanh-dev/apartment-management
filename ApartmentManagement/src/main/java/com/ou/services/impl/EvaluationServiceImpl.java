@@ -52,4 +52,9 @@ public class EvaluationServiceImpl implements EvaluationService {
     public List<Evaluation> getAllEvaluations() {
         return evaluationRepository.getAllEvaluations();
     }
+
+    @Override
+    public Long countAllEvaluations() {
+        return evaluationRepository.countAllEvaluations();
+    }
 }

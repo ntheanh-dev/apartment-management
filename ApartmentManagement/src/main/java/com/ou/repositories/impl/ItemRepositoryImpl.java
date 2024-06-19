@@ -26,7 +26,7 @@ import java.util.Map;
 
 @Repository
 @Transactional
-@PropertySource("classpath:app.properties")
+@PropertySource("classpath:application-dev.properties")
 public class ItemRepositoryImpl implements ItemRepository {
 
     @Autowired

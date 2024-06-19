@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Service
-@PropertySource("classpath:app.properties")
+@PropertySource("classpath:application-dev.properties")
 @Slf4j
 public class JwtService {
 

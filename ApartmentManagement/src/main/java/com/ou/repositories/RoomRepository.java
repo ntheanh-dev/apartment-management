@@ -11,4 +11,5 @@ public interface RoomRepository{
     Room getRoomById(int id);
     void deleteRoomById(Room room);
     void updateStatus(Room room);
+    Long getRoomCount();
 }

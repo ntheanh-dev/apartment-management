@@ -11,7 +11,8 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "room")
 @NamedQueries({
-        @NamedQuery(name = "Room.findAll", query = "select r from Room r")
+        @NamedQuery(name = "Room.findAll", query = "select r from Room r"),
+        @NamedQuery(name = "Room.countByStatusLike", query = "select count(r) from Room r where r.status like :status")
 })
 public class Room {
     @Id

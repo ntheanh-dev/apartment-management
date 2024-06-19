@@ -6,11 +6,12 @@ import {
 
 
 $(document).ready(async function () {
-    let db = getFirestore();
     const username = localStorage.getItem('username')
     if(!username || username === "anonymousUser") {
         window.history.back()
     }
+    let db = getFirestore();
+    let currentRoomId = null;
     try {
         const collection_ref = collection(db, 'users');
         const q = query(collection_ref, where('username', '==', username));
@@ -28,9 +29,10 @@ $(document).ready(async function () {
             if (res.length === 0) {
                 throw new Error('Không tìm thấy dữ liệu');
             } else {
+                currentRoomId = res[0].id
                 const q = query(
                     collection(db, 'messages'),
-                    where('roomId', '==', res[0].id),
+                    where('roomId', '==', currentRoomId),
                     orderBy('createAt'),
                 );
                 onSnapshot(q, (querySnapshot) => {

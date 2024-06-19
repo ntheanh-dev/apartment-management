@@ -27,7 +27,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 })
 @Order(2)
 @EnableTransactionManagement
-@PropertySource("classpath:cloudinary.properties")
+@PropertySource("classpath:application-dev.properties")
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
