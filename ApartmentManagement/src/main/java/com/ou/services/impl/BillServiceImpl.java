@@ -62,7 +62,7 @@ public class BillServiceImpl implements BillService {
     }
 
     @Override
-    public void updateBill(int billID) {
-        billRepository.updateBillById(billID);
+    public void updateBill(int billID,Long price) {
+        billRepository.updateBillById(billID,price);
     }
 }

@@ -4,6 +4,7 @@ import com.ou.pojo.Criterion;
 import com.ou.repositories.CriterionRepository;
 import com.ou.services.CriterionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

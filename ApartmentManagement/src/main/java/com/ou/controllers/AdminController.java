@@ -4,7 +4,7 @@
  */
 package com.ou.controllers;
 
-import com.ou.services.FloorServices;
+import com.ou.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,9 +21,21 @@ import java.util.Arrays;
 public class AdminController {
     @Autowired
     private FloorServices floorServices;
-
+    @Autowired
+    private RoomServices roomServices;
+    @Autowired
+    private ReportService reportService;
+    @Autowired
+    private EvaluationService evaluationService;
+    @Autowired
+    private StatService statService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("countRoom",this.roomServices.getRoomCount());
+        model.addAttribute("countReport",this.reportService.countReport());
+        model.addAttribute("countEvaluation",this.evaluationService.countAllEvaluations());
+        model.addAttribute("statReport",this.statService.statReport());
+        model.addAttribute("statRevenue",this.statService.statsRevenueByMonth());
         return "IndexStat";
     }
 

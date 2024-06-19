@@ -1,5 +1,6 @@
 package com.ou.repositories.impl;
 
+import com.ou.pojo.Receipt;
 import com.ou.pojo.Report;
 import com.ou.pojo.Room;
 import com.ou.repositories.ReportRepository;
@@ -55,5 +56,25 @@ public class ReportRepositoryImpl implements ReportRepository {
         q.where(predicates.toArray(Predicate[]::new));
         Query query = session.createQuery(q);
         return query.getResultList();
+    }
+
+    @Override
+    public Long countReports() {
+        Session s = sessionFactory.getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
+
+        Root rD = q.from(Report.class);
+
+        q.multiselect(b.count(rD.get("id")));
+
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(b.equal(b.function("MONTH", Integer.class, rD.get("createdDate")), LocalDate.now().getMonthValue()));
+
+        q.where(predicates.toArray(Predicate[]::new));
+
+        Query query = s.createQuery(q);
+
+        return (Long) query.getSingleResult();
     }
 }

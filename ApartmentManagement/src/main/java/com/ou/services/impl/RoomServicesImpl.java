@@ -42,4 +42,9 @@ public class RoomServicesImpl implements RoomServices {
     public void updateRoom(Room room) {
         this.roomRepository.updateStatus(room);
     }
+
+    @Override
+    public Long getRoomCount() {
+        return this.roomRepository.getRoomCount();
+    }
 }

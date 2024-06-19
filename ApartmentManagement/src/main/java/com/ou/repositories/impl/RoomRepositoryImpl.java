@@ -76,4 +76,12 @@ public class RoomRepositoryImpl implements RoomRepository {
         tmp.setStatus("đã thuê");
         s.update(tmp);
     }
+
+    @Override
+    public Long getRoomCount() {
+        Session s = this.factory.getObject().getCurrentSession();
+        Query q = s.createNamedQuery("Room.countByStatusLike");
+        q.setParameter("status", "đã thuê");
+        return (Long) q.getSingleResult();
+    }
 }

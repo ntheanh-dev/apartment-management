@@ -11,4 +11,5 @@ public interface RoomServices {
     Room getRoomById(int id);
     void deleteRoomById(int id);
     void updateRoom(Room room);
+    Long getRoomCount();
 }

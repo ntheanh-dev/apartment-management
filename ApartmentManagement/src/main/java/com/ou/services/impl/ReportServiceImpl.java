@@ -42,4 +42,9 @@ public class ReportServiceImpl implements ReportService {
     public List<Report> getAllReport(Map<String, String> params) {
         return reportRepository.getAllReports(params);
     }
+
+    @Override
+    public Long countReport() {
+        return reportRepository.countReports();
+    }
 }

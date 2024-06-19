@@ -8,4 +8,5 @@ import java.util.List;
 public interface EvaluationService {
     Evaluation addEvaluation(FormEvaluation formEvaluation);
     List<Evaluation> getAllEvaluations();
+    Long countAllEvaluations();
 }

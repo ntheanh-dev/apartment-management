@@ -9,4 +9,5 @@ import java.util.Map;
 public interface ReportService {
     Report addReport(Report report) throws IOException, InterruptedException;
     List<Report> getAllReport(Map<String, String> params);
+    Long countReport();
 }

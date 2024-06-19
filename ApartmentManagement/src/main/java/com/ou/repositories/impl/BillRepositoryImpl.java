@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -32,9 +33,10 @@ public class BillRepositoryImpl implements BillRepository {
     }
 
     @Override
-    public void updateBillById(int orderID) {
+    public void updateBillById(int orderID,Long price) {
         Session s = this.sessionFactory.getCurrentSession();
         Receipt receipt = s.get(Receipt.class, orderID);
+        receipt.setPrice(new BigDecimal(price));
         receipt.setStatus("Đã thu");
         s.update(receipt);
     }
