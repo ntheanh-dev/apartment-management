@@ -21,6 +21,9 @@
     <%-----------------Tailwind css----------------%>
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <%-----------------SweetAlert2----------------%>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -53,7 +56,23 @@
             </form>
         </div>
     </div>
-
+    <script>
+        let error = ''
+        <c:if test="${param.error != null}">
+            error = 'Thông tin tài khoản hoặc mật khẩu không chính xác'
+        </c:if>
+        <c:if test="${param.accessDenied != null}">
+            error = 'Hãy đăng nhập với tài khoản admin để thực hiện chức năng này'
+        </c:if>
+        if(!error === '') {
+            Swal.fire({
+                title: error,
+                icon: 'error',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok',
+            })
+        }
+    </script>
 </body>
 </html>
 

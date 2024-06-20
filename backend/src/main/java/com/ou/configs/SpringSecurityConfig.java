@@ -63,19 +63,25 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http)
             throws Exception {
-        http.formLogin().loginPage("/login").usernameParameter("username").passwordParameter("password");
-
-        http.formLogin().defaultSuccessUrl("/").failureUrl("/login?error");
-
-        http.logout().logoutUrl("/logout").logoutSuccessUrl("/login");
-
-        http.exceptionHandling()
-                .accessDeniedPage("/login?accessDenied");
-//        http.authorizeRequests().antMatchers("/").permitAll()
-//                .antMatchers("/**/add")
-//                .access("hasRole('ROLE_ADMIN')");
-//        .antMatchers("/**/pay")
-//                .access("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
-        http.csrf().disable();
+        http
+            .authorizeRequests()
+                .antMatchers("/login", "/logout").permitAll()
+                .anyRequest().hasRole("ADMIN")
+                .and()
+            .formLogin()
+                .loginPage("/login")
+                .usernameParameter("username")
+                .passwordParameter("password")
+                .defaultSuccessUrl("/")
+                .failureUrl("/login?error")
+                .and()
+            .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .and()
+            .exceptionHandling()
+                .accessDeniedPage("/login?accessDenied")
+                .and()
+            .csrf().disable();
     }
 }

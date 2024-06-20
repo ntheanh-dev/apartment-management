@@ -1,5 +1,7 @@
 package com.ou.controllers;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,11 +14,16 @@ import java.util.Map;
 public class AuthController {
 
     @GetMapping("/login")
-    public String login(@RequestParam Map<String,String> params) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        if(!username.equals("anonymousUser")) {
-            return "redirect:/";
+    public String login(@RequestParam Map<String, String> params, Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            for (GrantedAuthority authority : authentication.getAuthorities()) {
+                if (authority.getAuthority().equals("ROLE_ADMIN")) {
+                    return "redirect:/";
+                }
+            }
         }
+        model.addAttribute("params",params);
         return "login";
     }
 }

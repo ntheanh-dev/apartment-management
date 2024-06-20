@@ -6,6 +6,8 @@ package com.ou.controllers;
 
 import com.ou.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,18 +32,14 @@ public class AdminController {
     private EvaluationService evaluationService;
     @Autowired
     private StatService statService;
-    @RequestMapping(value = "/",method = RequestMethod.GET)
-    public String index(Model model) {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        if(username.equals("anonymousUser")) {
-            return "redirect:/login";
-        }
 
-        model.addAttribute("countRoom",this.roomServices.getRoomCount());
-        model.addAttribute("countReport",this.reportService.countReport());
-        model.addAttribute("countEvaluation",this.evaluationService.countAllEvaluations());
-        model.addAttribute("statReport",this.statService.statReport());
-        model.addAttribute("statRevenue",this.statService.statsRevenueByMonth());
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String index(Model model) {
+        model.addAttribute("countRoom", this.roomServices.getRoomCount());
+        model.addAttribute("countReport", this.reportService.countReport());
+        model.addAttribute("countEvaluation", this.evaluationService.countAllEvaluations());
+        model.addAttribute("statReport", this.statService.statReport());
+        model.addAttribute("statRevenue", this.statService.statsRevenueByMonth());
         return "IndexStat";
     }
 
