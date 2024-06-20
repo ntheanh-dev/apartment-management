@@ -6,6 +6,7 @@ package com.ou.controllers;
 
 import com.ou.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +32,10 @@ public class AdminController {
     private StatService statService;
     @RequestMapping(value = "/",method = RequestMethod.GET)
     public String index(Model model) {
-
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(username.equals("anonymousUser")) {
+            return "redirect:/login";
+        }
 
         model.addAttribute("countRoom",this.roomServices.getRoomCount());
         model.addAttribute("countReport",this.reportService.countReport());
