@@ -1,0 +1,28 @@
+services:
+  db:
+    image: mysql:8.0.33-oracle
+    container_name: my_db_container
+    ports: 
+      - '3307:3306'
+    volumes: 
+      - dbdata:/var/lib/mysql
+      - ./scripts/database/:/docker-entrypoint-initdb.d/
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=Admin@123
+      - MYSQL_DATABASE=manage_apartment
+
+  backend:
+    build:
+      context: tomcat/
+    volumes:
+      - ./backend/target/ApartmentManagement-1.0-SNAPSHOT.war:/opt/tomcat/webapps/ApartmentManagement-1.0-SNAPSHOT.war
+    container_name: tomcat
+    ports: 
+      - '8081:8080'
+    restart: unless-stopped
+    depends_on:
+      - db
+
+volumes:
+  dbdata:
