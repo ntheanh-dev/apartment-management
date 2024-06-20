@@ -15,7 +15,7 @@ public class StatServiceImpl implements StatService {
     private StatRepository statRepository;
 
     @Override
-    @Cacheable(value = "statsRevenueByMonth")
+    @Cacheable(value = "statsRevenueByMonth" )
     public List<Object[]> statsRevenueByMonth() {
         int year = LocalDate.now().getYear();
         return this.statRepository.statsRevenueByMonth(year);

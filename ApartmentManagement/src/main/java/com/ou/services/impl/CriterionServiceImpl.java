@@ -13,6 +13,7 @@ import java.util.List;
 public class CriterionServiceImpl implements CriterionService {
     @Autowired
     private CriterionRepository criterionRepository;
+    @Cacheable(value = "criterion")
     @Override
     public List<Criterion> getCriterions() {
         return criterionRepository.findAll();

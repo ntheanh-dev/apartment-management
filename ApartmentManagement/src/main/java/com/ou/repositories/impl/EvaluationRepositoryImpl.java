@@ -58,4 +58,23 @@ public class EvaluationRepositoryImpl implements EvaluationRepository {
 
         return (Long) query.getSingleResult();
     }
+
+    @Override
+    public Boolean canEvaluate(int id) {
+        Session s = this.factoryBean.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Evaluation[]> q = b.createQuery(Evaluation[].class);
+
+        Root rD = q.from(Evaluation.class);
+        q.select(rD);
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(b.equal(b.function("MONTH", Integer.class, rD.get("createdDate")), LocalDate.now().getMonthValue()));
+        predicates.add(b.equal(rD.get("residentUser"),id));
+
+        q.where(predicates.toArray(Predicate[]::new));
+
+        Query query = s.createQuery(q);
+
+        return query.getResultList().isEmpty();
+    }
 }

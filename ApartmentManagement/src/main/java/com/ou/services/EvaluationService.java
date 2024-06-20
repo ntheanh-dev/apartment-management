@@ -9,4 +9,5 @@ public interface EvaluationService {
     Evaluation addEvaluation(FormEvaluation formEvaluation);
     List<Evaluation> getAllEvaluations();
     Long countAllEvaluations();
+    Boolean canEvaluation(int id);
 }

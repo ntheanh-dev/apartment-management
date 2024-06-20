@@ -57,4 +57,9 @@ public class EvaluationServiceImpl implements EvaluationService {
     public Long countAllEvaluations() {
         return evaluationRepository.countAllEvaluations();
     }
+
+    @Override
+    public Boolean canEvaluation(int id) {
+        return evaluationRepository.canEvaluate(id);
+    }
 }

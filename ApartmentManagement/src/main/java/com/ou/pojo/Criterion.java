@@ -13,7 +13,7 @@ import java.io.Serializable;
 @NamedQueries({
         @NamedQuery(name = "Criterion.findAll", query = "select c from Criterion c")
 })
-public class Criterion {
+public class Criterion implements Serializable {
     @Id
     @Column(name = "id", nullable = false)
     private Integer id;
