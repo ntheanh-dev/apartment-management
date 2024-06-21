@@ -13,13 +13,16 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "receipt")
+@NamedQueries({
+        @NamedQuery(name = "Receipt.findAll", query = "select r from Receipt r")
+})
 public class Receipt {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Contract_id", nullable = false)
     private Contract contract;
 
@@ -34,6 +37,9 @@ public class Receipt {
     @Column(name = "status")
     private String status = "Chưa thu";
 
+    @OneToMany(mappedBy = "receipt" , cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    private Set<ReceiptDetail> receiptDetails = new LinkedHashSet<>();
+
     private BigDecimal price;
 
     @Column(name = "price", precision = 10, scale = 2)
@@ -41,12 +47,6 @@ public class Receipt {
         return price;
     }
 
-//    private Set<ReceiptDetail> receiptDetails = new LinkedHashSet<>();
-//
-//    @OneToMany(mappedBy = "receipt")
-//    public Set<ReceiptDetail> getReceiptDetails() {
-//        return receiptDetails;
-//    }
 
     @Column(name = "title", nullable = false, length = 45)
     public String getTitle() {

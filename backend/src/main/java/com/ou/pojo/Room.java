@@ -1,5 +1,6 @@
 package com.ou.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,6 +43,7 @@ public class Room {
     @Column(name = "status", nullable = false)
     private String status;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Floor_id", nullable = false)
     private Floor floor;

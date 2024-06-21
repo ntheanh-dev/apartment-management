@@ -54,6 +54,7 @@ public class ReportRepositoryImpl implements ReportRepository {
             predicates.add(b.equal(r.get("createdDate"), dateTime));
         }
         q.where(predicates.toArray(Predicate[]::new));
+        q.orderBy(b.desc(r.get("createdDate")));
         Query query = session.createQuery(q);
         return query.getResultList();
     }

@@ -17,7 +17,6 @@ public class EvaluationController {
 
     @GetMapping("/")
     public String index(Model model){
-        System.out.println(this.evaluationService.getAllEvaluations().get(0).getDetailEvoluations());
         model.addAttribute("evaluation",this.evaluationService.getAllEvaluations());
         return "IndexEvaluation";
     }

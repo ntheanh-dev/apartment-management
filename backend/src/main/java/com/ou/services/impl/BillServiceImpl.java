@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class BillServiceImpl implements BillService {
@@ -64,5 +66,15 @@ public class BillServiceImpl implements BillService {
     @Override
     public void updateBill(int billID,Long price) {
         billRepository.updateBillById(billID,price);
+    }
+
+    @Override
+    public List<Receipt> getAllBill(Map<String, String> params) {
+        return this.billRepository.getAllReceipts(params);
+    }
+
+    @Override
+    public List<Receipt> getAllReceiptsByResidentID(int residentID) {
+        return this.billRepository.getAllReceiptsByResidentID(residentID);
     }
 }
