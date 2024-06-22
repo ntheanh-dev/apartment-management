@@ -119,10 +119,11 @@ public class UserServiceImpl implements UserService {
 
         Map<String, Object> rFirebase = new HashMap<>();
         try {
-            rFirebase.put("username",r.getIdentity());
+            rFirebase.put("username",u.getUsername());
             rFirebase.put("name",r.getFullName());
             rFirebase.put("avatar",r.getAvatar());
-            this.firebaseService.addUser(rFirebase);
+            rFirebase.put("userId",u.getId());
+            this.firebaseService.addDocument("users",rFirebase);
             this.firebaseService.addUserToFirstRoom(r.getIdentity());
         } catch (Exception ex) {
             System.out.println("Something went wrong with firebase");
@@ -162,13 +163,14 @@ public class UserServiceImpl implements UserService {
                 residentRepository.addResident(i);
 
                 try {
-                    rFirebase.put("username",i.getIdentity());
+                    rFirebase.put("username",u.getUsername());
                     rFirebase.put("name",i.getFullName());
                     rFirebase.put("avatar",i.getAvatar());
-                    this.firebaseService.addUser(rFirebase);
+                    rFirebase.put("userId",u.getId());
+                    this.firebaseService.addDocument("users",rFirebase);
                     this.firebaseService.addUserToFirstRoom(i.getIdentity());
                 } catch (Exception ex) {
-                    System.out.println("Somwthing went wrong with firebase");
+                    System.out.println("Something went wrong with firebase");
                 }
 
                 if(memberInRoomRepository.checkExistence(c,i)){
