@@ -12,6 +12,7 @@ import javax.persistence.Column;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ResidentResponse {
+    Integer id;
     String fullName;
     Boolean gender;
     String avatar;

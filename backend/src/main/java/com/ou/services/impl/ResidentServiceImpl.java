@@ -38,7 +38,9 @@ public class ResidentServiceImpl implements ResidentService {
     @Override
     public ResidentResponse getResident() {
         var resident = residentRepository.getResident();
-        return residentMapper.toResidentResponse(resident);
+        var response = residentMapper.toResidentResponse(resident);
+        response.setId(resident.getUser().getId());
+        return response;
     }
 
     @Override

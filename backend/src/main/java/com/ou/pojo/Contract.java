@@ -48,6 +48,6 @@ public class Contract {
     private LocalDate endedDate;
 
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contract")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "contract",fetch = FetchType.EAGER)
     private Set<MemberInRoom> memberInRoom;
 }

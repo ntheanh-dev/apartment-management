@@ -32,7 +32,6 @@ public class Receipt {
     @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    private String title;
 
     @Column(name = "status")
     private String status = "Chưa thu";
@@ -40,16 +39,11 @@ public class Receipt {
     @OneToMany(mappedBy = "receipt" , cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<ReceiptDetail> receiptDetails = new LinkedHashSet<>();
 
-    private BigDecimal price;
 
     @Column(name = "price", precision = 10, scale = 2)
-    public BigDecimal getPrice() {
-        return price;
-    }
+    public BigDecimal price;
 
 
     @Column(name = "title", nullable = false, length = 45)
-    public String getTitle() {
-        return title;
-    }
+    public String title;
 }
