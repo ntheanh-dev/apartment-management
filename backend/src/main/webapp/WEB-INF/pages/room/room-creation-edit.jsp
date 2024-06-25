@@ -23,7 +23,7 @@
                         <span>Quay Về</span>
                     </div>
                 </a>
-                <button class="btn btn-success w-full sm:w-32" type="submit">
+                <form:button class="btn btn-success w-full sm:w-32">
                     <div class="flex space-x-1 justify-center items-center">
                         <i class="bi bi-check2 pb-1"></i>
                         <c:choose>
@@ -32,7 +32,7 @@
                         </c:choose>
                         <form:hidden path="id"/>
                     </div>
-                </button>
+                </form:button>
             </div>
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -43,6 +43,8 @@
                                 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                     />
                 </label>
+                <form:errors path="number" cssClass="text-danger"/>
+
                 <div class="block mb-6">
                     <span class="text-gray-700">Dài *</span>
                     <div class="flex mb-6">
@@ -64,6 +66,8 @@
                             <p>Mét</p>
                         </div>
                     </div>
+                    <form:errors path="width" cssClass="text-danger"/>
+
                 </div>
                 <div class="block mb-6">
                     <span class="text-gray-700">Số lượng tối đa *</span>
@@ -75,6 +79,7 @@
                             <p>Người</p>
                         </div>
                     </div>
+                    <form:errors path="maximum" cssClass="text-danger"/>
                 </div>
             </div>
             <div>
@@ -88,6 +93,7 @@
                             <p>VNĐ</p>
                         </div>
                     </div>
+                    <form:errors path="price" cssClass="text-danger"/>
                 </div>
                 <div class="block mb-6">
                     <span class="text-gray-700">Tầng</span>
@@ -106,6 +112,7 @@
 
                         </c:forEach>
                     </form:select>
+                    <form:errors path="floor" cssClass="text-danger"/>
                 </div>
                 <c:choose>
                     <c:when test="${room.id > 0 && room.status != roomStatus}">
@@ -127,6 +134,9 @@
                             </form:select>
                         </div>
                     </c:when>
+                    <c:otherwise>
+                        <form:hidden path="status"/>
+                    </c:otherwise>
                 </c:choose>
             </div>
         </div>
@@ -136,7 +146,7 @@
                 focus:ring focus:ring-indigo-200 focus:ring-opacity-50  w-full p-2"
             />
         </label>
-        <p class="my-4 text-red-700">(*): Thông tin bắt buộc</p>
+        <form:errors path="description" cssClass="text-danger"/>
     </div>
 </form:form>
 

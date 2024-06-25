@@ -27,7 +27,7 @@ public class Cabinet {
     private Contract contract;
 
     @Column(name = "isActive")
-    private Boolean isActive;
+    private Boolean isActive = true;
 
     @OneToMany(mappedBy = "cabinet")
     private List<Item> items;

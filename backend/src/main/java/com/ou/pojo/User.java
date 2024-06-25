@@ -31,4 +31,7 @@ public class User implements Serializable {
     @Column(name = "active")
     private Boolean active = true;
 
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Resident resident;
+
 }
