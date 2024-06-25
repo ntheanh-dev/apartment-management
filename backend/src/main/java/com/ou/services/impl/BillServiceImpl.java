@@ -70,6 +70,7 @@ public class BillServiceImpl implements BillService {
                     Map<String, Object> notiMap = new HashMap<>();
                     notiMap.put("userId", resd.getResidentUser().getId());
                     notiMap.put("notificationType", NotificationType.MONTHLY_BILL);
+                    notiMap.put("receiptId", resd.getId());
                     this.firebaseService.addDocument("notifications",notiMap);
                 }catch (Exception e){
                     System.out.println("Something went wrong with firebase when creating notification about the bill");

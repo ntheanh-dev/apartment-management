@@ -1,6 +1,8 @@
 package com.ou.controllers;
 
+import com.google.firebase.FirebaseException;
 import com.ou.services.BillService;
+import com.ou.services.FirebaseService;
 import com.ou.services.VnpayService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,10 @@ import javax.servlet.http.HttpServletRequest;
 public class VnpayController {
     @Autowired
     private VnpayService vnPayService;
+
+    @Autowired
+    private FirebaseService firebaseService;
+
     @Autowired
     private BillService billService;
 
@@ -44,7 +50,15 @@ public class VnpayController {
         model.addAttribute("paymentTime", paymentTime);
         model.addAttribute("transactionId", transactionId);
         if(paymentStatus == 1){
-            billService.updateBill(Integer.parseInt(orderInfo),Long.parseLong(totalPrice));
+            int receiptID = Integer.parseInt(orderInfo);
+            billService.updateBill(receiptID,Long.parseLong(totalPrice));
+            try {
+                firebaseService.deleteNotifyDocuments("notifications","receiptId",receiptID);
+            }catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                System.out.println("Something went wrong with firebase");
+                System.out.println("Cannot delete monthly bill notification on firebase");
+            }
             return "orderSuccess";
         }else{
             return "orderFail";

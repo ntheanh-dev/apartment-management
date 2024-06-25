@@ -35,6 +35,17 @@ public class FirebaseService {
         docRef.set(dataMap);
     }
 
+    public void deleteNotifyDocuments(String collectionName,String fieldName, Object value) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+        Query query = db.collection(collectionName).whereEqualTo(fieldName, value);
+        ApiFuture<QuerySnapshot> querySnapshot = query.get();
+        List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+        for (QueryDocumentSnapshot document : documents) {
+            String docId = document.getId();
+            db.collection(collectionName).document(docId).delete();
+        }
+    }
+
     public void addUserToFirstRoom(String userId) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
         CollectionReference rooms = db.collection("rooms");
