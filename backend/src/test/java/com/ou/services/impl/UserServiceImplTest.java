@@ -1,8 +1,7 @@
 package com.ou.services.impl;
 
-import com.ou.dto.request.AuthenticationRequest;
+import com.ou.dto.request.ChangePasswordRequest;
 import com.ou.dto.request.UserCreationRequest;
-import com.ou.dto.response.AuthenticationResponse;
 import com.ou.dto.response.UserResponse;
 import com.ou.exception.AppException;
 import com.ou.mapper.UserMapper;
@@ -13,7 +12,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mockito;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -36,10 +38,15 @@ public class UserServiceImplTest {
     private UserMapper userMapper;
     @Mock
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Mock
+    private SecurityContext securityContext;
+    @Mock
+    private Authentication authentication;
 
     private User user;
     private UserResponse userResponse;
     private UserCreationRequest userCreationRequest;
+    private ChangePasswordRequest changePasswordRequest;
     @Before
     public void init() {
         MockitoAnnotations.openMocks(this);
@@ -60,10 +67,15 @@ public class UserServiceImplTest {
                 .role("ROLE_USER")
                 .active(true)
                 .build();
+
+        changePasswordRequest = ChangePasswordRequest.builder()
+                .oldPassword("Password1")
+                .newPassword("Password2")
+                .build();
     }
 
     @Test
-    public void addUser_vailRequest_success() {
+    public void addUser_validRequest_success() {
         //GIVEN
         Mockito.when(userRepository.userExistsByUsername(ArgumentMatchers.anyString())).thenReturn(false);
         Mockito.when(userRepository.addUser(user)).thenReturn(user);
@@ -86,5 +98,21 @@ public class UserServiceImplTest {
 
         //THEN
         Assert.assertEquals(exception.getErrorCode().getCode(), 1002);
+    }
+
+    @Test
+    public void changePassword_incorrectOldPasswordRequest_fail() {
+        //GIVEN
+        Mockito.when(securityContext.getAuthentication()).thenReturn(authentication);
+        Mockito.when(authentication.getName()).thenReturn(user.getUsername());
+        Mockito.when(userRepository.getUserByUsername(user.getUsername())).thenReturn(user);
+        Mockito.when(bCryptPasswordEncoder.matches(changePasswordRequest.getOldPassword(),user.getPassword()))
+                .thenReturn(false);
+        //WHEN
+        var exception = Assert.assertThrows(AppException.class,
+                () -> userServiceimpl.changePassword(changePasswordRequest)
+        );
+        //THEN
+        Assert.assertEquals(exception.getErrorCode().getCode(), 1001);
     }
 }

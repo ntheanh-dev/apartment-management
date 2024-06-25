@@ -185,9 +185,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(ChangePasswordRequest changePasswordRequest) {
-        var context = SecurityContextHolder.getContext();
-        String username = context.getAuthentication().getName();
-        User user = userRepository.getUserByUsername(username);
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null){
+            throw new AppException(ErrorCode.UNAUTHORIZED);
+        }
+        User user = userRepository.getUserByUsername(authentication.getName());
         if(!this.passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword())){
             throw new AppException(ErrorCode.INCORRECT_PASSWORD);
         }
