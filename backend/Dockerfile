@@ -12,8 +12,8 @@ ENV TOMCAT_HOME=/opt/tomcat
 RUN wget https://dlcdn.apache.org/tomcat/tomcat-8/v8.5.100/bin/apache-tomcat-8.5.100.tar.gz
 RUN tar xzvf apache-tomcat-*.tar.gz -C /opt/tomcat --strip-components=1
 
-COPY ./config/* /opt/tomcat/conf/
-COPY ApartmentManagement.war /opt/tomcat/webapps/
+# COPY ./config/* /opt/tomcat/conf/
+COPY ./target/*.war /opt/tomcat/webapps/ApartmentManagement.war
 
 # Cấu hình cổng để Tomcat lắng nghe
 EXPOSE 8080

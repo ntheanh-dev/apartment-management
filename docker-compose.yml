@@ -14,9 +14,8 @@ services:
 
   backend:
     build:
-      context: tomcat/
-    # image: maverick0809/tomcat:java17
-    container_name: tomcat
+      context: backend/
+    container_name: backend
     ports: 
       - '8081:8080'
     restart: unless-stopped
