@@ -4,6 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,7 +23,7 @@ public class Resident {
     private Integer id;
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "User_id", nullable = false)
     private User user;
 
@@ -51,9 +55,21 @@ public class Resident {
     private String address;
 
     @Column(name = "date_of_birth", nullable = false, length = 45)
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(name = "identity", nullable = false, length = 12)
     private String identity;
+
+    @OneToMany(mappedBy = "residentUser",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Evaluation> evaluations = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "residentUser",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<FamilyMember> familyMembers = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "residentUser",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<MemberInRoom> memberInRooms = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "residentUser",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Report> reports = new LinkedHashSet<>();
 
 }

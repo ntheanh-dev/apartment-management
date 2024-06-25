@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createContract(RoomRegisterDto user,Integer roomId) {
         User u = new User();
-        if(user.getId() == 0){
+        if(user.getId() == null){
             u.setUsername(user.getIdentity());
             u.setPassword(passwordEncoder.encode(user.getIdentity()));
             u.setRole("ROLE_USER");
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
         }
 
         Contract c = userMapper.toContract(user);
-        if(user.getIdContract() != 0){
+        if(user.getIdContract() != null){
             c.setId(user.getIdContract());
         }
         Room room = roomServices.getRoomById(roomId);
@@ -204,5 +204,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean userExistsByUsername(String username) {
         return this.userRepository.userExistsByUsername(username);
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        this.userRepository.deleteUser(id);
     }
 }

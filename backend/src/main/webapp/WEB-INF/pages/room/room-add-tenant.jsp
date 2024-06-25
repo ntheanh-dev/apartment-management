@@ -8,6 +8,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:url value="/room/${room.id}/add-tenant" var="action"/>
+<c:set var="emptyString" value=""/>
 <form:form modelAttribute="resident" action="${action}"
            class="rounded-sm border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-900 flex-col flex h-full items-center justify-center mt-2 sm:px-4">
     <div class="h-full w-full">
@@ -69,13 +70,15 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block mb-3">
-                            <span class="text-gray-700">Họ tên *</span>
+                            <span class="text-gray-700">Họ tên</span>
+                            <form:errors path="fullName" cssClass="text-danger font-bold"/>
                             <form:input path="fullName" type="text" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                             />
                         </label>
                         <label class="block mb-3">
                             <span class="text-gray-700">Ngày sinh</span>
+                            <form:errors path="dateOfBirth" cssClass="text-danger font-bold"/>
                             <form:input path="dateOfBirth" type="date" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                             />
@@ -121,12 +124,14 @@
                         </div>
                         <label class="block mb-3">
                             <span class="text-gray-700">CMND/ CCCD</span>
+                            <form:errors path="identity" cssClass="text-danger font-bold"/>
                             <form:input path="identity" type="text" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                             />
                         </label>
                         <label class="block mb-3">
                             <span class="text-gray-700">Điện thoại</span>
+                            <form:errors path="phone" cssClass="text-danger font-bold"/>
                             <form:input path="phone" type="phone" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                             />
@@ -141,6 +146,7 @@
                     <div class="sm:col-span-2">
                         <label class="block mb-3">
                             <span class="text-gray-700">Địa chỉ thường trú</span>
+                            <form:errors path="address" cssClass="text-danger font-bold"/>
                             <form:input path="address" type="text" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                             />
@@ -149,8 +155,9 @@
                     <div>
                         <div class="block mb-3">
                             <span class="text-gray-700">Số xe</span>
+                            <form:errors path="numberPlate" cssClass="text-danger font-bold"/>
                             <div class="flex">
-                                <form:input path="numberPlate" type="number" class="p-2 block w-full border-1 border-gray-600 rounded-l-md shadow-sm
+                                <form:input path="numberPlate" class="p-2 block w-full border-1 border-gray-600 rounded-l-md shadow-sm
                                         focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
                                 />
                                 <div class="inline-flex items-center p-2 text-sm text-gray-900 border rounded-r-md bg-gray-400 shadow-sm">
@@ -174,23 +181,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block mb-3">
-                            <span class="text-gray-700">Ngày kí hợp động</span>
-                            <input id="startedDate" type="date" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
-                                focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
-                            />
-                            <script>
-                                document.addEventListener('DOMContentLoaded', function() {
-                                    const today = new Date();
-                                    const yyyy = today.getFullYear();
-                                    const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months start at 0
-                                    const dd = String(today.getDate()).padStart(2, '0');
 
-                                    const formattedToday = yyyy+"-"+mm+"-"+dd;
-                                    document.getElementById('startedDate').value = formattedToday;
-                                });
-                            </script>
-                        </label>
                         <div class="block mb-3">
                             <span class="text-gray-700">Tiền cọc*</span>
                             <div class="flex">
@@ -321,7 +312,7 @@
                                 <form:input path="listMember[${status.index}].numberPlate" type="text" class="border p-1"/>
                             </td>
                             <td class="p-2">
-                                <button class="btn btn-danger px-3"  onclick="removeRow(this)"><span class="font-medium text-xl">-</span></button>
+                                <a class="btn btn-danger px-3" href="../../user/delete/${resident.listMember[status.index].id}"><span class="font-medium text-xl">-</span></a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -336,15 +327,29 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
                     <div>
                         <label class="block mb-3">
-                            <span class="text-gray-700">Ngày bắt đầu hợp đồng *</span>
-                            <form:input path="startedDate" type="date" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
-                                focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 "
+                            <span class="text-gray-700">Ngày bắt đầu hợp đồng</span>
+                            <form:input path="startedDate" id="startedDate" type="date" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
+                                focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                             />
+                                <script>
+                                    if(!document.querySelector("#startedDate").value){
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            const today = new Date();
+                                            const yyyy = today.getFullYear();
+                                            const mm = String(today.getMonth() + 1).padStart(2, '0'); // Months start at 0
+                                            const dd = String(today.getDate()).padStart(2, '0');
+
+                                            const formattedToday = yyyy+"-"+mm+"-"+dd;
+                                            document.getElementById('startedDate').value = formattedToday;
+                                        });
+                                    }
+                                </script>
+
                         </label>
                     </div>
                     <div>
                         <label class="block mb-3">
-                            <span class="text-gray-700">Thời hạn *</span>
+                            <span class="text-gray-700">Thời hạn</span>
                             <form:input path="totalMonth" type="number" class="p-2 block w-full border-1 border-gray-600 rounded-md shadow-sm
                                 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 " value="12"
                             />
@@ -357,15 +362,14 @@
 </form:form>
 <script src="<c:url value="/js/room.js"/>"></script>
 <script>
-        const myTimeout = setTimeout(getcity, 500);
-        const myTimeout1 = setTimeout(getward, 1000)
+        const myTimeout = setTimeout(getcity, 1500);
+        const myTimeout1 = setTimeout(getward, 3000)
         function getcity(){
             document.getElementById("city").value = "${resident.city}"
             document.getElementById("city").dispatchEvent(new Event('change'));
             clearTimeout(myTimeout);
         }
         function getward(){
-            console.log("${resident.ward}")
             document.getElementById("district").value ="${resident.ward}"
             clearTimeout(myTimeout1);
         }

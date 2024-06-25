@@ -5,6 +5,8 @@ import com.ou.pojo.MemberInRoom;
 import com.ou.pojo.Resident;
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,17 +48,22 @@ public class RoomRegisterDto {
         totalMonth = contract.getTotalMonth();
         idContract = contract.getId();
     }
-    private int id;
-    private int idContract;
+    private Integer id;
+    private Integer idContract;
+    @NotEmpty(message = "(*): Thông tin bắt buộc")
     private String fullName;
-    private String dateOfBirth;
+    private LocalDate dateOfBirth;
     private String city;
     private String ward;
+    @NotEmpty(message = "(*): Thông tin bắt buộc")
     private String address;
     private Boolean gender;
+    @NotEmpty(message = "(*): Thông tin bắt buộc")
     private String identity;
+   @NotEmpty(message = "(*): Thông tin bắt buộc")
     private String phone;
     private String email;
+    @NotNull(message = "(*): Thông tin bắt buộc")
     private String numberPlate;
     private long securityDeposit;
     private String startedDate;

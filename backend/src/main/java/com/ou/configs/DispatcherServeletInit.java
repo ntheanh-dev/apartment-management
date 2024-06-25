@@ -22,7 +22,7 @@ public class DispatcherServeletInit extends AbstractAnnotationConfigDispatcherSe
                 SpringSecurityConfig.class,
                 JwtSecurityConfig.class,
                 FirebaseConfig.class,
-                RedisConfig.class
+                RedisConfig.class,
         };
     }
 

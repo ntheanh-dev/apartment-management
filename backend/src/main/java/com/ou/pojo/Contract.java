@@ -28,7 +28,7 @@ public class Contract {
     private Room room;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "Resident_User_id", nullable = false)
     private Resident residentUser;
 

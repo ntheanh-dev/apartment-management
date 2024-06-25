@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface ReportRepository {
-    Report addReport(Report report);
+    void addReport(Report report);
     List<Report> getAllReports(Map<String, String> params);
     Long countReports();
 }

@@ -30,10 +30,9 @@ public class ReportRepositoryImpl implements ReportRepository {
     private SessionFactory sessionFactory;
 
     @Override
-    public Report addReport(Report report) {
+    public void addReport(Report report) {
         Session session = sessionFactory.getCurrentSession();
         session.save(report);
-        return report;
     }
 
     @Override

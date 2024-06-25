@@ -9,4 +9,5 @@ public interface UserRepository {
     User authUser(String username, String password);
     boolean userExistsByUsername(String username);
     void changePassword(User user);
+    void deleteUser(int id);
 }

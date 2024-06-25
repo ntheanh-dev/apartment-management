@@ -3,6 +3,7 @@ package com.ou.repositories.impl;
 import com.ou.dto.request.ChangePasswordRequest;
 import com.ou.exception.AppException;
 import com.ou.exception.ErrorCode;
+import com.ou.pojo.Room;
 import com.ou.pojo.User;
 import com.ou.repositories.UserRepository;
 import org.hibernate.Session;
@@ -69,5 +70,12 @@ public class UserRepositoryImpl implements UserRepository {
     public void changePassword(User user) {
         Session s = this.factory.getObject().getCurrentSession();
         s.update(user);
+    }
+
+    @Override
+    public void deleteUser(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        User u = s.get(User.class, id);
+        s.delete(u);
     }
 }

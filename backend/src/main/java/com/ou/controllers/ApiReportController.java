@@ -1,13 +1,15 @@
 package com.ou.controllers;
 
-import com.ou.dto.request.FormEvaluation;
 import com.ou.pojo.Report;
+import com.ou.pojo.User;
 import com.ou.services.ReportService;
+import com.ou.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.scheduling.annotation.Async;
 
 import java.io.IOException;
 
@@ -16,9 +18,14 @@ import java.io.IOException;
 @CrossOrigin
 public class ApiReportController {
     @Autowired
+    private UserService userService;
+    @Autowired
     private ReportService reportService;
     @PostMapping("/report/")
     public ResponseEntity<Object> addEvaluation(@RequestBody Report report) throws IOException, InterruptedException {
-        return new ResponseEntity<>(this.reportService.addReport(report), HttpStatus.OK);
+        ResponseEntity<Object> response = new ResponseEntity<>("báo cáo thành công", HttpStatus.OK);
+        User u = userService.getUserByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        this.reportService.addReport(report,u);
+        return response;
     }
 }

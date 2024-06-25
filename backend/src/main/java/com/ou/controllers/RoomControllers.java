@@ -99,7 +99,7 @@ public class RoomControllers {
                 model.addAttribute("errMsg", ex.toString());
             }
         }
-        return "roomIndex";
+        return "roomCreation";
     }
     @PostMapping("/{roomId}/add-tenant")
     public String roomPostAddTenant(Model model, @ModelAttribute(value = "resident") @Valid RoomRegisterDto r, BindingResult rs, @PathVariable Integer roomId) {
@@ -112,11 +112,19 @@ public class RoomControllers {
                 model.addAttribute("errMsg", ex.toString());
             }
         }
-        return "roomIndex";
+        Room room = roomServices.getRoomById(roomId);
+        model.addAttribute("room",room);
+        model.addAttribute("service",serviceServices.getServices());
+        return "roomAddTenant";
     }
     @GetMapping(value = "/{roomId}/delete")
-    public String roomDelete(@PathVariable Integer roomId) {
-        this.roomServices.deleteRoomById(roomId);
-        return "redirect:/";
+    public String roomDelete(Model model,@PathVariable Integer roomId ) {
+        try{
+            this.roomServices.deleteRoomById(roomId);
+        }catch (Exception ex){
+            model.addAttribute("errMsg", "Đang có hợp đồng đang thuê không thể xóa!");
+        }
+        return "redirect:/room/";
+
     }
 }

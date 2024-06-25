@@ -17,4 +17,5 @@ public interface UserService extends UserDetailsService {
     void changePassword(ChangePasswordRequest changePasswordRequest);
     User addAdmin(User user);
     boolean userExistsByUsername(String username);
+    void deleteUser(int id);
 }

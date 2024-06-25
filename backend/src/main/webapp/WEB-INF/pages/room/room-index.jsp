@@ -60,6 +60,7 @@
                 </a>
             </div>
         </div>
+        <h3 id="notice" class="text-red-500 p-2 text-xl font-bold"></h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
             <c:forEach items="${rooms}" var="r">
                 <div class="relative flex flex-col mt-6 text-gray-700 bg-white shadow-md bg-clip-border rounded-xl ">
@@ -111,47 +112,12 @@
                     </div>
                 </div>
             </c:forEach>
-            <%--            <div class="relative flex flex-col mt-6 text-gray-700 shadow-md bg-clip-border rounded-xl bg-teal-400 ">--%>
-            <%--                <div class="p-6">--%>
-            <%--                    <h5 class="block mb-2 font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">--%>
-            <%--                        <i class="bi bi-house"></i> P08--%>
-            <%--                    </h5>--%>
-
-            <%--                    <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Trả">--%>
-            <%--                        <i class="bi bi-arrow-repeat"></i>--%>
-            <%--                    </button>--%>
-
-            <%--                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Xem">--%>
-            <%--                        <i class="bi bi-eye-fill"></i>--%>
-            <%--                    </button>--%>
-
-            <%--                    <a class="btn btn-warning" href="<c:url value="/room/7/edit-tenant"/>">--%>
-            <%--                        <button type="button" data-toggle="tooltip" data-placement="top" title="Sửa">--%>
-            <%--                            <i class="bi bi-pencil-square"></i>--%>
-            <%--                        </button>--%>
-            <%--                    </a>--%>
-
-            <%--                    <div class="flex items-center my-1 space-x-2">--%>
-            <%--                        <i class="bi bi-cash "></i>--%>
-            <%--                        <span class="">3,000,000</span>--%>
-            <%--                    </div>--%>
-            <%--                </div>--%>
-            <%--                <div class="p-6">--%>
-            <%--                    <button class="btn btn-info">--%>
-            <%--                        <div class="flex space-x-1 justify-center items-center">--%>
-            <%--                            <i class="bi bi-pencil-square pb-1"></i>--%>
-            <%--                            <span>Chỉnh sửa</span>--%>
-            <%--                        </div>--%>
-            <%--                    </button>--%>
-            <%--                    <button class="btn btn-danger">--%>
-            <%--                        <div class="flex space-x-1 justify-center items-center">--%>
-            <%--                            <i class="bi bi-trash pb-1"></i>--%>
-            <%--                            <span>Xoá</span>--%>
-            <%--                        </div>--%>
-            <%--                    </button>--%>
-            <%--                </div>--%>
-            <%--            </div>--%>
-
         </div>
     </div>
 </div>
+<script>
+    const params = new URLSearchParams(document.location.search);
+    console.log(params)
+    const s = params.get("errMsg");
+    document.querySelector("#notice").innerHTML = s;
+</script>
