@@ -49,7 +49,6 @@ public class Room {
 
     @Lob
     @Column(name = "status", nullable = false)
-    @NotEmpty(message = "(*): Thông tin bắt buộc")
     private String status;
 
     @JsonIgnore

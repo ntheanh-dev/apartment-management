@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
         contractRepository.addContract(c);
         Cabinet cabinet = new Cabinet();
         cabinet.setContract(c);
-        cabinet.setCabinetcol("tủ của "+c.getRoom().getNumber());
+        cabinet.setCabinetcol("Tủ của "+c.getRoom().getNumber());
         cabinetRepository.createCabinet(cabinet);
         roomServices.updateRoom(room);
         if(user.getListMember() != null){

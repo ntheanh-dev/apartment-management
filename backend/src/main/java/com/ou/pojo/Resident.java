@@ -57,7 +57,7 @@ public class Resident {
     @Column(name = "date_of_birth", nullable = false, length = 45)
     private LocalDate dateOfBirth;
 
-    @Column(name = "identity", nullable = false, length = 12)
+    @Column(name = "identity", nullable = false, length = 20)
     private String identity;
 
     @OneToMany(mappedBy = "residentUser",cascade = CascadeType.ALL, orphanRemoval = true)

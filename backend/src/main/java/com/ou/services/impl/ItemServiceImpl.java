@@ -17,6 +17,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,6 +44,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void addItem(ItemCreationRequest itemCreationRequest) {
         var request = itemMapper.toItem(itemCreationRequest);
+        request.setDeliveryDate(LocalDate.now());
         if (!itemCreationRequest.getFile().isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(itemCreationRequest.getFile().getBytes(), ObjectUtils.asMap("resource_type", "auto"));

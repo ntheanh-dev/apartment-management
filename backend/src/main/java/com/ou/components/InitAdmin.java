@@ -38,9 +38,9 @@ public class InitAdmin {
                     .password("12345")
                     .build();
             user = userService.addAdmin(u);
+            System.out.println("Added admin account with username: " + defaultAdmin + ", password: 12345");
         } else {
             user = this.userService.getUserByUsername(defaultAdmin);
-            System.out.println("Admin account has added with username: " + defaultAdmin + ", password: 12345");
         }
 
         try {

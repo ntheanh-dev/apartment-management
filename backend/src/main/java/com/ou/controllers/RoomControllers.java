@@ -93,7 +93,7 @@ public class RoomControllers {
         if (!rs.hasErrors()) {
             try {
                 this.roomServices.addOrUpdateRoom(r);
-                return "redirect:/";
+                return "redirect:/room/";
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());
                 model.addAttribute("errMsg", ex.toString());
