@@ -70,3 +70,5 @@ secrets.yml
 node_modules
 *.idea
 **/firebase-service-account.json
+
+.env

@@ -22,5 +22,17 @@ services:
     depends_on:
       - db
 
+  frontend:
+    container_name: frontend
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    env_file:
+      - ./frontend/.env
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+
 volumes:
   dbdata:
