@@ -1,6 +1,7 @@
 import axios from 'axios';
 import cookie from 'react-cookies';
-export const BASE_URL = 'http://localhost:8085/ApartmentManagement/';
+// export const BASE_URL = 'http://localhost:8085/ApartmentManagement/';
+export const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:8085/ApartmentManagement/';
 
 export const endPoints = {
     items: (param) => `api/items/${param}`,
