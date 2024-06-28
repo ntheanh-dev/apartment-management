@@ -65,7 +65,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
             throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/login", "/logout","/payment").permitAll()
+                .antMatchers("/login", "/logout","/payment/**").permitAll()
                 .anyRequest().hasRole("ADMIN")
                 .and()
             .formLogin()

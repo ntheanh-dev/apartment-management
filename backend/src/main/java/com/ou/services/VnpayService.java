@@ -2,6 +2,8 @@ package com.ou.services;
 
 import com.ou.configs.VnpayConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +14,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
+@PropertySource("classpath:application-dev.properties")
 public class VnpayService {
-    private VnpayConfig vnpayConfig;
+    @Autowired
+    private Environment env;
 
     public String createOrder(HttpServletRequest request, int amount, String orderInfor, String urlReturn){
         //Các bạn có thể tham khảo tài liệu hướng dẫn và điều chỉnh các tham số
@@ -21,7 +25,7 @@ public class VnpayService {
         String vnp_Command = "pay";
         String vnp_TxnRef = VnpayConfig.getRandomNumber(8);
         String vnp_IpAddr = VnpayConfig.getIpAddress(request);
-        String vnp_TmnCode = VnpayConfig.vnp_TmnCode;
+        String vnp_TmnCode = env.getProperty("vnp.tmnCode");
         String orderType = "order-type";
 
         Map<String, String> vnp_Params = new HashMap<>();
@@ -38,7 +42,7 @@ public class VnpayService {
         String locate = "vn";
         vnp_Params.put("vnp_Locale", locate);
 
-        urlReturn += VnpayConfig.vnp_Returnurl;
+        urlReturn += env.getProperty("vnp.returnUrl");
         vnp_Params.put("vnp_ReturnUrl", urlReturn);
         vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
 
@@ -79,11 +83,10 @@ public class VnpayService {
             }
         }
         String queryUrl = query.toString();
-        String salt = VnpayConfig.vnp_HashSecret;
+        String salt = env.getProperty("vnp.hashSecret");
         String vnp_SecureHash = VnpayConfig.hmacSHA512(salt, hashData.toString());
         queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
-        String paymentUrl = VnpayConfig.vnp_PayUrl + "?" + queryUrl;
-        return paymentUrl;
+        return env.getProperty("vnp.payUrl") + "?" + queryUrl;
     }
 
     public int orderReturn(HttpServletRequest request){

@@ -40,7 +40,7 @@ public class Receipt {
     private Set<ReceiptDetail> receiptDetails = new LinkedHashSet<>();
 
 
-    @Column(name = "price", precision = 10, scale = 2)
+    @Column(name = "price", precision = 13, scale = 2)
     public BigDecimal price;
 
 

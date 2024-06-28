@@ -6,6 +6,7 @@ package com.ou.controllers;
 
 import com.ou.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,6 +33,8 @@ public class AdminController {
     private EvaluationService evaluationService;
     @Autowired
     private StatService statService;
+    @Autowired
+    private Environment env;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(Model model) {
@@ -46,5 +49,13 @@ public class AdminController {
     @ModelAttribute
     public void commonAttr(Model model) {
         model.addAttribute("floors", this.floorServices.getFloor());
+
+        //-----------------Firebase-----------------
+        model.addAttribute("apiKey",env.getProperty("firebase.apiKey"));
+        model.addAttribute("authDomain",env.getProperty("firebase.authDomain"));
+        model.addAttribute("projectId",env.getProperty("firebase.projectId"));
+        model.addAttribute("storageBucket",env.getProperty("firebase.storageBucket"));
+        model.addAttribute("messagingSenderId",env.getProperty("firebase.messagingSenderId"));
+        model.addAttribute("appId",env.getProperty("firebase.appId"));
     }
 }

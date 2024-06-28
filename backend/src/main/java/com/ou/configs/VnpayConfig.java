@@ -1,6 +1,9 @@
 package com.ou.configs;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -9,13 +12,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Configuration
+@PropertySource("classpath:application-dev.properties")
 public class VnpayConfig {
-    public static String vnp_PayUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-    public static String vnp_Returnurl = "/ApartmentManagement/payment/vnpay-payment-return";
-    public static String vnp_TmnCode = "ZDDQNEDU" ;
-    public static String vnp_HashSecret = "FAONAXJYWAKCGIDJDSKFGHIWDRCJQAET";
-    public static String vnp_apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
 
+    @Autowired
+    private Environment env;
 
     public static String hashAllFields(Map fields) {
         List fieldNames = new ArrayList(fields.keySet());
@@ -34,7 +35,7 @@ public class VnpayConfig {
                 sb.append("&");
             }
         }
-        return hmacSHA512(vnp_HashSecret,sb.toString());
+        return hmacSHA512("FAONAXJYWAKCGIDJDSKFGHIWDRCJQAET",sb.toString());
     }
 
     public static String hmacSHA512(final String key, final String data) {

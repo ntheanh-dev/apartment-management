@@ -41,7 +41,6 @@
                 </tr>
                 </tbody>
             </table>
-            <a href="/" class="btn btn-primary">Về trang chủ</a>
         </div>
     </div>
 </div>

@@ -48,12 +48,12 @@
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
             import { getStorage ,ref, uploadBytesResumable, getDownloadURL} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
             const firebaseConfig = {
-                apiKey: "",
-                authDomain: "",
-                projectId: "",
-                storageBucket: "",
-                messagingSenderId: "",
-                appId: ""
+                apiKey: "${apiKey}",
+                authDomain: "${authDomain}",
+                projectId: "${projectId}",
+                storageBucket: "${storageBucket}",
+                messagingSenderId: "${messagingSenderId}",
+                appId: "${appId}"
             };
 
             // Initialize Firebase

@@ -81,7 +81,7 @@ const Login = () => {
                         name="username"
                         autoComplete="username"
                         autoFocus
-                        defaultValue={'0013090820'}
+                        defaultValue={'0012030300'}
                     />
                     <TextField
                         margin="normal"
@@ -92,7 +92,7 @@ const Login = () => {
                         type="password"
                         id="password"
                         autoComplete="current-password"
-                        defaultValue={'0013090820'}
+                        defaultValue={'0012030300'}
                     />
                     <FormControlLabel control={<Checkbox value="remember" color="primary" />} label="Nhớ mật khẩu" />
                     <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
