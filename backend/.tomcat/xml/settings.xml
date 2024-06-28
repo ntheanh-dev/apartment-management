@@ -1,0 +1,5 @@
+<server>
+    <id>tomcat_server</id>
+    <username>theanh</username>
+    <password>Admin@123</password>
+</server>
