@@ -291,6 +291,7 @@ CREATE TABLE `member_in_room` (
 
 LOCK TABLES `member_in_room` WRITE;
 /*!40000 ALTER TABLE `member_in_room` DISABLE KEYS */;
+INSERT INTO `member_in_room` VALUES (14,38,171);
 INSERT INTO `member_in_room` VALUES (14,38,172);
 /*!40000 ALTER TABLE `member_in_room` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -309,11 +310,11 @@ CREATE TABLE `receipt` (
   `end_date` date NOT NULL,
   `status` enum('Đã thu','Chưa thu') NOT NULL DEFAULT 'Chưa thu',
   `Contract_id` int NOT NULL,
-  `price` decimal(10,2) DEFAULT '0.00',
+  `price` decimal(13,2) DEFAULT '0.00',
   PRIMARY KEY (`id`),
   KEY `fk_Receipt_Contract1_idx` (`Contract_id`),
   CONSTRAINT `fk_Receipt_Contract1` FOREIGN KEY (`Contract_id`) REFERENCES `contract` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -322,6 +323,7 @@ CREATE TABLE `receipt` (
 
 LOCK TABLES `receipt` WRITE;
 /*!40000 ALTER TABLE `receipt` DISABLE KEYS */;
+INSERT INTO `receipt` VALUES (8,'Hóa đơn tiền nhà tháng 5','2024-05-28','2024-06-27','Chưa thu',38,1085200000.00);
 /*!40000 ALTER TABLE `receipt` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -342,7 +344,7 @@ CREATE TABLE `receipt_detail` (
   KEY `fk_Services_has_Receipt_Services1_idx` (`Services_id`),
   CONSTRAINT `fk_Services_has_Receipt_Receipt1` FOREIGN KEY (`Receipt_id`) REFERENCES `receipt` (`id`),
   CONSTRAINT `fk_Services_has_Receipt_Services1` FOREIGN KEY (`Services_id`) REFERENCES `services` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -351,6 +353,7 @@ CREATE TABLE `receipt_detail` (
 
 LOCK TABLES `receipt_detail` WRITE;
 /*!40000 ALTER TABLE `receipt_detail` DISABLE KEYS */;
+INSERT INTO `receipt_detail` VALUES (9,5,8,1260),(10,6,8,9),(11,7,8,NULL),(12,8,8,5),(13,9,8,NULL);
 /*!40000 ALTER TABLE `receipt_detail` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -515,4 +518,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-26 17:46:49
+-- Dump completed on 2024-06-28 15:36:41
