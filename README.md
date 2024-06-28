@@ -13,16 +13,16 @@ manage facilities, schedules, and community communications effectively.
 
 
 ## Table of contents
-* ✨[Features](#✨features)
-* 🏛️[Architecture diagram](#🏛️architecture-diagram)
-* 📅[Database schema diagram](#📅database-schema-diagram)
-* 🛠️[Prerequisites](#🛠️prerequisites)
-* 🚀[Getting Started](#🚀getting-started)
-* 📊[Admin Interface](#📊admin-interface)
-* 🏠[User Interface](#🏠user-interface)
-* 🔧[Configure Environment Variables](#🔧configure-environment-variables)
-* 🔗[References](#🔗references)
-* 📧[Contact](#📧contact)
+* ✨[Features](#features)
+* 🏛️[Architecture diagram](#architecture-diagram)
+* 📅[Database schema diagram](#database-schema-diagram)
+* 🛠️[Prerequisites](#prerequisites)
+* 🚀[Getting Started](#getting-started)
+* 📊[Admin Interface](#admin-interface)
+* 🏠[User Interface](#user-interface)
+* 🔧[Configure Environment Variables](#configure-environment-variables)
+* 🔗[References](#references)
+* 📧[Contact](#contact)
 
 ## ✨Features
 #### 1. Account Management
